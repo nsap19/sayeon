@@ -1,13 +1,13 @@
-package com;
+package com.ssafy.sayeon;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SayeonApplication {
+public class ServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SayeonApplication.class, args);
+		SpringApplication.run(ServerApplication.class, args);
 	}
 
 }
