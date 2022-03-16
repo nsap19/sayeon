@@ -1,0 +1,58 @@
+2022-03-16 15:11:53.072  INFO 32192 --- [restartedMain] com.ssafy.sayeon.ServerApplication       : Starting ServerApplication using Java 1.8.0_192 on DESKTOP-D0TRUNC with PID 32192 (C:\SSAFY\PJT\PJT_2\S06P22A204\server\target\classes started by NY in C:\SSAFY\PJT\PJT_2\S06P22A204\server)
+2022-03-16 15:11:53.073  INFO 32192 --- [restartedMain] com.ssafy.sayeon.ServerApplication       : No active profile set, falling back to 1 default profile: "default"
+2022-03-16 15:11:53.124  INFO 32192 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-03-16 15:11:53.130  INFO 32192 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-03-16 15:11:53.945  INFO 32192 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-03-16 15:11:53.960  INFO 32192 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
+2022-03-16 15:11:54.442  WARN 32192 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Could not load key store 'null'
+2022-03-16 15:11:54.450  INFO 32192 --- [restartedMain] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-03-16 15:11:54.481 ERROR 32192 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.context.ApplicationContextException: Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Could not load key store 'null'
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:163) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:577) ~[spring-context-5.3.16.jar:5.3.16]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775) [spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:448) [spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:339) [spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365) [spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354) [spring-boot-2.5.10.jar:2.5.10]
+	at com.ssafy.sayeon.ServerApplication.main(ServerApplication.java:10) [classes/:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_192]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_192]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_192]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_192]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) [spring-boot-devtools-2.5.10.jar:2.5.10]
+Caused by: org.springframework.boot.web.server.WebServerException: Could not load key store 'null'
+	at org.springframework.boot.web.embedded.tomcat.SslConnectorCustomizer.configureSslKeyStore(SslConnectorCustomizer.java:132) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.web.embedded.tomcat.SslConnectorCustomizer.configureSsl(SslConnectorCustomizer.java:92) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.web.embedded.tomcat.SslConnectorCustomizer.customize(SslConnectorCustomizer.java:57) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.customizeSsl(TomcatServletWebServerFactory.java:356) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.customizeConnector(TomcatServletWebServerFactory.java:334) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:196) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:182) ~[spring-boot-2.5.10.jar:2.5.10]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:160) ~[spring-boot-2.5.10.jar:2.5.10]
+	... 13 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Resource location must not be null
+	at org.springframework.util.Assert.notNull(Assert.java:201) ~[spring-core-5.3.16.jar:5.3.16]
+	at org.springframework.util.ResourceUtils.getURL(ResourceUtils.java:130) ~[spring-core-5.3.16.jar:5.3.16]
+	at org.springframework.boot.web.embedded.tomcat.SslConnectorCustomizer.configureSslKeyStore(SslConnectorCustomizer.java:129) ~[spring-boot-2.5.10.jar:2.5.10]
+	... 20 common frames omitted
+
+2022-03-16 15:29:07.805  INFO 33852 --- [restartedMain] com.ssafy.sayeon.ServerApplication       : Starting ServerApplication using Java 1.8.0_192 on DESKTOP-D0TRUNC with PID 33852 (C:\SSAFY\PJT\PJT_2\S06P22A204\server\target\classes started by NY in C:\SSAFY\PJT\PJT_2\S06P22A204\server)
+2022-03-16 15:29:07.807  INFO 33852 --- [restartedMain] com.ssafy.sayeon.ServerApplication       : No active profile set, falling back to 1 default profile: "default"
+2022-03-16 15:29:07.857  INFO 33852 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-03-16 15:29:07.858  INFO 33852 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-03-16 15:29:08.667  INFO 33852 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-03-16 15:29:08.683  INFO 33852 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2022-03-16 15:29:09.227  INFO 33852 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-03-16 15:29:09.237  INFO 33852 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-03-16 15:29:09.238  INFO 33852 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.58]
+2022-03-16 15:29:09.322  INFO 33852 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2022-03-16 15:29:09.323  INFO 33852 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1465 ms
+2022-03-16 15:29:09.484  INFO 33852 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-03-16 15:29:09.535  INFO 33852 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.33
+2022-03-16 15:29:09.666  INFO 33852 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-03-16 15:29:09.812  INFO 33852 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
