@@ -1,10 +1,10 @@
-package com;
+package com.ssafy.sayeon;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SayeonApplicationTests {
+class ServerApplicationTests {
 
 	@Test
 	void contextLoads() {
