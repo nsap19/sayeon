@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { FormControl, TextField, Button } from "@material-ui/core";
-import Stack from "@mui/material/Stack";
-import MenuItem from "@mui/material/MenuItem";
+import { Stack, MenuItem, Button, TextField, FormControl } from "@mui/material";
 import LocationJson from "../../assets/json/location.json";
+import SelectProfile from "./Register/SelectProfile";
 
 interface registerInput {
   email: string;
@@ -21,23 +20,29 @@ const Register: React.FC = () => {
     defaultValues: { detailedLocation: "" },
   });
 
+  // 프로필 선택용
+  const [profilePic, setProfilePic] = useState(0);
+
+  // 비밀번호 확인용
   const password = useRef({});
   password.current = watch("password", "");
 
-  const onSubmit = (data: registerInput) => {
-    console.log("data", data);
-    alert(JSON.stringify(data));
-  };
-
+  // 상세 주소 선택용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
     string[]
   >([]);
   const [isDisabled, setIsDisabled] = useState(true);
 
+  const onSubmit = (data: registerInput) => {
+    console.log("data", data, profilePic);
+    alert(JSON.stringify(data));
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h1>회원 가입</h1>
+      <h1>회원가입</h1>
       <Stack spacing={2}>
+        <SelectProfile profilePic={profilePic} setProfilePic={setProfilePic} />
         <Controller
           name="email"
           control={control}
@@ -229,8 +234,9 @@ const Register: React.FC = () => {
           )}
         ></Controller>
 
-        <input type="submit" />
-        {/* <Button variant="contained">Contained</Button> */}
+        <Button type="submit" variant="contained">
+          회원가입
+        </Button>
       </Stack>
     </form>
   );
