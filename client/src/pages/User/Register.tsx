@@ -1,8 +1,18 @@
 import React, { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Stack, MenuItem, Button, TextField, FormControl } from "@mui/material";
+import {
+  Stack,
+  MenuItem,
+  Button,
+  TextField,
+  FormControl,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import LocationJson from "../../assets/json/location.json";
 import SelectProfile from "../../components/User/Register/SelectProfile";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface registerInput {
   email: string;
@@ -33,13 +43,68 @@ const Register: React.FC = () => {
   >([]);
   const [isDisabled, setIsDisabled] = useState(true);
 
+  const navigate = useNavigate();
+
   const onSubmit = (data: registerInput) => {
-    console.log("data", data, profilePic);
-    alert(JSON.stringify(data));
+    axios({
+      method: "post",
+      url: "/api/users/signup",
+      data: {
+        email: data.email,
+        password: data.password,
+        nickname: data.nickname,
+        location: data.location + " " + data.detailedLocation,
+        profilePic: profilePic,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setOpen(true);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setAlertState("error");
+        setOpen(true);
+      });
+  };
+
+  // 스낵바 관련
+  const [open, setOpen] = useState(false);
+  const [alertState, setAlertState] = useState<
+    "error" | "info" | "success" | "warning"
+  >("success");
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={alertState}
+          sx={{ width: "100%" }}
+        >
+          {alertState === "success"
+            ? "회원가입이 완료되었습니다."
+            : "다시 시도해주세요."}
+        </Alert>
+      </Snackbar>
+
       <h1>회원가입</h1>
       <Stack spacing={2}>
         <SelectProfile profilePic={profilePic} setProfilePic={setProfilePic} />
@@ -61,7 +126,6 @@ const Register: React.FC = () => {
           render={({ field, fieldState }) => (
             <TextField
               {...field}
-              id="outlined-basic"
               label="이메일"
               variant="outlined"
               error={!!fieldState.error}
@@ -89,7 +153,6 @@ const Register: React.FC = () => {
           render={({ field, fieldState }) => (
             <TextField
               {...field}
-              id="outlined-basic"
               label="닉네임"
               variant="outlined"
               error={!!fieldState.error}
@@ -118,9 +181,9 @@ const Register: React.FC = () => {
           render={({ field, fieldState }) => (
             <TextField
               {...field}
-              id="outlined-basic"
               label="비밀번호"
               variant="outlined"
+              type="password"
               error={!!fieldState.error}
               helperText={
                 fieldState.error?.message ? fieldState.error.message : " "
@@ -147,9 +210,9 @@ const Register: React.FC = () => {
           render={({ field, fieldState }) => (
             <TextField
               {...field}
-              id="outlined-basic"
               label="비밀번호 확인"
               variant="outlined"
+              type="password"
               error={!!fieldState.error}
               helperText={
                 fieldState.error?.message ? fieldState.error.message : " "
