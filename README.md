@@ -19,7 +19,8 @@
 
 - [컨벤션](https://hana-275-programming.notion.site/5cf26a67a0294d01a285a12443672917)
 
-- [와이어 프레임](https://www.figma.com/file/zrz07ZKYzYX4qo8KxklnyI/%EC%82%AC%EC%97%B0?node-id=0%3A1)
+- 와이어 프레임
+![와이어 프레임](README.assets/와이어프레임.png)
 - ERD
 ![ERD](README.assets/sayeonERD.png)
 
