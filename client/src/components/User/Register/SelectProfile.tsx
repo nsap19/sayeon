@@ -47,8 +47,13 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
             onClick={() => handleListItemClick(profilePic)}
             key={profilePic}
           >
-            <img
+            {/* <img
               src={`/images/profile/Avatars-${profilePic}.png`}
+              alt="profile pic"
+              style={{ width: "50px" }}
+            /> */}
+            <img
+              src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
               alt="profile pic"
               style={{ width: "50px" }}
             />
@@ -76,7 +81,7 @@ const SelectProfile: React.FC<{
   return (
     <div style={{ position: "relative" }}>
       <img
-        src={`/images/profile/Avatars-${profilePic}.png`}
+        src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
         alt="profile pic"
         style={{ width: "100px" }}
       />
