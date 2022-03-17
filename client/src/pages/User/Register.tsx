@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Stack, MenuItem, Button, TextField, FormControl } from "@mui/material";
 import LocationJson from "../../assets/json/location.json";
-import SelectProfile from "./Register/SelectProfile";
+import SelectProfile from "../../components/User/Register/SelectProfile";
 
 interface registerInput {
   email: string;
