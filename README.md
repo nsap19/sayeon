@@ -70,4 +70,4 @@
 
 <br>
 
-## [사연 Notion](https://hana-275-programming.notion.site/SSAFY-2-8bf2375fb5c04218b7075c21df0c4a9)
+## [사연 Notion](https://hana-275-programming.notion.site/SSAFY-2-8bf2375fb5c04218b7075c21df0c4a98)
