@@ -8,11 +8,13 @@ import {
   FormControl,
   Snackbar,
   Alert,
+  Box,
 } from "@mui/material";
 import LocationJson from "../../assets/json/location.json";
 import SelectProfile from "../../components/User/Register/SelectProfile";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import HeaderBar from "../../components/HeaderBar";
 
 interface registerInput {
   email: string;
@@ -87,7 +89,8 @@ const Register: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <>
+      <HeaderBar headerName={"회원가입"} />
       <Snackbar
         open={open}
         autoHideDuration={3000}
@@ -105,203 +108,209 @@ const Register: React.FC = () => {
         </Alert>
       </Snackbar>
 
-      <h1>회원가입</h1>
-      <Stack spacing={2}>
-        <SelectProfile profilePic={profilePic} setProfilePic={setProfilePic} />
-        <Controller
-          name="email"
-          control={control}
-          defaultValue=""
-          rules={{
-            required: {
-              value: true,
-              message: "이메일을 입력해주세요.",
-            },
-            pattern: {
-              value:
-                /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-              message: "이메일 형식이 올바르지 않습니다.",
-            },
-          }}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              label="이메일"
-              variant="outlined"
-              error={!!fieldState.error}
-              helperText={
-                fieldState.error?.message ? fieldState.error.message : " "
-              }
+      <Box>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={2}>
+            <SelectProfile
+              profilePic={profilePic}
+              setProfilePic={setProfilePic}
             />
-          )}
-        />
-
-        <Controller
-          name="nickname"
-          control={control}
-          defaultValue=""
-          rules={{
-            required: {
-              value: true,
-              message: "닉네임을 입력해주세요.",
-            },
-            maxLength: {
-              value: 10,
-              message: "닉네임은 10자 이내로 입력해주세요.",
-            },
-          }}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              label="닉네임"
-              variant="outlined"
-              error={!!fieldState.error}
-              helperText={
-                fieldState.error?.message ? fieldState.error.message : " "
-              }
-            />
-          )}
-        />
-
-        <Controller
-          name="password"
-          control={control}
-          defaultValue=""
-          rules={{
-            required: {
-              value: true,
-              message: "비밀번호를 입력해주세요.",
-            },
-            pattern: {
-              value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
-              message:
-                "영소문자, 숫자, 특수문자를 포함해 8자 이상으로 입력해주세요.",
-            },
-          }}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              label="비밀번호"
-              variant="outlined"
-              type="password"
-              error={!!fieldState.error}
-              helperText={
-                fieldState.error?.message ? fieldState.error.message : " "
-              }
-            />
-          )}
-        />
-
-        <Controller
-          name="confirmPassword"
-          control={control}
-          defaultValue=""
-          rules={{
-            required: {
-              value: true,
-              message: "비밀번호를 다시 입력해주세요.",
-            },
-            validate: (value) => {
-              if (value !== password.current) {
-                return "비밀번호가 일치하지 않습니다.";
-              }
-            },
-          }}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              label="비밀번호 확인"
-              variant="outlined"
-              type="password"
-              error={!!fieldState.error}
-              helperText={
-                fieldState.error?.message ? fieldState.error.message : " "
-              }
-            />
-          )}
-        />
-
-        <Controller
-          name="location"
-          control={control}
-          rules={{
-            required: {
-              value: true,
-              message: "위치를 선택해주세요.",
-            },
-          }}
-          render={({ field: { onChange }, fieldState }) => (
-            <TextField
-              select
-              variant="outlined"
+            <Controller
+              name="email"
+              control={control}
               defaultValue=""
-              label="시/도"
-              error={!!fieldState.error}
-              helperText={
-                fieldState.error?.message ? fieldState.error.message : " "
-              }
-              onChange={(e) => {
-                onChange(e.target.value);
-                setDetailedLocationOptions(
-                  LocationJson[
-                    e.target.value as keyof typeof LocationJson
-                  ].sort()
-                );
-                resetField("detailedLocation");
-                setIsDisabled(false);
+              rules={{
+                required: {
+                  value: true,
+                  message: "이메일을 입력해주세요.",
+                },
+                pattern: {
+                  value:
+                    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+                  message: "이메일 형식이 올바르지 않습니다.",
+                },
               }}
-            >
-              {locationOptions.map((option, index) => {
-                return (
-                  <MenuItem key={index} value={option}>
-                    {option}
-                  </MenuItem>
-                );
-              })}
-            </TextField>
-          )}
-        ></Controller>
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  label="이메일"
+                  variant="outlined"
+                  error={!!fieldState.error}
+                  helperText={
+                    fieldState.error?.message ? fieldState.error.message : " "
+                  }
+                />
+              )}
+            />
 
-        <Controller
-          name="detailedLocation"
-          control={control}
-          rules={{
-            required: {
-              value: true,
-              message: "위치를 선택해주세요.",
-            },
-          }}
-          render={({ field, fieldState }) => (
-            <FormControl>
-              <TextField
-                {...field}
-                select
-                variant="outlined"
-                label="시/도/군"
-                disabled={isDisabled}
-                defaultValue=""
-                error={!!fieldState.error}
-                helperText={
-                  fieldState.error?.message ? fieldState.error.message : " "
-                }
-              >
-                {detailedLocationOptions.map((option, index) => {
-                  return (
-                    <MenuItem key={index} value={option}>
-                      {option}
-                    </MenuItem>
-                  );
-                })}
-              </TextField>
-            </FormControl>
-          )}
-        ></Controller>
+            <Controller
+              name="nickname"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: {
+                  value: true,
+                  message: "닉네임을 입력해주세요.",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "닉네임은 10자 이내로 입력해주세요.",
+                },
+              }}
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  label="닉네임"
+                  variant="outlined"
+                  error={!!fieldState.error}
+                  helperText={
+                    fieldState.error?.message ? fieldState.error.message : " "
+                  }
+                />
+              )}
+            />
 
-        <Button type="submit" variant="contained">
-          회원가입
-        </Button>
-      </Stack>
-    </form>
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: {
+                  value: true,
+                  message: "비밀번호를 입력해주세요.",
+                },
+                pattern: {
+                  value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
+                  message:
+                    "영소문자, 숫자, 특수문자를 포함해 8자 이상으로 입력해주세요.",
+                },
+              }}
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  label="비밀번호"
+                  variant="outlined"
+                  type="password"
+                  error={!!fieldState.error}
+                  helperText={
+                    fieldState.error?.message ? fieldState.error.message : " "
+                  }
+                />
+              )}
+            />
+
+            <Controller
+              name="confirmPassword"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: {
+                  value: true,
+                  message: "비밀번호를 다시 입력해주세요.",
+                },
+                validate: (value) => {
+                  if (value !== password.current) {
+                    return "비밀번호가 일치하지 않습니다.";
+                  }
+                },
+              }}
+              render={({ field, fieldState }) => (
+                <TextField
+                  {...field}
+                  label="비밀번호 확인"
+                  variant="outlined"
+                  type="password"
+                  error={!!fieldState.error}
+                  helperText={
+                    fieldState.error?.message ? fieldState.error.message : " "
+                  }
+                />
+              )}
+            />
+
+            <Controller
+              name="location"
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "위치를 선택해주세요.",
+                },
+              }}
+              render={({ field: { onChange }, fieldState }) => (
+                <TextField
+                  select
+                  variant="outlined"
+                  defaultValue=""
+                  label="시/도"
+                  error={!!fieldState.error}
+                  helperText={
+                    fieldState.error?.message ? fieldState.error.message : " "
+                  }
+                  onChange={(e) => {
+                    onChange(e.target.value);
+                    setDetailedLocationOptions(
+                      LocationJson[
+                        e.target.value as keyof typeof LocationJson
+                      ].sort()
+                    );
+                    resetField("detailedLocation");
+                    setIsDisabled(false);
+                  }}
+                >
+                  {locationOptions.map((option, index) => {
+                    return (
+                      <MenuItem key={index} value={option}>
+                        {option}
+                      </MenuItem>
+                    );
+                  })}
+                </TextField>
+              )}
+            ></Controller>
+
+            <Controller
+              name="detailedLocation"
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "위치를 선택해주세요.",
+                },
+              }}
+              render={({ field, fieldState }) => (
+                <FormControl>
+                  <TextField
+                    {...field}
+                    select
+                    variant="outlined"
+                    label="시/도/군"
+                    disabled={isDisabled}
+                    defaultValue=""
+                    error={!!fieldState.error}
+                    helperText={
+                      fieldState.error?.message ? fieldState.error.message : " "
+                    }
+                  >
+                    {detailedLocationOptions.map((option, index) => {
+                      return (
+                        <MenuItem key={index} value={option}>
+                          {option}
+                        </MenuItem>
+                      );
+                    })}
+                  </TextField>
+                </FormControl>
+              )}
+            ></Controller>
+
+            <Button type="submit" variant="contained">
+              회원가입
+            </Button>
+          </Stack>
+        </form>
+      </Box>
+    </>
   );
 };
 
