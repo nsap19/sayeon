@@ -1,7 +1,7 @@
 # 사연, 사진으로 연결하다
 
 > SSAFY 2학기 특화 프로젝트 - 인공지능(영상)
-
+<br>
 
 
 ## 서비스 소개
@@ -10,7 +10,22 @@
 
 ![Logo2](README.assets/Logo2.png)
 
+<br>
 
+## 기획
+- [전체 기획서](https://hana-275-programming.notion.site/42f7b87599ad4cb482415cad1e876b09)
+
+- [명세](https://docs.google.com/spreadsheets/d/1wbF4sDwKmWXGpWsN2lZHAsYuTRvs0hBda7ixyHsP7wk/edit?usp=sharing)
+
+- [컨벤션](https://hana-275-programming.notion.site/5cf26a67a0294d01a285a12443672917)
+
+- 와이어 프레임
+![와이어 프레임](README.assets/와이어프레임.png)
+- ERD
+![ERD](README.assets/sayeonERD.png)
+
+
+<br>
 
 ## 기술 스택
 
@@ -54,9 +69,6 @@
   - Node.js 16.13.0
 
 
+<br>
 
-## 기획
-
-- 명세
-- 와이어 프레임
-- ERD
+## [사연 Notion](https://hana-275-programming.notion.site/SSAFY-2-8bf2375fb5c04218b7075c21df0c4a98)
