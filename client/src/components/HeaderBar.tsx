@@ -13,6 +13,9 @@ const DivStyle = styled.div`
   position: sticky;
   top: 0;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const HeaderBar: React.FC<{ headerName: string }> = ({ headerName }) => {
@@ -20,7 +23,7 @@ const HeaderBar: React.FC<{ headerName: string }> = ({ headerName }) => {
 
   return (
     <DivStyle>
-      <Grid container spacing={2}>
+      <Grid container>
         <Grid item xs={4} sx={{ textAlign: "left" }}>
           <SvgIcon
             sx={{ margin: "5px 0 0 8px" }}

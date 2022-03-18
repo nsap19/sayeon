@@ -108,7 +108,7 @@ const Register: React.FC = () => {
         </Alert>
       </Snackbar>
 
-      <Box>
+      <Box sx={{ flex: "1 1 auto" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={2}>
             <SelectProfile
