@@ -24,17 +24,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
 	private String version = "V1";
-	private String title = "sayeon API " + version;
+	private String title = "SAYEON API " + version;
 
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.example.swagger.controller")).paths(PathSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("com.ssafy.sayeon.controller")).paths(PathSelectors.any())
 				.build().apiInfo(apiInfo());
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfo("TEST API", "Some custom description of API.", "0.0.1", "Terms of service",
+		return new ApiInfo(title, "Some custom description of API.", "0.0.1", "Terms of service",
 				new Contact("MemoStack", "https://memostack.tistory.com", "public.devhong@gmail.com"), "License of API",
 				"API license URL", Collections.emptyList());
 	}
