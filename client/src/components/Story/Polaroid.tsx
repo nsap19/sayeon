@@ -27,7 +27,6 @@ const Polaroid: React.FC<{
   `;
 
   const PolaroidFrame = styled.div`
-    width: 100%;
     height: 100%;
     background-color: white;
     aspect-ratio: ${defaultPolaroidRatios[imgType]};
