@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
 public class TestController {
 	@GetMapping("user/search")
 	public Map<String, String> search() {
