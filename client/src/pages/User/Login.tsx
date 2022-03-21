@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import axios from "axios";
+// import axios from "axios";
 
 export default function Login() {
   // STATE
@@ -13,16 +13,35 @@ export default function Login() {
   const handleSubmit = async (event: any) => {
     setDisabled(true);
     event.preventDefault();
+    // const {
+    //   target: { name, value },
+    // } = event;
     // await axios
-    //   .post("/api/users/login")
+    //   .post(
+    //     "/api/users/login",
+    //     JSON.stringify({
+    //       email: email,
+    //       password: password,
+    //     }),
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   )
     //   .then((response) => {
     //     console.log("axios resonse: ", response);
+    //     console.log("res.data.accessToken: ", response.data);
+    //     axios.defaults.headers.common["Authorization"] =
+    //       "Bearer " + response.data;
+    //     /// routing
+    //     ///
     //   })
     //   .catch((err) => {
     //     console.log("axios err: ", err);
     //   });
-    setEmail("");
-    setPassword("");
+    // setEmail("");
+    // setPassword("");
     setDisabled(false);
   };
   function handleEmailValue(event: any) {
