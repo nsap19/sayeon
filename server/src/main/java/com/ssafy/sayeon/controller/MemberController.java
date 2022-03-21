@@ -6,6 +6,9 @@ import com.ssafy.sayeon.model.entity.Member;
 import com.ssafy.sayeon.model.service.MemberServiceImpl;
 import com.ssafy.sayeon.repository.MemberRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Api("유저 회원가 컨트롤러 API")
 public class MemberController {
 
 	private static final String SUCCESS = "success";
@@ -27,6 +31,7 @@ public class MemberController {
 	final MemberServiceImpl memberServiceImpl;
 
 	@PostMapping("/users/signup")
+	@ApiOperation(value = "회원가입", notes = "회원가입 성공 시 SUCCESS 출력")	
 	public String saveMember(@RequestBody MemberDto memberDto) {
 			memberRepository.save(Member.createMember(memberDto.getEmail(), encode.encode(memberDto.getPassword())));
 		return SUCCESS;
