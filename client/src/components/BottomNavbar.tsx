@@ -40,7 +40,7 @@ export default function BottomNavbar() {
         />
         <BottomNavigationAction
           component={Link}
-          to="/"
+          to="/send"
           icon={<SvgIcon component={StoryTalkList} inheritViewBox />}
         />
         <BottomNavigationAction
