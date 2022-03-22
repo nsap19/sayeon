@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.repository.repository;
+package com.ssafy.sayeon.model.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

@@ -2,6 +2,8 @@ package com.ssafy.sayeon.common.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import com.ssafy.sayeon.api.service.JwtUserDetailsService;
+import com.ssafy.sayeon.common.util.JwtTokenUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

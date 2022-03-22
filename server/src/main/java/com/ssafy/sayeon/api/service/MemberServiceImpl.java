@@ -5,8 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.sayeon.model.entity.Member;
-import com.ssafy.sayeon.repository.repository.MemberRepository;
-
+import com.ssafy.sayeon.model.repository.MemberRepository;
 import com.ssafy.sayeon.common.exception.NotExistUserException;
 
 import lombok.RequiredArgsConstructor;

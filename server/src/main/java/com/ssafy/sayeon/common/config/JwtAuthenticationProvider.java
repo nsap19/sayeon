@@ -1,7 +1,7 @@
 package com.ssafy.sayeon.common.config;
 
 import com.ssafy.sayeon.model.entity.Member;
-import com.ssafy.sayeon.repository.repository.MemberRepository;
+import com.ssafy.sayeon.model.repository.MemberRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

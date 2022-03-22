@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.common.config;
+package com.ssafy.sayeon.common.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -3,13 +3,13 @@ package com.ssafy.sayeon.api.controller;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import com.ssafy.sayeon.model.entity.Member;
-import com.ssafy.sayeon.repository.repository.MemberRepository;
+import com.ssafy.sayeon.model.repository.MemberRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import com.ssafy.sayeon.common.config.JwtTokenUtil;
 import com.ssafy.sayeon.api.service.JwtUserDetailsService;
+import com.ssafy.sayeon.common.util.JwtTokenUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@Api("JWT 인증 컨트롤러 API")
+@Api(value ="JWT 인증 컨트롤러 API", tags= {"JWT Authentication"})
 public class JwtAuthenticationController {
 
     @Autowired
