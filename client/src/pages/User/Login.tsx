@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-// import axios from "axios";
+import { useAppDispatch } from "store/hooks";
+import { setLoggedUser } from "store/user";
+import axios from "axios";
 
 export default function Login() {
   // STATE
@@ -9,44 +10,54 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
 
+  // DISPATCHER
+  const dispatch = useAppDispatch();
+
   // HANDLER
   const handleSubmit = async (event: any) => {
-    setDisabled(true);
-    event.preventDefault();
-    // const {
-    //   target: { name, value },
-    // } = event;
-    // await axios
-    //   .post(
-    //     "/api/users/login",
-    //     JSON.stringify({
-    //       email: email,
-    //       password: password,
-    //     }),
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     console.log("axios resonse: ", response);
-    //     console.log("res.data.accessToken: ", response.data);
-    //     axios.defaults.headers.common["Authorization"] =
-    //       "Bearer " + response.data;
-    //     /// routing
-    //     ///
-    //   })
-    //   .catch((err) => {
-    //     console.log("axios err: ", err);
-    //   });
-    // setEmail("");
-    // setPassword("");
+    setDisabled(true); // 로그인 중에는 새로운 요청을 받지 않음
+    event.preventDefault(); // submit event 중 새로고침 x
+    // axios 요청 - login
+    await axios
+      .post(
+        "/api/users/login",
+        JSON.stringify({
+          email: email,
+          password: password,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log("axios resonse: ", response);
+        console.log("res.data.accessToken: ", response.data);
+        // default header
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + response.data;
+        // get User date & dispatch
+        dispatch(setLoggedUser(response.data));
+      })
+      /// routing
+      ///
+      .catch((err) => {
+        console.log("axios err: ", err);
+      });
+
+    // form reset
+    setEmail("");
+    setPassword("");
+    // button active
     setDisabled(false);
   };
+
+  // 이메일 입력
   function handleEmailValue(event: any) {
     setEmail(event.target.value);
   }
+  // 비밀번호 입력
   function handlePasswordValue(event: any) {
     setPassword(event.target.value);
   }
