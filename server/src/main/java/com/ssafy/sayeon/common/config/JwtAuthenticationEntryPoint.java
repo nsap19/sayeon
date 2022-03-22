@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.config;
+package com.ssafy.sayeon.common.config;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

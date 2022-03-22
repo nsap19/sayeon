@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.controller;
+package com.ssafy.sayeon.api.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

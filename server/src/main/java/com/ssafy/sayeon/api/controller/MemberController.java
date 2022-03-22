@@ -1,10 +1,10 @@
-package com.ssafy.sayeon.controller;
+package com.ssafy.sayeon.api.controller;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import com.ssafy.sayeon.model.entity.Member;
-import com.ssafy.sayeon.model.service.MemberServiceImpl;
-import com.ssafy.sayeon.repository.MemberRepository;
+import com.ssafy.sayeon.repository.repository.MemberRepository;
+import com.ssafy.sayeon.api.service.MemberServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

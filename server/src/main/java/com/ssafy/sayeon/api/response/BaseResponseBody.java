@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.model.response;
+package com.ssafy.sayeon.api.response;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;

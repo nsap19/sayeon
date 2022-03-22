@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.config;
+package com.ssafy.sayeon.common.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,13 +12,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import javax.crypto.SecretKey;
 
+import java.security.Key;
+import java.util.Calendar;
+import java.util.Date;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Service;
 @Component
 public class JwtTokenUtil {
 
-    private static final String secret = "jwtpassword";
+//    private static final String secret = "secretkey";
 //	@Value("${spring.jwt.secret}")
 //	private static String secret;
+	private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     public static final long JWT_TOKEN_VALIDITY = 1000L  * 60 * 60; // // 1시간만 토큰 유효
 
     public String getUsernameFromToken(String token) {
@@ -31,7 +39,7 @@ public class JwtTokenUtil {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -57,7 +65,7 @@ public class JwtTokenUtil {
                 .setId(id)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
     }
 

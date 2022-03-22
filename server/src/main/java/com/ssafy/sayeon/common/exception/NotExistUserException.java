@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.exception;
+package com.ssafy.sayeon.common.exception;
 
 public class NotExistUserException extends RuntimeException{
 	public NotExistUserException() {

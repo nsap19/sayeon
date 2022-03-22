@@ -1,7 +1,8 @@
-package com.ssafy.sayeon.config;
+package com.ssafy.sayeon.common.config;
 
 import com.ssafy.sayeon.model.entity.Member;
-import com.ssafy.sayeon.repository.MemberRepository;
+import com.ssafy.sayeon.repository.repository.MemberRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

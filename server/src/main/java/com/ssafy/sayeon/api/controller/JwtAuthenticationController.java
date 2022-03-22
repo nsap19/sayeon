@@ -1,15 +1,15 @@
-package com.ssafy.sayeon.controller;
+package com.ssafy.sayeon.api.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import com.ssafy.sayeon.model.entity.Member;
-import com.ssafy.sayeon.repository.MemberRepository;
+import com.ssafy.sayeon.repository.repository.MemberRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import com.ssafy.sayeon.config.JwtTokenUtil;
-import com.ssafy.sayeon.model.service.JwtUserDetailsService;
+import com.ssafy.sayeon.common.config.JwtTokenUtil;
+import com.ssafy.sayeon.api.service.JwtUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

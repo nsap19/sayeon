@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.config;
+package com.ssafy.sayeon.common.config;
 
 import java.util.Collections;
 
