@@ -4,25 +4,28 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
-import javax.crypto.SecretKey;
 
 import java.security.Key;
-import java.util.Calendar;
-import java.util.Date;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Service;
+
+import com.ssafy.sayeon.api.service.MemberService;
+import com.ssafy.sayeon.model.entity.Member;
 @Component
 public class JwtTokenUtil {
 
+	@Autowired
+	MemberService memberService;
+	
 //    private static final String secret = "secretkey";
 //	@Value("${spring.jwt.secret}")
 //	private static String secret;
@@ -73,5 +76,12 @@ public class JwtTokenUtil {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
+    
+    public Member getMemberFromToken(String token) {
+    	String email = Objects.requireNonNull(this.getUsernameFromToken(token)).trim();
+		
+		return memberService.getMemberByEmail(email);
+    }
+
 
 }

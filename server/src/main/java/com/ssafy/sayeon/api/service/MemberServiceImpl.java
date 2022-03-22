@@ -47,4 +47,9 @@ public class MemberServiceImpl implements MemberService{
 	public MemberProfile getMemberProfileByNickname(String nickname) {
 		return memberProfileRepository.findUserProfileByNickname(nickname).orElseThrow(()-> new NotExistUserException());
 	}
+
+	@Override
+	public Member getMemberByEmail(String email) {
+		return memberRepository.findByEmail(email).orElseThrow(() -> new NotExistUserException());
+	}
 }
