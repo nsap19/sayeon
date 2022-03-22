@@ -2,6 +2,8 @@ package com.ssafy.sayeon.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +17,7 @@ import com.ssafy.sayeon.api.response.AdvancedResponseBody;
 import com.ssafy.sayeon.api.response.BaseResponseBody;
 import com.ssafy.sayeon.api.service.MemberService;
 import com.ssafy.sayeon.api.service.MyInfoService;
+import com.ssafy.sayeon.common.util.CurrentUser;
 import com.ssafy.sayeon.common.util.JwtTokenUtil;
 import com.ssafy.sayeon.model.entity.Member;
 
@@ -53,8 +56,10 @@ public class MyInfoController {
 	@ApiOperation(value="닉네임 수정")
 	@ApiResponses({ @ApiResponse(code = 200, message = "닉네임 수정 성공"),
 		@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> modifyNickname(@RequestHeader("Authorization") String token, @RequestBody UserProfileUpdateReq updateInfo){ //수정 필요
-		Member member = jwtTokenUtil.getMemberFromToken(token);
+	public ResponseEntity<? extends BaseResponseBody> modifyNickname(@RequestBody UserProfileUpdateReq updateInfo){
+		
+		String userId = CurrentUser.getUserId();
+		Member member = memberService.getMemberByUserId(userId);
 		
 		if (!member.getMemberProfile().getNickname().equals(updateInfo.getNickname())  // 기존 닉네임과 다른 경우(변동사항이 있는 경우)
 			 && memberService.getMemberProfileByNickname(updateInfo.getNickname()) != null) { // 닉네임 중복 검사
@@ -64,5 +69,9 @@ public class MyInfoController {
 		myInfoService.modifyUserProfile(member.getUserId(), updateInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200,	"닉네임 수정 성공"));
 	}
-}
+	
 
+
+
+
+}
