@@ -6,23 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.sayeon.api.request.UserProfileUpdateReq;
-import com.ssafy.sayeon.model.entity.UserProfile;
-import com.ssafy.sayeon.model.repository.UserProfileRepository;
-import com.ssafy.sayeon.model.repository.UserRepository;
+import com.ssafy.sayeon.model.entity.MemberProfile;
+import com.ssafy.sayeon.model.repository.MemberProfileRepository;
 
 @Service("myInfoService")
 public class MyInfoServiceImpl implements MyInfoService {
 	
 	@Autowired
-	UserProfileRepository userProfileRepository;
+	MemberProfileRepository userProfileRepository;
 	
-	@Autowired
-	UserRepository userRepository;
-
 	@Override
 	@Transactional
 	public void modifyUserProfile(String userId, UserProfileUpdateReq profileUpdateInfo) {
-		UserProfile userProfile = userProfileRepository.getById(userId);
+		MemberProfile userProfile = userProfileRepository.getById(userId);
 
 		if(!profileUpdateInfo.getNickname().equals(null)) userProfile.setNickname(profileUpdateInfo.getNickname());
 		

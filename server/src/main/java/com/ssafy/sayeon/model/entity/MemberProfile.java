@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UserProfile {
+@Table(name="userprofile")
+public class MemberProfile {
 	@Id
 	@Column(name = "userId", nullable = false)
 	String userId;
@@ -23,7 +25,7 @@ public class UserProfile {
 	@OneToOne
 	@MapsId // @MapsId 는 @id로 지정한 컬럼에 @OneToOne 이나 @ManyToOne 관계를 매핑시키는 역할
 	@JoinColumn(name = "userId")
-	User user;
+	Member member;
 
 	@Column(name = "profilePic", length = 100, nullable = false)
 	int profilePic;

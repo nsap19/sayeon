@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -44,6 +45,9 @@ public class Member {
 	@JsonProperty(access=JsonProperty.Access.WRITE_ONLY)
 	@Column(name="password", length=300, nullable=false, unique=true)
     private String password;
+	
+	@OneToOne(mappedBy="member")
+	MemberProfile memberProfile; //읽기 전용 필드
 
     public Member(String email, String password) {
         this.email = email;
