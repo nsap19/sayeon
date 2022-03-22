@@ -1,4 +1,4 @@
-package com.ssafy.sayeon.model.service;
+package com.ssafy.sayeon.api.service;
 
 import com.ssafy.sayeon.model.entity.User;
 

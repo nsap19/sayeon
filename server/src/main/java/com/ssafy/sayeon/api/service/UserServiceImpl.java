@@ -1,9 +1,9 @@
-package com.ssafy.sayeon.model.service;
+package com.ssafy.sayeon.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.sayeon.exception.NotExistUserException;
+import com.ssafy.sayeon.common.exception.NotExistUserException;
 import com.ssafy.sayeon.model.entity.User;
 import com.ssafy.sayeon.model.repository.UserRepository;
 

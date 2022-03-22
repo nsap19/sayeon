@@ -1,16 +1,17 @@
-package com.ssafy.sayeon.controller;
+package com.ssafy.sayeon.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.sayeon.api.response.AdvancedResponseBody;
+import com.ssafy.sayeon.api.response.BaseResponseBody;
+import com.ssafy.sayeon.api.service.UserService;
 import com.ssafy.sayeon.model.entity.User;
-import com.ssafy.sayeon.model.response.AdvancedResponseBody;
-import com.ssafy.sayeon.model.response.BaseResponseBody;
-import com.ssafy.sayeon.model.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,6 +37,10 @@ public class MyInfoController {
 	public ResponseEntity<? extends BaseResponseBody> readUserInfo(@PathVariable("userId") String userId){
 		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200,	"유저 정보 조회 성공", userService.getUserInfo(userId)));
 	}
+	
+
+
+	
 	
 	
 }
