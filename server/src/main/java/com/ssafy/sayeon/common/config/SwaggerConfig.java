@@ -52,7 +52,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	}
 	private ApiInfo apiInfo() {
 		 return new ApiInfoBuilder()
-		            .title("Sig-Predict REST API Document")
+		            .title("sayeon API Document")
 		            .description("work in progress")
 		            .termsOfServiceUrl("localhost")
 		            .version("1.0")
