@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -33,4 +34,6 @@ public class User {
 	@Column(name="password", length=300, nullable=false, unique=true)
 	String password;
 	
+	@OneToOne(mappedBy="user")
+	UserProfile userProfile; //읽기 전용 필드
 }
