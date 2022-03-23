@@ -78,18 +78,18 @@ const main: React.FC = () => {
             sx={{ height: "100%", width: "92%", overflowX: "auto" }}
           >
             <Polaroid
-              imageUrl={"square_default.png"}
-              imgType={"square"}
+              imageUrl={"../../assets/images/test/square_default.png"}
+              imageType={"square"}
               senderNickname={"일이삼사오육칠팔구십"}
             />
             <Polaroid
-              imageUrl={"mini_default.png"}
-              imgType={"mini"}
+              imageUrl={"../../assets/images/test/smini_default.png"}
+              imageType={"mini"}
               senderNickname={"일이삼사"}
             />
             <Polaroid
-              imageUrl={"wide_default.png"}
-              imgType={"wide"}
+              imageUrl={"../../assets/images/test/swide_default.png"}
+              imageType={"wide"}
               senderNickname={"일이삼사오육칠"}
             />
           </Stack>

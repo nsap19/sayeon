@@ -5,9 +5,9 @@ import { ReactComponent as Close } from "../../assets/icon/close-circle.svg";
 
 const Polaroid: React.FC<{
   imageUrl: string;
-  imgType: "mini" | "square" | "wide";
+  imageType: "mini" | "square" | "wide";
   senderNickname: string;
-}> = ({ imageUrl, imgType, senderNickname }) => {
+}> = ({ imageUrl, imageType, senderNickname }) => {
   const defaultPolaroidRatios = {
     mini: 54 / 86,
     square: 72 / 86,
@@ -20,16 +20,16 @@ const Polaroid: React.FC<{
     wide: 99 / 108,
   };
 
-  const ImgStyle = styled.img`
-    max-width: ${defaultImageAndFrameRatios[imgType] * 100}%;
+  const StyledImage = styled.img`
+    max-width: ${defaultImageAndFrameRatios[imageType] * 100}%;
     max-height: 100%;
     transform: translateY(12.32%);
+    width: 100%;
   `;
 
   const PolaroidFrame = styled.div`
-    height: 100%;
     background-color: white;
-    aspect-ratio: ${defaultPolaroidRatios[imgType]};
+    aspect-ratio: ${defaultPolaroidRatios[imageType]};
     text-align: center;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
     position: relative;
@@ -73,8 +73,9 @@ const Polaroid: React.FC<{
           <Close style={{ fill: "white" }} />
         </IconButton>
         <PolaroidFrame>
-          <ImgStyle
-            src={require(`../../assets/images/test/${imageUrl}`)}
+          <StyledImage
+            // src={require(`../../assets/images/test/${imageUrl}`)}
+            src={imageUrl}
             alt="img"
             onClick={handleClickOpen}
           />
@@ -83,11 +84,7 @@ const Polaroid: React.FC<{
       </Dialog>
 
       <PolaroidFrame>
-        <ImgStyle
-          src={require(`../../assets/images/test/${imageUrl}`)}
-          alt="img"
-          onClick={handleClickOpen}
-        />
+        <StyledImage src={imageUrl} alt="img" onClick={handleClickOpen} />
         <Nickname>{senderNickname}</Nickname>
       </PolaroidFrame>
     </>
