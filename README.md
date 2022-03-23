@@ -1,8 +1,8 @@
-![Logo](README.assets/logo_big.png)
+![Logo](README.assets/logo.svg)
 
 # 사연, 사진으로 연결하다
 
-> ** `사연`은 사진을 중심으로 다른 사용자와 편지를 주고받을 수 있는 펜팔 서비스입니다.**
+> ** 사연은 사진을 중심으로 다른 사용자와 편지를 주고받을 수 있는 펜팔 서비스입니다.**
 
 
 <br>
@@ -33,6 +33,8 @@
 ## 명세서 작성
 **사연**에서 사용될 용어, 필요한 기능과 그에 따른 API 명세서를 다음과 같이 작성하였습니다.
 ![specific](README.assets/specific.png)
+
+<br>
 
 전체 명서서는 [링크](https://docs.google.com/spreadsheets/d/1wbF4sDwKmWXGpWsN2lZHAsYuTRvs0hBda7ixyHsP7wk/edit?usp=sharing)에서 확인하실 수 있습니다.
 
