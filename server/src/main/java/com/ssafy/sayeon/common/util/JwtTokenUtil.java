@@ -1,6 +1,7 @@
 package com.ssafy.sayeon.common.util;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -78,10 +79,16 @@ public class JwtTokenUtil {
     }
     
     public Member getMemberFromToken(String token) {
-    	String email = Objects.requireNonNull(this.getUsernameFromToken(token)).trim();
+    	String email = Objects.requireNonNull(this.getUsernameFromToken(token.replace("Bearer ", "")));
 		
 		return memberService.getMemberByEmail(email);
     }
+
+    public String getUserEmailFromJwt(String token) {
+		Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build()
+				.parseClaimsJws(token.replace("Bearer ", ""));
+		return claims.getBody().getSubject();
+	}
 
 
 }

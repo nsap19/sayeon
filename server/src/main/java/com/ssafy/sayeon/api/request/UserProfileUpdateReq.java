@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserProfileUpdateRequest")
 public class UserProfileUpdateReq {
-	@ApiModelProperty(name="유저 닉네임", example="홍길동")
+	@ApiModelProperty(name="유저 닉네임", required = false)
 	String nickname;
-	@ApiModelProperty(name="유저 프로필", example="1")
+	@ApiModelProperty(name="유저 프로필", required = false)
 	int profilePic;
-	@ApiModelProperty(name="유저 위치정보", example="서울특별시 종로구")
+	@ApiModelProperty(name="유저 위치정보", required = false)
 	String location;
 }

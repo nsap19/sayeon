@@ -8,7 +8,9 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,6 +19,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name="userprofile")
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberProfile {
 	@Id
 	@Column(name = "userId", nullable = false)
