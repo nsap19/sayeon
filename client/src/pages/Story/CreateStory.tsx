@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import CropImage from "../../components/Story/CropImage";
 import { Stack } from "@mui/material";
-import HeaderBar from "../../components/HeaderBar";
+import Headerbar from "../../components/Headerbar";
 import SelectWaiting from "../../components/Story/SelectWaiting";
 import SelectKeyword from "../../components/Story/SelectKeyword";
+import ConfirmStory from "../../components/Story/ConfirmStory";
+import CreateStoryHeaderbar from "../../components/Story/CreateStoryHeaderbar";
 
 const CreateStory: React.FC = () => {
   const [step, setStep] = useState<number>(1);
 
   return (
     <>
-      <HeaderBar headerName={"사연 작성"} />
+      {step === 1 ? (
+        <Headerbar headerName={"사연 작성"} />
+      ) : (
+        <CreateStoryHeaderbar headerName={"사연 작성"} setStep={setStep} />
+      )}
+
       <Stack
         direction="column"
         justifyContent="space-between"
@@ -20,21 +27,10 @@ const CreateStory: React.FC = () => {
       >
         {
           {
-            1: (
-              <CropImage receiver={"일이삼사오육칠팔구십"} setStep={setStep} />
-            ),
-            2: (
-              <SelectWaiting
-                receiver={"일이삼사오육칠팔구십"}
-                setStep={setStep}
-              />
-            ),
-            3: (
-              <SelectKeyword
-                receiver={"일이삼사오육칠팔구십"}
-                setStep={setStep}
-              />
-            ),
+            1: <CropImage setStep={setStep} />,
+            2: <SelectWaiting setStep={setStep} />,
+            3: <SelectKeyword setStep={setStep} />,
+            4: <ConfirmStory setStep={setStep} />,
           }[step]
         }
       </Stack>

@@ -6,6 +6,9 @@ import "./CropImage.css";
 import { Button, Stack, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ReactComponent as Camera } from "../../assets/icon/camera.svg";
+import { selectCreateStory } from "../../store/createStory";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { updateImage } from "../../store/createStory";
 
 const defaultSrc =
   "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
@@ -15,13 +18,15 @@ const Input = styled("input")({
 });
 
 const CropImage: React.FC<{
-  receiver: string;
   setStep: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ receiver, setStep }) => {
+}> = ({ setStep }) => {
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
   const [cropper, setCropper] = useState<any>();
   const [imageSelected, setImageSelected] = useState(false);
+  const [imageType, setImageType] = useState<"mini" | "square" | "wide">(
+    "square"
+  );
 
   const onChange = (e: any) => {
     e.preventDefault();
@@ -56,6 +61,8 @@ const CropImage: React.FC<{
     }
   }, [cropData]);
 
+  const { receiver } = useAppSelector(selectCreateStory);
+  const dispatch = useAppDispatch();
   const handleUpload = async (url: string) => {
     /**
      * You can also use this async method in place of dataUrlToFile(url) method.
@@ -109,7 +116,13 @@ const CropImage: React.FC<{
       formData.append("croppedImage", blob);
       console.log(formData);
     });
-    setStep(2);
+
+    dispatch(updateImage({ url: url, type: imageType }));
+    if (receiver) {
+      setStep(2);
+    } else {
+      setStep(3);
+    }
   };
 
   return (
@@ -188,6 +201,7 @@ const CropImage: React.FC<{
             variant="contained"
             onClick={() => {
               cropper.setAspectRatio(42 / 62);
+              setImageType("mini");
             }}
           >
             mini
@@ -196,6 +210,7 @@ const CropImage: React.FC<{
             variant="contained"
             onClick={() => {
               cropper.setAspectRatio(1 / 1);
+              setImageType("square");
             }}
           >
             square
@@ -204,6 +219,7 @@ const CropImage: React.FC<{
             variant="contained"
             onClick={() => {
               cropper.setAspectRatio(99 / 62);
+              setImageType("wide");
             }}
           >
             wide
