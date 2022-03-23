@@ -36,4 +36,13 @@ public class MemberProfile {
 	@Column(name = "location", length = 100, nullable = false)
 	String location;
 
+	public MemberProfile(Member member, int profilePic, String nickname, String location) {
+		super();
+		this.member = member;
+		this.profilePic = profilePic;
+		this.nickname = nickname;
+		this.location = location;
+	}
+
+	
 }

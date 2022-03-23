@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,7 +36,7 @@ public class Member {
     @Id
     @GeneratedValue(generator="uuid")
 	@GenericGenerator(name="uuid", strategy = "uuid2")
-	@Column(name="userid", nullable=false, unique=true, length=100,columnDefinition = "BINARY(16)")
+	@Column(name="userId", nullable=false, unique=true, length=100,columnDefinition = "BINARY(16)")
     private String userId;
 
     @Column(name="email", length=100, nullable=false, unique=true)
