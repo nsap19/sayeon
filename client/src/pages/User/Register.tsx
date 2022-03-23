@@ -14,7 +14,7 @@ import LocationJson from "../../assets/json/location.json";
 import SelectProfile from "../../components/User/Register/SelectProfile";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import HeaderBar from "../../components/HeaderBar";
+import Headerbar from "../../components/Headerbar";
 
 interface registerInput {
   email: string;
@@ -90,7 +90,7 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <HeaderBar headerName={"회원가입"} />
+      <Headerbar headerName={"회원가입"} />
       <Snackbar
         open={open}
         autoHideDuration={3000}

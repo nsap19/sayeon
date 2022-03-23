@@ -18,7 +18,7 @@ const DivStyle = styled.div`
   justify-content: center;
 `;
 
-const HeaderBar: React.FC<{ headerName: string }> = ({ headerName }) => {
+const Headerbar: React.FC<{ headerName: string }> = ({ headerName }) => {
   const navigate = useNavigate();
 
   return (
@@ -40,4 +40,4 @@ const HeaderBar: React.FC<{ headerName: string }> = ({ headerName }) => {
   );
 };
 
-export default HeaderBar;
+export default Headerbar;
