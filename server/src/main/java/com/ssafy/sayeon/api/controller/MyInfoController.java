@@ -1,9 +1,11 @@
 package com.ssafy.sayeon.api.controller;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -78,6 +80,28 @@ public class MyInfoController {
 		myInfoService.modifyUserPw(member.getUserId(), updatePw);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "비밀번호 수정 성공"));
 
+	}
+	
+	@PutMapping("/profile-pic")
+	@ApiOperation(value="프로필 사진 수정")
+	@ApiResponses({ @ApiResponse(code = 200, message = "프로필 사진 수정 성공"),
+		@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> modifyProfilePic(HttpServletRequest request, @RequestBody UserProfileUpdateReq updateInfo){
+		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
+		
+		myInfoService.modifyUserProfile(member.getUserId(), updateInfo);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "프로필 사진 수정 성공"));
+	}
+	
+	@PutMapping("/location")
+	@ApiOperation(value="위치 정보 수정")
+	@ApiResponses({ @ApiResponse(code = 200, message = "위치정보 수정 성공"),
+		@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> modifyLocation(HttpServletRequest request, @RequestBody UserProfileUpdateReq updateInfo){
+		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
+		
+		myInfoService.modifyUserProfile(member.getUserId(), updateInfo);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "위치정보 수정 성공"));
 	}
 
 }
