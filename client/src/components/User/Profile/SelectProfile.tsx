@@ -62,7 +62,7 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
             key={profilePic}
           >
             <img
-              src={require(`../../../assets/images/profile/Profile-${profilePic}.png`)}
+              src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
               alt="profile pic"
               style={{ width: "50px" }}
             />
@@ -93,7 +93,7 @@ const SelectProfile: React.FC<{
   return (
     <div style={{ position: "relative" }}>
       <img
-        src={require(`../../../assets/images/profile/Profile-${profilePic}.png`)}
+        src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
         alt="profile pic"
         style={{ width: "100px" }}
       />
