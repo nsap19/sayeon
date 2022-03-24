@@ -1,11 +1,17 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Profile from "./pages/User/Profile";
+import StoryList from "./pages/StoryList/StoryList";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header"></header>
-      <h1>사연</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/storylist" element={<StoryList />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
