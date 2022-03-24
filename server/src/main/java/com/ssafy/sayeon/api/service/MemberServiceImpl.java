@@ -53,4 +53,11 @@ public class MemberServiceImpl implements MemberService{
 	public Member getMemberByEmail(String email) {
 		return memberRepository.findByEmail(email).orElseThrow(() -> new NotExistUserException());
 	}
+	
+	@Transactional
+	@Override
+	public void deleteMember(Member member) {
+		memberProfileRepository.delete(member.getMemberProfile());
+		memberRepository.delete(member);
+	}
 }

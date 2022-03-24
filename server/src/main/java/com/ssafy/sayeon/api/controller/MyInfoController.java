@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.sayeon.api.request.UserProfileUpdateReq;
 import com.ssafy.sayeon.api.request.UserPwUpdateReq;
 import com.ssafy.sayeon.api.response.AdvancedResponseBody;
 import com.ssafy.sayeon.api.response.BaseResponseBody;
+import com.ssafy.sayeon.api.service.JwtUserDetailsService;
 import com.ssafy.sayeon.api.service.MemberService;
 import com.ssafy.sayeon.api.service.MyInfoService;
 import com.ssafy.sayeon.common.util.JwtTokenUtil;
@@ -43,6 +45,9 @@ public class MyInfoController {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+    private JwtUserDetailsService userDetailService;
 
 	@GetMapping("/{userId}")
 	@ApiImplicitParam(name = "userId", value = "userId")
@@ -103,5 +108,18 @@ public class MyInfoController {
 		myInfoService.modifyUserProfile(member.getUserId(), updateInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "위치정보 수정 성공"));
 	}
-
+	
+	@DeleteMapping("")
+	@ApiOperation(value="회원 탈퇴")
+	@ApiResponses({ @ApiResponse(code = 200, message = "회원 탈퇴 성공"),
+		@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> deleteUser(HttpServletRequest request, @RequestParam("password") String password){
+		
+		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
+		userDetailService.authenticateByEmailAndPassword(member.getEmail(), password); //패스워드 체크
+		
+		memberService.deleteMember(member);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "회원 탈퇴 성공"));
+	}
+	
 }
