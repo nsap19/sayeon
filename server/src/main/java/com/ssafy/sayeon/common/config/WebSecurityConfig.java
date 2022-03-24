@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests().antMatchers(
                 		"/users/login",
+                		"/users/signup",
                          "/",
                          "/v2/api-docs",           // swagger
                          "/webjars/**",            // swagger-ui webjars
