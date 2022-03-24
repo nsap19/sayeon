@@ -1,0 +1,13 @@
+.form-list-on {
+  width: 50%;
+  height: 4px;
+  background: #C8E0F8;
+}
+
+.form-list-off {
+  width: 50%;
+  height: 4px;
+  background: #8C8888;
+  opacity: 0.3;
+
+}
