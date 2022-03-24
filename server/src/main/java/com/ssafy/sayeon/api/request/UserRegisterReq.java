@@ -7,8 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("UserProfileUpdateRequest")
-public class UserProfileUpdateReq {
+@ApiModel("UserResgisterRequest")
+public class UserRegisterReq {
+	@ApiModelProperty(name="유저 닉네임", required = false)
+	String email;
+	@ApiModelProperty(name="유저 비밀번호", required = false)
+	String password;
 	@ApiModelProperty(name="유저 닉네임", required = false)
 	String nickname;
 	@ApiModelProperty(name="유저 프로필", required = false)

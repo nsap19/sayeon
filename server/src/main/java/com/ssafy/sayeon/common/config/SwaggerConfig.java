@@ -1,7 +1,5 @@
 package com.ssafy.sayeon.common.config;
 
-import java.util.Collections;
-
 import java.util.*;
 
 import org.springframework.context.annotation.Bean;
@@ -16,8 +14,10 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -41,14 +41,29 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
+                .securityContexts(Arrays.asList(securityContext()))
+				.securitySchemes(Arrays.asList(apiKey()))
 				.select()
-				.apis(RequestHandlerSelectors.any()).paths(PathSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("com.ssafy.sayeon.api.controller"))
 				.build().apiInfo(apiInfo())
-	            .securitySchemes(Arrays.asList(apiKey()));
+				;
 		
 	}
+	
+	private SecurityContext securityContext() {
+		return SecurityContext.builder().securityReferences(defaultAuth()).build();
+	}
+
+	
+	  private List<SecurityReference> defaultAuth() {
+	        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+	        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+	        authorizationScopes[0] = authorizationScope;
+	        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
+	    }
+	
 	private ApiKey apiKey() {
-	    return new ApiKey("jwtToken", "Authorization", "header");
+	    return new ApiKey("Authorization", "Authorization", "header");
 	}
 	private ApiInfo apiInfo() {
 		 return new ApiInfoBuilder()
@@ -65,9 +80,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
 //		responseMessages.add(new ResponseMessageBuilder().code(200).message("OK !!!").build());
 //		responseMessages.add(new ResponseMessageBuilder().code(500).message("서버 문제 발생 !!!").responseModel(new ModelRef("Error")).build());
 //		responseMessages.add(new ResponseMessageBuilder().code(404).message("페이지를 찾을 수 없습니다 !!!").build());
-		return new Docket(DocumentationType.SWAGGER_2).groupName("sayeonVueAPI").consumes(getConsumeContentTypes())
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName("sayeonVueAPI").consumes(getConsumeContentTypes())
 				.produces(getProduceContentTypes()).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ssafy.newbit.controller")).paths(postPaths()).build();
+				.apis(RequestHandlerSelectors.basePackage("com.ssafy.sayeon.api.controller")).paths(postPaths()).build();
 	}
 
 	private Set<String> getConsumeContentTypes() {

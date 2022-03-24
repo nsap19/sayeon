@@ -8,7 +8,11 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,14 +21,18 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name="userprofile")
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberProfile {
 	@Id
 	@Column(name = "userId", nullable = false)
+	@JsonIgnore
 	String userId;
 
 	@OneToOne
 	@MapsId // @MapsId 는 @id로 지정한 컬럼에 @OneToOne 이나 @ManyToOne 관계를 매핑시키는 역할
 	@JoinColumn(name = "userId")
+	@JsonIgnore
 	Member member;
 
 	@Column(name = "profilePic", length = 100, nullable = false)

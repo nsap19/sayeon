@@ -28,14 +28,10 @@ public class MemberServiceImpl implements MemberService{
 //		validateDuplicateMember(member);
 //		return memberRepository.save(member);
 //	}
-
-	public boolean validateDuplicateMember(String email) {
-		Member findMember = memberRepository.findByEmail(email)
-				.orElseThrow(() -> new UsernameNotFoundException(email));
-		if (findMember != null) {
-			return false;
-		}
-		return true;
+	@Override
+	public Member validateDuplicateMember(String email) {
+		return  memberRepository.findUserByEmail(email);
+			
 	}
 
 	@Override
@@ -45,11 +41,19 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberProfile getMemberProfileByNickname(String nickname) {
-		return memberProfileRepository.findUserProfileByNickname(nickname).orElseThrow(()-> new NotExistUserException());
+		MemberProfile profile = memberProfileRepository.findUserProfileByNickname(nickname);
+		return profile;
 	}
 
 	@Override
 	public Member getMemberByEmail(String email) {
-		return memberRepository.findByEmail(email).orElseThrow(() -> new NotExistUserException());
+		return memberRepository.findUserByEmail(email);
+	}
+	
+	@Transactional
+	@Override
+	public void deleteMember(Member member) {
+		memberProfileRepository.delete(member.getMemberProfile());
+		memberRepository.delete(member);
 	}
 }
