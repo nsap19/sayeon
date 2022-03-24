@@ -22,10 +22,7 @@ export default function StoryTalkItem({ storyTalk }: any) {
       <Link to="/story-talk/{senderId}">{storyTalk.story.senderId}</Link>
       <button onClick={DeleteStoryTalk}>사연 대화 삭제</button>
       <div>{storyTalk.story.image}</div>
-      <Route
-        path="/story-talk/"
-        element={<StoryTalk storyTalk={storyTalk} />}
-      />
+      <Route path="/story-talk/:senderId" element={<StoryTalk />} />
     </>
   );
 }
