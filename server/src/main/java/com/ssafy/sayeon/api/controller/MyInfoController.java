@@ -1,6 +1,5 @@
 package com.ssafy.sayeon.api.controller;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +44,9 @@ public class MyInfoController {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-	
+
 	@Autowired
-    private JwtUserDetailsService userDetailService;
+	private JwtUserDetailsService userDetailService;
 
 	@GetMapping("/{userId}")
 	@ApiImplicitParam(name = "userId", value = "userId")
@@ -63,10 +62,11 @@ public class MyInfoController {
 	@ApiOperation(value = "닉네임 수정")
 	@ApiResponses({ @ApiResponse(code = 200, message = "닉네임 수정 성공"),
 			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> modifyNickname(HttpServletRequest request, @RequestBody UserProfileUpdateReq updateInfo) {
+	public ResponseEntity<? extends BaseResponseBody> modifyNickname(HttpServletRequest request,
+			@RequestBody UserProfileUpdateReq updateInfo) {
 
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
-		
+
 		if (!member.getMemberProfile().getNickname().equals(updateInfo.getNickname()) // 기존 닉네임과 다른 경우(변동사항이 있는 경우)
 				&& memberService.getMemberProfileByNickname(updateInfo.getNickname()) != null) { // 닉네임 중복 검사
 			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 등록된 닉네임입니다."));
@@ -80,46 +80,50 @@ public class MyInfoController {
 	@ApiOperation(value = "비밀번호 수정")
 	@ApiResponses({ @ApiResponse(code = 200, message = "비밀번호 수정 성공"),
 			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> modifyPassword(HttpServletRequest request, @RequestBody UserPwUpdateReq updatePw) {
+	public ResponseEntity<? extends BaseResponseBody> modifyPassword(HttpServletRequest request,
+			@RequestBody UserPwUpdateReq updatePw) {
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 		myInfoService.modifyUserPw(member.getUserId(), updatePw);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "비밀번호 수정 성공"));
 
 	}
-	
+
 	@PutMapping("/profile-pic")
-	@ApiOperation(value="프로필 사진 수정")
+	@ApiOperation(value = "프로필 사진 수정")
 	@ApiResponses({ @ApiResponse(code = 200, message = "프로필 사진 수정 성공"),
-		@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> modifyProfilePic(HttpServletRequest request, @RequestBody UserProfileUpdateReq updateInfo){
+			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> modifyProfilePic(HttpServletRequest request,
+			@RequestBody UserProfileUpdateReq updateInfo) {
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
-		
+
 		myInfoService.modifyUserProfile(member.getUserId(), updateInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "프로필 사진 수정 성공"));
 	}
-	
+
 	@PutMapping("/location")
-	@ApiOperation(value="위치 정보 수정")
+	@ApiOperation(value = "위치 정보 수정")
 	@ApiResponses({ @ApiResponse(code = 200, message = "위치정보 수정 성공"),
-		@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> modifyLocation(HttpServletRequest request, @RequestBody UserProfileUpdateReq updateInfo){
+			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> modifyLocation(HttpServletRequest request,
+			@RequestBody UserProfileUpdateReq updateInfo) {
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
-		
+
 		myInfoService.modifyUserProfile(member.getUserId(), updateInfo);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "위치정보 수정 성공"));
 	}
-	
+
 	@DeleteMapping("")
-	@ApiOperation(value="회원 탈퇴")
+	@ApiOperation(value = "회원 탈퇴")
 	@ApiResponses({ @ApiResponse(code = 200, message = "회원 탈퇴 성공"),
-		@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> deleteUser(HttpServletRequest request, @RequestParam("password") String password){
-		
+			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> deleteUser(HttpServletRequest request,
+			@RequestParam("password") String password) {
+
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
-		userDetailService.authenticateByEmailAndPassword(member.getEmail(), password); //패스워드 체크
-		
+		userDetailService.authenticateByEmailAndPassword(member.getEmail(), password); // 패스워드 체크
+
 		memberService.deleteMember(member);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "회원 탈퇴 성공"));
 	}
-	
+
 }
