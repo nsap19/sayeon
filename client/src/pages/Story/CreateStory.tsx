@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CropImage from "../../components/Story/CropImage";
+import SelectImage from "../../components/Story/SelectImage";
 import { Stack } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
 import SelectWaiting from "../../components/Story/SelectWaiting";
@@ -27,7 +27,7 @@ const CreateStory: React.FC = () => {
       >
         {
           {
-            1: <CropImage setStep={setStep} />,
+            1: <SelectImage setStep={setStep} />,
             2: <SelectWaiting setStep={setStep} />,
             3: <SelectKeyword setStep={setStep} />,
             4: <ConfirmStory setStep={setStep} />,

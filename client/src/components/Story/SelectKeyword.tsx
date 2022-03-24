@@ -9,8 +9,8 @@ import {
 const SelectKeyword: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }> = ({ setStep }) => {
-  const { receiver } = useAppSelector(selectCreateStory);
-  const imageUrl = localStorage.getItem("imgUrl");
+  const { receiver, image } = useAppSelector(selectCreateStory);
+  const imageUrl = image.url;
 
   const keywords = ["빵", "음료수", "치즈"];
   const [selectedKeyword, setSelectedKeyword] = useState<string[]>([]);

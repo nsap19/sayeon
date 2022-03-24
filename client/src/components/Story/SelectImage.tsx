@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cropper from "react-cropper";
 import { dataUrlToFile, dataUrlToFileUsingFetch } from "./utils";
 import "cropperjs/dist/cropper.css";
-import "./CropImage.css";
+import "./SelectImage.css";
 import { Button, Stack, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ReactComponent as Camera } from "../../assets/icon/camera.svg";
@@ -27,11 +27,14 @@ const CropImage: React.FC<{
   const [imageType, setImageType] = useState<"mini" | "square" | "wide">(
     "square"
   );
+  const [imageExtension, setImageExtension] = useState<string>("");
 
   const onChange = (e: any) => {
     e.preventDefault();
 
     setImageSelected(true);
+    console.log(e.target.files[0].type);
+    setImageExtension(e.target.files[0].type);
 
     let files;
     if (e.dataTransfer) {
@@ -47,75 +50,23 @@ const CropImage: React.FC<{
   };
 
   const getCropData = () => {
-    console.log("???");
     if (typeof cropper !== "undefined") {
-      console.log("!!");
-      setCropData(cropper.getCroppedCanvas().toDataURL());
+      setCropData(cropper.getCroppedCanvas().toDataURL(imageExtension));
     }
   };
 
   useEffect(() => {
-    // console.log(cropData);
     if (cropData) {
-      handleUpload(cropData);
+      console.log(cropData);
+      handleUpload(cropData); // getCropDate => handleUpload
     }
   }, [cropData]);
 
   const { receiver } = useAppSelector(selectCreateStory);
   const dispatch = useAppDispatch();
+
   const handleUpload = async (url: string) => {
-    /**
-     * You can also use this async method in place of dataUrlToFile(url) method.
-     * const file = await dataUrlToFileUsingFetch(url, 'output.png', 'image/png')
-     */
-
-    console.log("이게뭘까", url);
-    localStorage.setItem("imgUrl", url);
-    const file = dataUrlToFile(url, "output.png");
-    console.log(file);
-    console.log(typeof file);
-
-    console.log(
-      `We have File "${file.name}", now we can upload it wherever we want!`
-    );
-
-    /**
-     * Now that we have a File object, we can upload it to S3 (or anywhere else you want)
-     *
-     * const params = {
-     *   Bucket: "BUCKET_NAME"
-     *   Key: "randomId" + .png // You can use nanoid here if you want. This becomes the filename (or key) in S3.
-     *   Body: file
-     * }
-     *
-     * // Handle errors with try-catch block...
-     * const data = await s3.upload(params)
-     * console.log(`File uploaded successfully. ${data.Location}`);
-     */
-    function getBase64Image(img: any) {
-      var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      var ctx = canvas.getContext("2d");
-      ctx!.drawImage(img, 0, 0);
-
-      var dataURL = canvas.toDataURL("image/png");
-
-      return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-    }
-
-    var imgurl = cropper.getCroppedCanvas().toDataURL();
-    var img = document.createElement("img");
-    img.src = imgurl;
-    console.log(getBase64Image(img));
-    localStorage.setItem("imgData", getBase64Image(img));
-
-    cropper.getCroppedCanvas().toBlob(function (blob: any) {
-      var formData = new FormData();
-      formData.append("croppedImage", blob);
-      console.log(formData);
-    });
+    // 이후 서버 업로드 작성
 
     dispatch(updateImage({ url: url, type: imageType }));
     if (receiver) {
