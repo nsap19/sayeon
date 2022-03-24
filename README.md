@@ -156,6 +156,7 @@ DB: 🐬 MySQL 데이터베이스 특정 (마이그레이션, 스크립트, 확
   - MySQL Workbench
 
 - Server
+    - AWS EC2 (Ubuntu)
 
 - Browser
   - Chrome 97.0.4692.71 64bit
@@ -164,8 +165,10 @@ DB: 🐬 MySQL 데이터베이스 특정 (마이그레이션, 스크립트, 확
 
 - Backend
   - Java (Open-JDK Zulu 8.33.0.1 / 11.0.X)
+  - SpringBoot 2.5.10
 - Frontend
   - HTML5, CSS3, JavaScript(ES6)
+  - TypeScript
   - React 17.0.2, Redux
   - Node.js 16.13.0
 
@@ -176,7 +179,7 @@ DB: 🐬 MySQL 데이터베이스 특정 (마이그레이션, 스크립트, 확
 
 - 조항준 | 👍 팀장 | ☕ FE | 🤖 AI
 - 강수현 | 🖐 팀원 | ☕ FE | 💠 JIRA | 📃 문서
-- 승나연 | 🖐 팀원 | ⚡ BE | 🚀 배포
+- 승나연 | 🖐 팀원 | ⚡ BE | 🚀 배포 | 🎬 UCC
 - 이수민 | 🖐 팀원 | ☕ FE | 🤖 AI
 - 이혜민 | 🖐 팀원 | ⚡ BE | 🚀 배포 | 🦊 GIT
 
