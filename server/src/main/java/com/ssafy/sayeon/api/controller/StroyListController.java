@@ -88,4 +88,27 @@ public class StroyListController {
 				.body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", receivedStoryList.getContent()));
 	}
 
+	@GetMapping("/sent-cnt")
+	@ApiOperation(value = "받은 사연 수 조회")
+	@ApiResponses({ @ApiResponse(code = 200, message = "보낸 사연함 조회 성공"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> getSentStoryCount(HttpServletRequest request) {
+
+		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
+
+		Page<SentStory> sentStoryList = storyListService.getSentStoryByPageRequest(member.getUserId(), 1, 1);
+
+		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList.getTotalElements()));
+	}
+
+	@GetMapping("/received-cnt")
+	@ApiOperation(value = "받은 사연수 조회")
+	@ApiResponses({ @ApiResponse(code = 200, message = "받은 사연 수 조회 성공"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> getReceivedStoryCount(HttpServletRequest request) {
+
+		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
+
+		Page<ReceivedStory> receivedStoryList = storyListService.getReceivedStoryList(member.getUserId(), 1, 1);
+		return ResponseEntity.status(200)
+				.body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", receivedStoryList.getTotalElements()));
+	}
 }
