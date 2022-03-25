@@ -5,10 +5,17 @@ import axios from "axios";
 import { StyledTextField } from "./StyledComponent";
 import { registerInput } from "./types";
 
-const NicknameInputController: React.FC<{
+const NicknameController: React.FC<{
   control: Control<registerInput, any>;
 }> = ({ control }) => {
   const [validatedNickname, setValidatedNickname] = useState(false);
+
+  const checkNicknameDuplication = (nickname: string) => {
+    axios
+      .post("users/nickname", { nickname })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Controller
@@ -23,6 +30,11 @@ const NicknameInputController: React.FC<{
         maxLength: {
           value: 10,
           message: "닉네임은 10자 이내로 입력해주세요.",
+        },
+        validate: () => {
+          if (!validatedNickname) {
+            return "중복된 닉네임입니다.";
+          }
         },
       }}
       render={({ field, fieldState }) => (
@@ -39,4 +51,4 @@ const NicknameInputController: React.FC<{
   );
 };
 
-export default NicknameInputController;
+export default NicknameController;

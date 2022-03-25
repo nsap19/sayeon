@@ -15,8 +15,8 @@ import SelectProfile from "../../components/User/Register/SelectProfile";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Headerbar from "../../components/Headerbar";
-import EmailInputController from "../../components/User/Register/EmailInputController";
-import NicknameInputController from "../../components/User/Register/NicknameInputController";
+import EmailController from "../../components/User/Register/EmailController";
+import NicknameController from "../../components/User/Register/NicknameController";
 import { StyledTextField } from "../../components/User/Register/StyledComponent";
 import { registerInput } from "../../components/User/Register/types";
 
@@ -115,8 +115,8 @@ const Register: React.FC = () => {
               profilePic={profilePic}
               setProfilePic={setProfilePic}
             />
-            <EmailInputController control={control} />
-            <NicknameInputController control={control} />
+            <EmailController control={control} />
+            <NicknameController control={control} />
 
             <Controller
               name="password"

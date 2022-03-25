@@ -5,7 +5,7 @@ import axios from "axios";
 import { StyledTextField } from "./StyledComponent";
 import { registerInput } from "./types";
 
-const EmailInputController: React.FC<{
+const EmailController: React.FC<{
   control: Control<registerInput, any>;
 }> = ({ control }) => {
   const [validatedEmail, setValidatedEmail] = useState(false);
@@ -59,4 +59,4 @@ const EmailInputController: React.FC<{
   );
 };
 
-export default EmailInputController;
+export default EmailController;
