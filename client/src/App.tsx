@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
 import StoryTalkList from "./pages/StoryTalk/storyTalkList";
@@ -9,7 +8,7 @@ import Main from "./pages/Main/Main";
 import CreateStory from "./pages/Story/CreateStory";
 import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
-import Ai from "ai";
+import Ai from "pages/Ai";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -37,8 +36,6 @@ const theme = createTheme({
   },
 });
 
-
-
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -52,8 +49,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/storyTalkList" element={<StoryTalkList />} />
         <Route path="/storyTalkList" element={<StoryTalkList />} />
+        <Route path="/ai" element={<Ai />} />
       </Routes>
-      <button onClick={Ai}>ai</button>
       <BottomNavbar />
     </ThemeProvider>
   );
