@@ -48,11 +48,15 @@ public class SentStory {
     @Column(name="image", length=300, nullable=false)
     private String image;
 
-	@Column(name="watingId", nullable=false)
-    private int watingId;
+	@Column(name="waitingId", nullable=false)
+    private int waitingId;
 	
-	@OneToOne(mappedBy="sentstory")
-	ReceivedStrory receivedStory; //읽기 전용 필드
+	@Column(name="imageType", nullable=false)
+    private int imageType;
+	
+	@JsonIgnore
+	@OneToOne(mappedBy="sentStory")
+	ReceivedStory receivedStory; 
 
 
 }

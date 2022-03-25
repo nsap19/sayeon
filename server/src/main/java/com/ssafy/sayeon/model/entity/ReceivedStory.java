@@ -33,11 +33,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="receivedstory")
-public class ReceivedStrory {
+public class ReceivedStory {
 
 	@OneToOne
 	@MapsId 
-	@JoinColumn(name = "sentStory")
+	@JoinColumn(name = "storyId")
 	@JsonIgnore
 	SentStory sentStory;
 	
