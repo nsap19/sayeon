@@ -9,8 +9,10 @@ import Main from "./pages/Main/Main";
 import CreateStory from "./pages/Story/CreateStory";
 import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
+import StoryTalkList from "./pages/StoryTalk/storyTalkList";
 
 function App() {
+
   return (
     <>
       <Routes>
@@ -21,6 +23,7 @@ function App() {
         <Route path="/storylist" element={<StoryList />}></Route>
         <Route path="/storyTalkList" element={<StoryTalkList />} />
         {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/storyTalkList" element={<StoryTalkList />} />
       </Routes>
       <BottomNavbar />
     </>
