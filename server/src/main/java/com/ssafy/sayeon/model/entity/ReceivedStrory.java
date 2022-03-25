@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="sentstory")
+@Table(name="receivedstory")
 public class ReceivedStrory {
 
 	@OneToOne
