@@ -14,7 +14,7 @@ const main: React.FC = () => {
     >
       {/* <Box sx={{ height: "15%" }}>
       </Box> */}
-      <Logo style={{ width: "100%", height: "15%" }} />
+      <Logo style={{ width: "100%", height: "15%", marginTop: "10%" }} />
       {/* <img src={"../../assets/logo/logo.svg"} /> */}
       {/* <SvgIcon sx={{ width: "85%" }} component={Logo} inheritViewBox /> */}
       <Box
@@ -30,8 +30,20 @@ const main: React.FC = () => {
           alignItems: "center",
         }}
       >
-        당신의사진을무작위로 사람들에게보내보세요
-        <Button href="/send" variant="contained">
+        <p>
+          당신의 사연을 사진에 담아 보내고 비슷한 사연을 답장으로 받아보세요.
+        </p>
+        <Button
+          href="/send"
+          sx={{
+            color: "white",
+            fontFamily: "S-CoreDream-4Regular",
+            marginTop: "30px",
+          }}
+          disableElevation={true}
+          size="large"
+          variant="contained"
+        >
           사연 보내기
         </Button>
       </Box>
