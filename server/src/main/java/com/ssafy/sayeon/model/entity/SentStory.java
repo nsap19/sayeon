@@ -51,7 +51,7 @@ public class SentStory {
 	@Column(name="watingId", nullable=false)
     private int watingId;
 	
-	@OneToOne(mappedBy="member")
+	@OneToOne(mappedBy="sentstory")
 	ReceivedStrory receivedStory; //읽기 전용 필드
 
 
