@@ -10,9 +10,8 @@ import com.ssafy.sayeon.model.entity.ReceivedStory;
 import com.ssafy.sayeon.model.entity.SentStory;
 @Service("sayeonListService")
 public interface StoryListService {
-//	public List<SentStory> getSentStoryList(HashMap<String, Object> map);
-	public List<ReceivedStory> getReceivedStoryList(HashMap<String, Object> map);
+	public Page<ReceivedStory> getReceivedStoryList(String userId, Integer page, Integer size);
+	public Page<SentStory> getSentStoryByPageRequest(String userId, Integer page, Integer size);
 	public int getSentStoryCount(String userId);
 	public int getReceivedStoryCount(String userId);
-	public Page<SentStory> getSentStoryByPageRequest(String userId, Integer page, Integer size);
 }

@@ -38,9 +38,11 @@ public class StoryListServiceImpl implements StoryListService{
 //	}
 
 	@Override
-	public List<ReceivedStory> getReceivedStoryList(HashMap<String, Object> hm) {
+	public Page<ReceivedStory> getReceivedStoryList(String receiverId, Integer page, Integer size) {
 		// TODO Auto-generated method stub
-		return null;
+		PageRequest pageRequest = PageRequest.of(page,size, Sort.by("dateReceived").ascending()); //기본적으로 최신순으로 정렬
+
+		return receivedStroryRepository.findByReceiverId(receiverId, pageRequest);
 	}
 
 	@Override

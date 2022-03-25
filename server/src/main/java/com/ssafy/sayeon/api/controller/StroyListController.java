@@ -29,7 +29,9 @@ import com.ssafy.sayeon.api.service.MyInfoService;
 import com.ssafy.sayeon.api.service.StoryListService;
 import com.ssafy.sayeon.common.util.JwtTokenUtil;
 import com.ssafy.sayeon.model.entity.Member;
+import com.ssafy.sayeon.model.entity.ReceivedStory;
 import com.ssafy.sayeon.model.entity.SentStory;
+import com.ssafy.sayeon.model.repository.ReceivedStroryRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -59,22 +61,31 @@ public class StroyListController {
 
 	@GetMapping("/sent")
 	@ApiOperation(value = "보낸 사연함 조회")
-	@ApiResponses({ @ApiResponse(code = 200, message = "유저 정보 조회 성공"),
-			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> readUserInfo(HttpServletRequest request,
+	@ApiResponses({ @ApiResponse(code = 200, message = "보낸 사연함 조회 성공"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> getSentStory(HttpServletRequest request,
 			@RequestParam @ApiParam(value = "가져올 페이지", required = true) Integer page,
 			@RequestParam @ApiParam(value = "한 페이지당 개수", required = true) Integer size) {
 
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		PageRequest pageRequest = PageRequest.of(page, size);
-		
-		map.put("userId", member.getUserId());
-		map.put("pageable", pageRequest);
 
-		Page<SentStory> sentStoryList = storyListService.getSentStoryByPageRequest( member.getUserId(), page, size);
-		
-		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList.getContent()));
+		Page<SentStory> sentStoryList = storyListService.getSentStoryByPageRequest(member.getUserId(), page, size);
+
+		return ResponseEntity.status(200)
+				.body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList.getContent()));
+	}
+
+	@GetMapping("/received")
+	@ApiOperation(value = "받은 사연함 조회")
+	@ApiResponses({ @ApiResponse(code = 200, message = "받은 사연함 조회 성공"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> getReceivedStory(HttpServletRequest request,
+			@RequestParam @ApiParam(value = "가져올 페이지", required = true) Integer page,
+			@RequestParam @ApiParam(value = "한 페이지당 개수", required = true) Integer size) {
+
+		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
+
+		Page<ReceivedStory> receivedStoryList = storyListService.getReceivedStoryList(member.getUserId(), page, size);
+		return ResponseEntity.status(200)
+				.body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", receivedStoryList.getContent()));
 	}
 
 }

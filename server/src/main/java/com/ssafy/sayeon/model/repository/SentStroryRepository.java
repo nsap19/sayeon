@@ -16,5 +16,4 @@ import java.lang.String;
 public interface SentStroryRepository extends JpaRepository<SentStory, String> {
 	Page<SentStory> findBySenderId(String senderId,Pageable pageable);
 	
-	
 }
