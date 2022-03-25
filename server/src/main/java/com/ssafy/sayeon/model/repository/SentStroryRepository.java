@@ -1,5 +1,8 @@
 package com.ssafy.sayeon.model.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ssafy.sayeon.model.entity.Member;
@@ -11,5 +14,7 @@ import java.util.Optional;
 import java.lang.String;
 
 public interface SentStroryRepository extends JpaRepository<SentStory, String> {
-	List<SentStory> findBySenderId(String senderid);
+	Page<SentStory> findBySenderId(String senderId,Pageable pageable);
+	
+	
 }

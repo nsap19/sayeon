@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,24 +57,24 @@ public class StroyListController {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
-	
-
 	@GetMapping("/sent")
 	@ApiOperation(value = "보낸 사연함 조회")
 	@ApiResponses({ @ApiResponse(code = 200, message = "유저 정보 조회 성공"),
 			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> readUserInfo(	HttpServletRequest request, @RequestParam 
-			@ApiParam(value = "가져올 페이지", required = true) int page) {
+	public ResponseEntity<? extends BaseResponseBody> readUserInfo(HttpServletRequest request,
+			@RequestParam @ApiParam(value = "가져올 페이지", required = true) Integer page,
+			@RequestParam @ApiParam(value = "한 페이지당 개수", required = true) Integer size) {
 
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		System.out.println("멤버아이디 : " + member.getUserId());
+		PageRequest pageRequest = PageRequest.of(page, size);
+		
 		map.put("userId", member.getUserId());
+		map.put("pageable", pageRequest);
+
+		Page<SentStory> sentStoryList = storyListService.getSentStoryByPageRequest( member.getUserId(), page, size);
 		
-		List<SentStory> sentStoryList = storyListService.getSentStoryList(map);
-		
-		return ResponseEntity.status(200)
-				.body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList));
+		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList.getContent()));
 	}
 
 }
