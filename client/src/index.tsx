@@ -5,6 +5,9 @@ import App from "./App";
 import "./index.css";
 import { store } from "./store/index";
 import { Provider } from "react-redux";
+import axios from "axios";
+
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 ReactDOM.render(
   <Provider store={store}>

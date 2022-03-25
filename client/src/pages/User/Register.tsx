@@ -15,15 +15,10 @@ import SelectProfile from "../../components/User/Register/SelectProfile";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Headerbar from "../../components/Headerbar";
-
-interface registerInput {
-  email: string;
-  nickname: string;
-  password: string;
-  confirmPassword: string;
-  location: string;
-  detailedLocation: string;
-}
+import EmailInputController from "../../components/User/Register/EmailInputController";
+import NicknameInputController from "../../components/User/Register/NicknameInputController";
+import { StyledTextField } from "../../components/User/Register/StyledComponent";
+import { registerInput } from "../../components/User/Register/types";
 
 const locationOptions = Object.keys(LocationJson).sort();
 
@@ -48,6 +43,7 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: registerInput) => {
+    console.log(data);
     axios({
       method: "post",
       url: "/api/users/signup",
@@ -89,7 +85,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <>
+    <Stack sx={{ height: "calc(100% - 56px)" }}>
       <Headerbar headerName={"회원가입"} />
       <Snackbar
         open={open}
@@ -108,67 +104,19 @@ const Register: React.FC = () => {
         </Alert>
       </Snackbar>
 
-      <Box sx={{ flex: "1 1 auto" }}>
+      <Stack
+        direction="column"
+        justifyContent="center"
+        sx={{ flex: "1 1 auto" }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={2}>
+          <Stack direction="column" alignItems="center" spacing={1}>
             <SelectProfile
               profilePic={profilePic}
               setProfilePic={setProfilePic}
             />
-            <Controller
-              name="email"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: {
-                  value: true,
-                  message: "이메일을 입력해주세요.",
-                },
-                pattern: {
-                  value:
-                    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-                  message: "이메일 형식이 올바르지 않습니다.",
-                },
-              }}
-              render={({ field, fieldState }) => (
-                <TextField
-                  {...field}
-                  label="이메일"
-                  variant="outlined"
-                  error={!!fieldState.error}
-                  helperText={
-                    fieldState.error?.message ? fieldState.error.message : " "
-                  }
-                />
-              )}
-            />
-
-            <Controller
-              name="nickname"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: {
-                  value: true,
-                  message: "닉네임을 입력해주세요.",
-                },
-                maxLength: {
-                  value: 10,
-                  message: "닉네임은 10자 이내로 입력해주세요.",
-                },
-              }}
-              render={({ field, fieldState }) => (
-                <TextField
-                  {...field}
-                  label="닉네임"
-                  variant="outlined"
-                  error={!!fieldState.error}
-                  helperText={
-                    fieldState.error?.message ? fieldState.error.message : " "
-                  }
-                />
-              )}
-            />
+            <EmailInputController control={control} />
+            <NicknameInputController control={control} />
 
             <Controller
               name="password"
@@ -182,14 +130,13 @@ const Register: React.FC = () => {
                 pattern: {
                   value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
                   message:
-                    "영소문자, 숫자, 특수문자를 포함해 8자 이상으로 입력해주세요.",
+                    "영소문자, 숫자, 특수문자를 포함해 8자 이상 입력해주세요.",
                 },
               }}
               render={({ field, fieldState }) => (
-                <TextField
+                <StyledTextField
                   {...field}
                   label="비밀번호"
-                  variant="outlined"
                   type="password"
                   error={!!fieldState.error}
                   helperText={
@@ -215,10 +162,9 @@ const Register: React.FC = () => {
                 },
               }}
               render={({ field, fieldState }) => (
-                <TextField
+                <StyledTextField
                   {...field}
                   label="비밀번호 확인"
-                  variant="outlined"
                   type="password"
                   error={!!fieldState.error}
                   helperText={
@@ -238,9 +184,8 @@ const Register: React.FC = () => {
                 },
               }}
               render={({ field: { onChange }, fieldState }) => (
-                <TextField
+                <StyledTextField
                   select
-                  variant="outlined"
                   defaultValue=""
                   label="시/도"
                   error={!!fieldState.error}
@@ -265,7 +210,7 @@ const Register: React.FC = () => {
                       </MenuItem>
                     );
                   })}
-                </TextField>
+                </StyledTextField>
               )}
             ></Controller>
 
@@ -280,10 +225,9 @@ const Register: React.FC = () => {
               }}
               render={({ field, fieldState }) => (
                 <FormControl>
-                  <TextField
+                  <StyledTextField
                     {...field}
                     select
-                    variant="outlined"
                     label="시/도/군"
                     disabled={isDisabled}
                     defaultValue=""
@@ -299,18 +243,30 @@ const Register: React.FC = () => {
                         </MenuItem>
                       );
                     })}
-                  </TextField>
+                  </StyledTextField>
                 </FormControl>
               )}
             ></Controller>
 
-            <Button type="submit" variant="contained">
+            <Button
+              sx={{
+                color: "white",
+                fontFamily: "S-CoreDream-4Regular",
+                marginTop: "30px",
+                width: "300px",
+                borderRadius: 31.5,
+              }}
+              disableElevation={true}
+              size="large"
+              variant="contained"
+              type="submit"
+            >
               회원가입
             </Button>
           </Stack>
         </form>
-      </Box>
-    </>
+      </Stack>
+    </Stack>
   );
 };
 
