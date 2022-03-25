@@ -8,4 +8,5 @@ public interface MemberService {
 	MemberProfile getMemberProfileByNickname(String nickname);
 	Member getMemberByEmail(String email);
 	void deleteMember(Member member);
+	Member validateDuplicateMember(String email);
 }

@@ -1,7 +1,6 @@
 package com.ssafy.sayeon.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,14 +27,10 @@ public class MemberServiceImpl implements MemberService{
 //		validateDuplicateMember(member);
 //		return memberRepository.save(member);
 //	}
-
-	public boolean validateDuplicateMember(String email) {
-		Member findMember = memberRepository.findByEmail(email)
-				.orElseThrow(() -> new UsernameNotFoundException(email));
-		if (findMember != null) {
-			return false;
-		}
-		return true;
+	@Override
+	public Member validateDuplicateMember(String email) {
+		return  memberRepository.findUserByEmail(email);
+			
 	}
 
 	@Override
@@ -51,7 +46,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public Member getMemberByEmail(String email) {
-		return memberRepository.findByEmail(email).orElseThrow(() -> new NotExistUserException());
+		return memberRepository.findUserByEmail(email);
 	}
 	
 	@Transactional
