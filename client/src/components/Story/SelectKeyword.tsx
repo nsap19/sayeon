@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Stack, Box, Chip } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   selectCreateStory,
   updateSelectedKeyword,
 } from "../../store/createStory";
+import Polaroid from "./Polaroid";
 
 const SelectKeyword: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -35,27 +36,61 @@ const SelectKeyword: React.FC<{
 
   return (
     <>
-      {receiver ? <p>{receiver}에게 사연보내기</p> : <p>랜덤 사연보내기</p>}
-      <Box sx={{ height: "50%", width: "90%" }}>
-        {imageUrl && <img src={imageUrl} alt="" style={{ width: "100%" }} />}
-        <Stack direction="row" spacing={1}>
-          {keywords.map((keyword) => (
-            <Chip
-              key={keyword}
-              label={keyword}
-              color={selectedKeyword.includes(keyword) ? "primary" : "default"}
-              onClick={() => handleClick(keyword)}
-            />
-          ))}
+      <Box sx={{ margin: "10px", width: "100%" }}>
+        {receiver ? (
+          <p style={{ margin: "10px" }}>{receiver}에게 사연보내기</p>
+        ) : (
+          <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
+        )}
+        <Stack direction="column" alignItems="center">
+          <Box sx={{ height: "60%", width: "90%", margin: "10px auto 20px" }}>
+            <Box sx={{ height: "100%" }}>
+              <Polaroid
+                imageUrl={image.url}
+                imageType={image.type}
+                senderNickname={""}
+              />
+            </Box>
+          </Box>
+          <p>사연의 키워드를 모두 골라주세요.</p>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            spacing={1}
+            sx={{ margin: "10px" }}
+          >
+            {keywords.map((keyword) => (
+              <Chip
+                key={keyword}
+                label={keyword}
+                color={
+                  selectedKeyword.includes(keyword) ? "primary" : "default"
+                }
+                onClick={() => handleClick(keyword)}
+              />
+            ))}
+          </Stack>
         </Stack>
       </Box>
-      <Button
-        disabled={selectedKeyword.length === 0}
-        variant="contained"
-        onClick={() => goToNextStep()}
-      >
-        다음
-      </Button>
+
+      <Box>
+        <Button
+          disabled={selectedKeyword.length === 0}
+          variant="contained"
+          onClick={() => goToNextStep()}
+          size="large"
+          disableElevation={true}
+          sx={{
+            color: "white",
+            fontFamily: "S-CoreDream-4Regular",
+            margin: "10px 0",
+            width: "300px",
+            borderRadius: 31.5,
+          }}
+        >
+          다음
+        </Button>
+      </Box>
     </>
   );
 };
