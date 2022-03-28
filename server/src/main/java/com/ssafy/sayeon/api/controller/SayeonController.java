@@ -83,7 +83,7 @@ public class SayeonController {
 
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 
-		sayeonService.saveStory(member.getUserId(), sayeon);
+		sayeonService.saveStory(member, sayeon);
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사연 저장 성공"));
 

@@ -1,6 +1,8 @@
 package com.ssafy.sayeon.api.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +10,14 @@ import org.springframework.stereotype.Service;
 import com.ssafy.sayeon.api.request.SayeonReq;
 import com.ssafy.sayeon.common.exception.NotExistWaitingTimeException;
 import com.ssafy.sayeon.common.util.ImageUtil;
+import com.ssafy.sayeon.model.entity.Member;
+import com.ssafy.sayeon.model.entity.SelectedKeyword;
 import com.ssafy.sayeon.model.entity.SentStory;
 import com.ssafy.sayeon.model.entity.SentStory.ImageType;
 import com.ssafy.sayeon.model.entity.WaitingTime;
+import com.ssafy.sayeon.model.repository.MemberRepository;
 import com.ssafy.sayeon.model.repository.SayeonRepository;
+import com.ssafy.sayeon.model.repository.SelectedKeywordRepository;
 import com.ssafy.sayeon.model.repository.WaitingTimeRepository;
 
 @Service
@@ -25,12 +31,19 @@ public class SayeonServiceImpl implements SayeonService {
 	
 	@Autowired
 	WaitingTimeRepository waitingTimeRepository;
+	
+	@Autowired
+	MemberRepository memberRepository;
+	
+	@Autowired
+	SelectedKeywordRepository selectedKeywordRepository;
 
 	@Override
-	public void saveStory(String userId, SayeonReq sayeon) {
+	@Transactional
+	public void saveStory(Member member, SayeonReq sayeon) {
 		SentStory story = new SentStory(); 
-		story.setSenderId(userId);
-		story.setDateSent(LocalDate.now().toString());
+		story.setMember(member);
+		story.setDateSent(LocalDateTime.now().toString());
 		story.setImage(sayeon.getImageUrl());
 		story.setImageType(ImageType.valueOf(sayeon.getImageType().toUpperCase()));
 		if(sayeon.getWaitingId()!=0 || waitingTimeRepository.existsById(sayeon.getWaitingId())) {
@@ -38,7 +51,10 @@ public class SayeonServiceImpl implements SayeonService {
 			story.setWatingId(wt);
 		}
 		
-		sayeonRepository.save(story);
+		story = sayeonRepository.save(story);
+			
+		SelectedKeyword sk = new SelectedKeyword(story, sayeon.getKeyword());
+		selectedKeywordRepository.save(sk);
 	}
 
 }
