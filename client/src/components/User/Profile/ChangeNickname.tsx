@@ -30,7 +30,7 @@ const ChangeNickname: React.FC = () => {
   //     setNickname(res.data.nickname);
   //   })
   //   .catch((err) => console.log(err))
-  // }, []);
+  // }, [nickname]);
 
 
   const changeNickname = () => {

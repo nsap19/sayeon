@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Stack, Grid, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Stack, Grid, Box, FormControl, InputLabel, MenuItem } from "@mui/material";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
 import { ReactComponent as Location } from "../../../assets/icon/location.svg";
 import LocationJson from "../../../assets/json/location.json";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
 
 
 const locationOptions = Object.keys(LocationJson).sort();
 
-const ChangeLocation: React.FC = () => {
+const ChangeLocation = () => {
   const [isEditingLocation, setIsEditingLocation] = useState<boolean>(false);
   // const [locations, setLocations] = useState<string>('');
   // const [location, setLocation] = useState('');
@@ -16,8 +18,8 @@ const ChangeLocation: React.FC = () => {
   
   // 테스트용
   const [locations, setLocations] = useState<string>('서울특별시 종로구');
-  const [location, setLocation] = useState('서울특별시');
-  const [detailedLocation, setDetailedLocation] = useState('종로구');
+  const [location, setLocation] = useState<string>('서울특별시');
+  const [detailedLocation, setDetailedLocation] = useState<string>('종로구');
 
   // 상세주소용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
@@ -39,7 +41,7 @@ const ChangeLocation: React.FC = () => {
   //     setDetailedLocation(res.data.location.split('')[1]);
   //   })
   //   .catch((err) => console.log(err))
-  // }, []);
+  // }, [detailedLocation]);
 
 
   // 위치 정보 수정
@@ -50,9 +52,8 @@ const ChangeLocation: React.FC = () => {
   };
 
   // 시/도 부분 수정
-  const onChangeLocation = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // event.preventDefault();
-    setLocation(event.target.value);
+  const onChangeLocation = (event: SelectChangeEvent) => {
+    setLocation(event.target.value as string);
     setDetailedLocationOptions(
       LocationJson[
         event.target.value as keyof typeof LocationJson
@@ -61,9 +62,26 @@ const ChangeLocation: React.FC = () => {
   };
   
   // 시/군/구 부분 수정
-  const onChangeDetailedLocation = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const onChangeDetailedLocation = (event: SelectChangeEvent) => {
     setDetailedLocation(event.target.value as string)};
+  
 
+  const changeLocation = () => {
+    const newLocation = location + " " + detailedLocation
+    console.log(newLocation)
+    // axios({
+    //   method: "put",
+    //   url: "userInfo/location",
+    //   data: {
+    //     location: newLocation
+    //   }
+    // })
+    // .then(() => {
+    //   console.log('위치 정보 수정 완료')
+    //   setIsEditingLocation(false)
+    // })
+    // .catch((err) => console.log(err));
+  }
 
   return (
     <Stack>
@@ -79,18 +97,18 @@ const ChangeLocation: React.FC = () => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  defaultValue={location}
+                  value={location}
                   label="시/도"
-                  // onChange={onChangeLocation}
-                  onChange={(e) => {
-                    // onChangeLocation(e);
-                    console.log(e)
-                    setDetailedLocationOptions(
-                      LocationJson[
-                        e.target.value as keyof typeof LocationJson
-                      ].sort()
-                    );
-                  }}
+                  onChange={onChangeLocation}
+                  // onChange={(e) => {
+                  //   onChangeLocation(e);
+                  //   console.log(e)
+                  //   setDetailedLocationOptions(
+                  //     LocationJson[
+                  //       e.target.value as keyof typeof LocationJson
+                  //     ].sort()
+                  //   );
+                  // }}
                 >
                   {locationOptions.map((option, index) => {
                     return (
@@ -106,7 +124,8 @@ const ChangeLocation: React.FC = () => {
                 <Select
                   id="demo-simple-select"
                   label="시/군/구"
-                  defaultValue={detailedLocation}
+                  value={detailedLocation}
+                  onChange={onChangeDetailedLocation}
                 >
                   {detailedLocationOptions.map((option, index) => {
                   return (
@@ -124,7 +143,7 @@ const ChangeLocation: React.FC = () => {
         </Grid>
         <Grid item sx={{ m: "auto", ml: 1 }}>
           {isEditingLocation ? (
-            <button>수정</button>
+            <button onClick={changeLocation}>수정</button>
           ) : (
             <Edit onClick={locationEditingMode}/>
           )}
