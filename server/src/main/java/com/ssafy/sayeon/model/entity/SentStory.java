@@ -1,5 +1,7 @@
 package com.ssafy.sayeon.model.entity;
 
+import java.util.Optional;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,8 +37,10 @@ public class SentStory {
 	@Column(name="storyId", nullable=false, unique=true, length=100,columnDefinition = "BINARY(16)")
     private String storyId;
 
-    @Column(name="senderId", length=100, nullable=false)
-    private String senderId;
+    @ManyToOne
+    @JoinColumn(name="senderId")
+    @JsonIgnore
+    private Member member;
     
     @Column(name="dateSent", length=100, nullable=false)
     private String dateSent;

@@ -15,6 +15,6 @@ public class SayeonReq {
 	String imageType;
 	@ApiModelProperty(name="대기시간", required = false)
 	int waitingId;
-	
-	
+	@ApiModelProperty(name="선택 키워드", notes = "Json stringify 필요")
+	String keyword;
 }
