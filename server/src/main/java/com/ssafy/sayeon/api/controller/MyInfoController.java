@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "내정보 API", tags = { "MyInfo" })
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/userInfo")
 public class MyInfoController {
 
 	@Autowired
