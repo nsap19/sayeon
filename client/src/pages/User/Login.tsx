@@ -37,7 +37,12 @@ export default function Login() {
   };
 
   return (
-    <Stack direction="column" justifyContent="center" alignItems="center">
+    <Stack
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ height: "85%" }}
+    >
       <Logo style={{ width: "50%", height: "50%", margin: "40% 5% 10%" }} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={0}>
