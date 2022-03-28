@@ -26,7 +26,7 @@ const Register: React.FC = () => {
     console.log(data);
     axios({
       method: "post",
-      url: "/users/signup",
+      url: "users/signup",
       data: {
         email: data.email,
         password: data.password,

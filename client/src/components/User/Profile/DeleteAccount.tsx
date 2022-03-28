@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Stack, Button, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Headerbar from "../../Headerbar";
+
 
 const DeleteAccount: React.FC = () => {
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ const DeleteAccount: React.FC = () => {
         </Alert>
       </Snackbar>
 
-      <h1>회원탈퇴</h1>
+      <Headerbar headerName={"회원탈퇴"} />
       <p>정말 탈퇴하시겠습니까?</p>
       <p>삭제된 계정 정보는 복구되지 않습니다.</p>
       <Button variant="contained" onClick={onClick}>

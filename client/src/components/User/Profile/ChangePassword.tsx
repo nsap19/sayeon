@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Stack, Button, TextField, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Headerbar from "../../Headerbar";
 
 interface changePasswordInput {
   password: string;
@@ -19,7 +20,11 @@ const ChangePassword: React.FC = () => {
   const onSubmit = (data: changePasswordInput) => {
     axios({
       method: "put",
-      url: "/api/users/password",
+      url: "/userInfo/password",
+      // headers: {
+      //   Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
+      //   "Content-Type": "application/json",
+      // },
       data: {
         password: data.password,
       },
@@ -73,7 +78,7 @@ const ChangePassword: React.FC = () => {
       </Snackbar>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>비밀번호 변경</h1>
+        <Headerbar headerName={"비밀번호 변경"} />
         <Stack spacing={2}>
           <Controller
             name="password"
