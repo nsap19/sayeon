@@ -26,7 +26,7 @@ const Register: React.FC = () => {
     console.log(data);
     axios({
       method: "post",
-      url: "/users/signup",
+      url: "users/signup",
       data: {
         email: data.email,
         password: data.password,
@@ -74,10 +74,19 @@ const Register: React.FC = () => {
       <Stack
         direction="column"
         justifyContent="center"
-        sx={{ flex: "1 1 auto" }}
+        sx={{
+          flex: "1 1 auto",
+          height: "calc(100% - 56px - 70px)",
+          overflowY: "auto",
+        }}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack direction="column" alignItems="center" spacing={1}>
+        <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
+          <Stack
+            direction="column"
+            alignItems="center"
+            spacing={1}
+            sx={{ padding: "15px 0" }}
+          >
             <SelectProfile
               profilePic={profilePic}
               setProfilePic={setProfilePic}
