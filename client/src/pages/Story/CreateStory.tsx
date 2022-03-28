@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import SelectImage from "../../components/Story/SelectImage";
+import SelectImage from "../../components/Story/1_SelectImage/SelectImage";
 import { Stack } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
-import SelectWaiting from "../../components/Story/SelectWaiting";
-import SelectKeyword from "../../components/Story/SelectKeyword";
+import SelectWaiting from "../../components/Story/2_SelectWaiting/SelectWaiting";
+import SelectKeyword from "../../components/Story/3_SelectKeyword/SelectKeyword";
 import ConfirmStory from "../../components/Story/ConfirmStory";
 import CreateStoryHeaderbar from "../../components/Story/CreateStoryHeaderbar";
 

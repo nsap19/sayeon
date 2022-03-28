@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Button, Stack, Box, Chip } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  selectCreateStory,
-  updateSelectedKeyword,
-} from "../../store/createStory";
-import Polaroid from "./Polaroid";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { selectCreateStory, updateSelectedKeyword } from "store/createStory";
+import Polaroid from "../Polaroid";
 
 const SelectKeyword: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;

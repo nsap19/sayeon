@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Button, Stack, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Cropper from "react-cropper";
-import { dataUrlToFile } from "./utils";
+import { uploadFile } from "./S3Upload";
 import "cropperjs/dist/cropper.css";
 import "./SelectImage.css";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectCreateStory } from "../../store/createStory";
-import { ReactComponent as Camera } from "../../assets/icon/camera.svg";
-import { updateImage } from "../../store/createStory";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { selectCreateStory } from "../../../store/createStory";
+import { ReactComponent as Camera } from "assets/icon/camera.svg";
+import { updateImage } from "../../../store/createStory";
 
 const Input = styled("input")({
   display: "none",
@@ -25,17 +25,16 @@ const CropImage: React.FC<{
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
   const [cropper, setCropper] = useState<any>();
-  const [imageSelected, setImageSelected] = useState(false);
   const [imageType, setImageType] = useState<"mini" | "square" | "wide">(
     "square"
   );
   const [imageExtension, setImageExtension] = useState<string>("");
+  const [imageName, setImageName] = useState<string>("");
 
   const onChange = (e: any) => {
     e.preventDefault();
 
-    setImageSelected(true);
-    console.log(e.target.files[0].type);
+    setImageName(Date.now() + "_" + e.target.files[0].name);
     setImageExtension(e.target.files[0].type);
 
     let files;
@@ -67,30 +66,17 @@ const CropImage: React.FC<{
   const dispatch = useAppDispatch();
 
   const handleUpload = async (url: string) => {
-    const a = document.createElement("a");
-    a.download = "image.jpg";
+    cropper.getCroppedCanvas().toBlob((blob: any) => {
+      const formData = new FormData();
+      formData.append("croppedImage", blob, imageName);
 
-    const file = dataUrlToFile(url, "output.png");
-    console.log("file object", file);
+      formData.forEach((file) => {
+        console.log("blob object", file);
+        uploadFile(file);
+      });
+    });
 
-    cropper.getCroppedCanvas().toBlob(
-      (blob: any) => {
-        //HTMLCanvasElement를 return 받아서 blob파일로 변환해준다
-        const formData = new FormData();
-
-        formData.append("croppedImage", blob /*, 'example.png' , 0.7*/);
-        formData.forEach((file) => console.log("blob object", file));
-        //새로운 formData를 생성해서 앞에서 변경해준 blob파일을 삽입한다.(이름 지정 가능, 맨뒤 매개변수는 화질 설정)
-      } /*, 'image/png' */
-    ); //서버에 저장 형식 사용 가능
-
-    // a.href = url; // base64 URL
-    // const newUrl = window.URL.createObjectURL(file);
-    // a.href = newUrl;
-    // a.click();
-    // window.URL.revokeObjectURL(newUrl);
-
-    dispatch(updateImage({ url: url, type: imageType }));
+    dispatch(updateImage({ name: imageName, url: url, type: imageType }));
     if (receiver) {
       setStep(2);
     } else {
@@ -151,7 +137,7 @@ const CropImage: React.FC<{
               margin: "0 10px",
               minWidth: "300px",
               height: "300px",
-              backgroundColor: imageSelected ? "rgba(0, 0, 0, 50%)" : "white",
+              backgroundColor: imageName ? "rgba(0, 0, 0, 50%)" : "white",
               borderRadius: "20px",
               boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.05)",
               display: "flex",
@@ -163,7 +149,7 @@ const CropImage: React.FC<{
           >
             <Box
               sx={{
-                display: imageSelected ? "none" : "flex",
+                display: imageName ? "none" : "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 position: "absolute",
@@ -249,7 +235,7 @@ const CropImage: React.FC<{
       <Box>
         <Button
           onClick={getCropData}
-          disabled={!imageSelected}
+          disabled={!imageName}
           variant="contained"
           size="large"
           disableElevation={true}

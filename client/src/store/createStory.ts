@@ -3,14 +3,14 @@ import { RootState } from ".";
 
 export type CreateStoryType = {
   receiver: string;
-  image: { url: string; type: "mini" | "square" | "wide" };
+  image: { name: string; url: string; type: "mini" | "square" | "wide" };
   selectedKeyword: string[];
   waiting: string;
 };
 
 const initialState: CreateStoryType = {
   receiver: "",
-  image: { url: "", type: "square" },
+  image: { name: "", url: "", type: "square" },
   selectedKeyword: [],
   waiting: "",
 };
@@ -24,7 +24,11 @@ export const CreateStorySlice = createSlice({
     },
     updateImage: (
       state,
-      action: PayloadAction<{ url: string; type: "mini" | "square" | "wide" }>
+      action: PayloadAction<{
+        name: string;
+        url: string;
+        type: "mini" | "square" | "wide";
+      }>
     ) => {
       state.image = action.payload;
     },

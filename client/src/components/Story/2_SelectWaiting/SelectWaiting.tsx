@@ -7,8 +7,8 @@ import {
   Stack,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { selectCreateStory, updateWaiting } from "../../store/createStory";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { selectCreateStory, updateWaiting } from "store/createStory";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
