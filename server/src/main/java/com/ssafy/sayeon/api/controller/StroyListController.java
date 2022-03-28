@@ -23,6 +23,7 @@ import com.ssafy.sayeon.api.request.UserProfileUpdateReq;
 import com.ssafy.sayeon.api.request.UserPwUpdateReq;
 import com.ssafy.sayeon.api.response.AdvancedResponseBody;
 import com.ssafy.sayeon.api.response.BaseResponseBody;
+import com.ssafy.sayeon.api.response.ReceivedStoryInfo;
 import com.ssafy.sayeon.api.service.JwtUserDetailsService;
 import com.ssafy.sayeon.api.service.MemberService;
 import com.ssafy.sayeon.api.service.MyInfoService;
@@ -70,8 +71,7 @@ public class StroyListController {
 
 		Page<SentStory> sentStoryList = storyListService.getSentStoryByPageRequest(member.getUserId(), page, size);
 
-		return ResponseEntity.status(200)
-				.body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList.getContent()));
+		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList.getContent()));
 	}
 
 	@GetMapping("/received")
@@ -84,20 +84,34 @@ public class StroyListController {
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 
 		Page<ReceivedStory> receivedStoryList = storyListService.getReceivedStoryList(member.getUserId(), page, size);
-		return ResponseEntity.status(200)
-				.body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", receivedStoryList.getContent()));
+		List<ReceivedStoryInfo> receivedStoryInfoList = new ArrayList<>();
+
+		for (int i = 0; i < receivedStoryList.getContent().size(); i++) {
+			String storyId = receivedStoryList.getContent().get(i).getStoryId();
+			SentStory sent = storyListService.getSentstory(storyId);
+			String senderId = sent.getSenderId();
+			String receiverId = receivedStoryList.getContent().get(i).getReceiverId();
+			String dateSent = sent.getDateSent();
+			String dateReceived = receivedStoryList.getContent().get(i).getDateReceived();
+			String image = sent.getImage();
+			int waitingId = sent.getWaitingId();
+			String imageType = sent.getImageType();
+			receivedStoryInfoList.add(new ReceivedStoryInfo(storyId, senderId, receiverId, dateSent, dateReceived, image, waitingId, imageType));			
+		}
+		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", receivedStoryInfoList));
 	}
 
 	@GetMapping("/sent-cnt")
-	@ApiOperation(value = "받은 사연 수 조회")
-	@ApiResponses({ @ApiResponse(code = 200, message = "보낸 사연함 조회 성공"), @ApiResponse(code = 500, message = "서버 오류") })
+	@ApiOperation(value = "보낸 사연 수 조회")
+	@ApiResponses({ @ApiResponse(code = 200, message = "보낸 사연 수 조회 성공"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> getSentStoryCount(HttpServletRequest request) {
 
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 
 		Page<SentStory> sentStoryList = storyListService.getSentStoryByPageRequest(member.getUserId(), 1, 1);
 
-		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList.getTotalElements()));
+		return ResponseEntity.status(200)
+				.body(AdvancedResponseBody.of(200, "보낸 사연 수 조회 성공", sentStoryList.getTotalElements()));
 	}
 
 	@GetMapping("/received-cnt")

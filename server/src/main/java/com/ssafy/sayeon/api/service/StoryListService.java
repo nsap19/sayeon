@@ -14,4 +14,5 @@ public interface StoryListService {
 	public Page<SentStory> getSentStoryByPageRequest(String userId, Integer page, Integer size);
 	public int getSentStoryCount(String userId);
 	public int getReceivedStoryCount(String userId);
+	public SentStory getSentstory(String storyId);
 }

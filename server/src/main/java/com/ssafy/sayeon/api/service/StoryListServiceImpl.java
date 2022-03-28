@@ -65,4 +65,10 @@ public class StoryListServiceImpl implements StoryListService{
 		return sentStroryRepository.findBySenderId(senderId,pageRequest);
 	}
 
+	@Override
+	public SentStory getSentstory(String storyId) {
+		// TODO Auto-generated method stub
+		return sentStroryRepository.findByStoryId(storyId);
+	}
+
 }

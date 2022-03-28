@@ -52,11 +52,10 @@ public class SentStory {
     private int waitingId;
 	
 	@Column(name="imageType", nullable=false)
-    private int imageType;
+    private String imageType;
 	
 	@JsonIgnore
 	@OneToOne(mappedBy="sentStory")
 	ReceivedStory receivedStory; 
-
-
+	
 }
