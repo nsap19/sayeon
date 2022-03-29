@@ -1,0 +1,16 @@
+.input-custom {
+  width: 130px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #B6B6B6;
+}
+
+.button-custom {
+  color: white;
+  height: 25px;
+  width: 40px;
+  border: none;
+  border-radius: 20px;
+  background-color: #C8E0F8;
+}

@@ -74,6 +74,7 @@ const Profile = () => {
                 fontFamily: "S-CoreDream-4Regular",
                 marginTop: "30px",
                 width: "300px",
+                backgroundColor: "#B6B6B6",
                 borderRadius: 31.5,
               }}
               disableElevation={true}
@@ -89,6 +90,7 @@ const Profile = () => {
                 fontFamily: "S-CoreDream-4Regular",
                 marginTop: "30px",
                 width: "300px",
+                backgroundColor: "#B6B6B6",
                 borderRadius: 31.5,
               }}
               disableElevation={true}
@@ -103,6 +105,7 @@ const Profile = () => {
                 fontFamily: "S-CoreDream-4Regular",
                 marginTop: "30px",
                 width: "300px",
+                backgroundColor: "#B6B6B6",
                 borderRadius: 31.5,
               }}
               disableElevation={true}

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Stack, Grid } from "@mui/material";
+import { Stack, Grid, Button } from "@mui/material";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
+import "./Profile.css";
 
 const ChangeNickname: React.FC = () => {
   const [isEditingNickname, setIsEditingNickname] = useState<boolean>(false);
@@ -67,7 +68,7 @@ const ChangeNickname: React.FC = () => {
       <Grid container spacing={1}>
         <Grid item xs={9} sx={{ m: "auto" }}>
           {isEditingNickname ? (
-            <input type="text" value={nickname} onChange={(e) => onChangeNickname(e)} />
+            <input className="input-custom" type="text" value={nickname} onChange={(e) => onChangeNickname(e)} />
           ) : (
             <h2>{nickname}</h2>
           )}
@@ -75,7 +76,7 @@ const ChangeNickname: React.FC = () => {
         <Grid item xs={3} sx={{ m: "auto" }}>
           <div>
             {isEditingNickname ? (
-              <button onClick={changeNickname}>수정</button>
+              <button className="button-custom" onClick={changeNickname}>수정</button>
             ) : (
               <Edit onClick={nicknameEditingMode}/>
             )}

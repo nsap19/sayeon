@@ -5,7 +5,7 @@ import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
 import { ReactComponent as Location } from "../../../assets/icon/location.svg";
 import LocationJson from "../../../assets/json/location.json";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
+import "./Profile.css";
 
 
 const locationOptions = Object.keys(LocationJson).sort();
@@ -134,7 +134,7 @@ const ChangeLocation = () => {
         </Grid>
         <Grid item sx={{ m: "auto", ml: 1 }}>
           {isEditingLocation ? (
-            <button onClick={changeLocation}>수정</button>
+            <button className="button-custom" onClick={changeLocation}>수정</button>
           ) : (
             <Edit onClick={locationEditingMode}/>
           )}
