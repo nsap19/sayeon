@@ -34,7 +34,7 @@ const CreateStory: React.FC = () => {
             1: <SelectImage setStep={setStep} />,
             2: <SelectWaiting setStep={setStep} />,
             3: <SelectKeyword setStep={setStep} />,
-            4: <ConfirmStory setStep={setStep} />,
+            4: <ConfirmStory />,
           }[step]
         }
       </Stack>

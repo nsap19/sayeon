@@ -3,12 +3,32 @@ import { selectCreateStory } from "../../../store/createStory";
 import { useAppSelector } from "../../../store/hooks";
 import Polaroid from "../Polaroid";
 import { Box, Button, Stack, Chip } from "@mui/material";
+import axios from "axios";
 
-const ConfirmStory: React.FC<{
-  setStep: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ setStep }) => {
+const ConfirmStory: React.FC = () => {
   const { receiver, image, selectedKeywords, waiting } =
     useAppSelector(selectCreateStory);
+
+  const onClick = () => {
+    axios
+      .post(
+        "story",
+        {
+          imageType: image.type,
+          imageUrl: image.url,
+          keyword: selectedKeywords.join(),
+          waitingId: 0,
+        },
+        {
+          headers: {
+            // Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJxd2VAcXdlLmNvbSIsImlhdCI6MTY0ODU0MDM2NCwiZXhwIjoxNjQ4NTQzOTY0fQ.lW3KIn5-DMyT9EcRfj9LUFhunqCyyQhqDhP-G-nhPyS1IwKyKeu-cl7KBK9bxno_CBcsMwk7HcIzZb_71s7ZZQ`,
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -54,7 +74,7 @@ const ConfirmStory: React.FC<{
             width: "300px",
             borderRadius: 31.5,
           }}
-          onClick={() => console.log(",,")}
+          onClick={onClick}
         >
           보내기
         </Button>
