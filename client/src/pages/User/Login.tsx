@@ -1,19 +1,18 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Stack, Button } from "@mui/material";
 import { ReactComponent as Logo } from "assets/logo/logo.svg";
 import { loginInput } from "components/User/Login/types";
 import EmailController from "components/User/Login/EmailController";
 import PasswordController from "components/User/Login/PasswordController";
 import axios from "axios";
-import { useAppDispatch } from "store/hooks";
-import { setLoggedUser } from "store/user";
+// import { useAppDispatch } from "store/hooks";
+// import { setLoggedUser } from "store/user";
 
 export default function Login() {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const { handleSubmit, control } = useForm<loginInput>();
   const onSubmit: SubmitHandler<loginInput> = async (data) => {
@@ -24,7 +23,6 @@ export default function Login() {
         },
       })
       .then((response) => {
-        console.log(response);
         const token = response.data.token;
         // default header
         axios.defaults.headers.common["Authorization"] =
@@ -34,8 +32,6 @@ export default function Login() {
         // dispatch(setLoggedUser(response.data));
         navigate(-1);
       })
-      /// routing
-      ///
       .catch((err) => {
         console.log("axios err: ", err);
       });
