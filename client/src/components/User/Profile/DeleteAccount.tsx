@@ -43,7 +43,7 @@ const DeleteAccount: React.FC = () => {
   };
 
   return (
-    <Stack>
+    <Stack sx={{ height: "calc(100% - 56px)" }}>
       <Snackbar
         open={open}
         autoHideDuration={3000}

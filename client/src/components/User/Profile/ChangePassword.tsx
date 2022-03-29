@@ -59,7 +59,8 @@ const ChangePassword: React.FC = () => {
   };
 
   return (
-    <>
+    <Stack sx={{ height: "calc(100% - 56px)" }}>
+      <Headerbar headerName={"비밀번호 변경"} />
       <Snackbar
         open={open}
         autoHideDuration={3000}
@@ -78,7 +79,6 @@ const ChangePassword: React.FC = () => {
       </Snackbar>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Headerbar headerName={"비밀번호 변경"} />
         <Stack spacing={2}>
           <Controller
             name="password"
@@ -145,7 +145,7 @@ const ChangePassword: React.FC = () => {
           </Button>
         </Stack>
       </form>
-    </>
+    </Stack>
   );
 };
 

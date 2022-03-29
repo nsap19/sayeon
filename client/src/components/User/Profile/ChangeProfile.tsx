@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
+import { ReactComponent as Close } from "../../../assets/icon/close.svg";
 import {
   DialogTitle,
   Dialog,
@@ -25,6 +26,7 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
   const { onClose, selectedValue, open, setOpen } = props;
 
   const handleClose = () => {
+    setOpen(false)
     onClose(selectedValue);
   };
 
@@ -75,6 +77,7 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
               }}
               onClick={handleClose}
             >
+              <Close />
             </IconButton>
           </Box>
         </Box>
