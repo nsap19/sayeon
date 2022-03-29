@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Stack, Button } from "@mui/material";
 import { ReactComponent as Logo } from "assets/logo/logo.svg";
@@ -11,23 +12,27 @@ import { setLoggedUser } from "store/user";
 
 export default function Login() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { handleSubmit, control } = useForm<loginInput>();
   const onSubmit: SubmitHandler<loginInput> = async (data) => {
-    console.log(data);
     await axios
-      .post("/api/users/login", data, {
+      .post("/users/login", data, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        console.log("axios resonse: ", response);
-        console.log("res.data.accessToken: ", response.data);
+        console.log(response);
+        const token = response.data.token;
         // default header
         axios.defaults.headers.common["Authorization"] =
-          "Bearer " + response.data;
+          "Bearer " + response.data.token;
         // get User date & dispatch
-        dispatch(setLoggedUser(response.data));
+        localStorage.setItem("token", token);
+        // dispatch(setLoggedUser(response.data));
+        navigate(-1);
       })
       /// routing
       ///
@@ -44,6 +49,7 @@ export default function Login() {
       sx={{ height: "85%" }}
     >
       <Logo style={{ width: "50%", height: "50%", margin: "40% 5% 10%" }} />
+      <button onClick={() => navigate(-1)}>go back</button>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={0}>
           <EmailController control={control} />
@@ -77,10 +83,11 @@ export default function Login() {
         size="large"
         variant="contained"
         type="button"
+        href="/register"
       >
         회원가입
       </Button>
-      <Button variant="text" sx={{ color: "black" }}>
+      <Button variant="text" sx={{ color: "black" }} href="/password">
         비밀번호를 잊으셨나요?
       </Button>
     </Stack>
