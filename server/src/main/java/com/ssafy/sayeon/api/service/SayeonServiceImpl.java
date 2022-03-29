@@ -1,6 +1,7 @@
 package com.ssafy.sayeon.api.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -55,6 +56,11 @@ public class SayeonServiceImpl implements SayeonService {
 			
 		SelectedKeyword sk = new SelectedKeyword(story, sayeon.getKeyword());
 		selectedKeywordRepository.save(sk);
+	}
+
+	@Override
+	public List<WaitingTime> getWaitingTime() {
+		return waitingTimeRepository.findAll();
 	}
 
 }
