@@ -12,8 +12,10 @@ import java.util.List;
 import java.util.Optional;
 import java.lang.String;
 
-
 public interface ReceivedStroryRepository extends JpaRepository<ReceivedStory, String> {
-	Page<ReceivedStory> findByReceiverId(String receiverId,Pageable pageable);
-	
+	Page<ReceivedStory> findByReceiverId(String receiverId, Pageable pageable);
+
+	List<ReceivedStory> findAllByReceiverId(String receiverId);
+	Optional<ReceivedStory> findByStoryId(String storyId);
+
 }
