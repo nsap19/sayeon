@@ -100,15 +100,6 @@ const ChangeLocation = () => {
                   value={location}
                   label="시/도"
                   onChange={onChangeLocation}
-                  // onChange={(e) => {
-                  //   onChangeLocation(e);
-                  //   console.log(e)
-                  //   setDetailedLocationOptions(
-                  //     LocationJson[
-                  //       e.target.value as keyof typeof LocationJson
-                  //     ].sort()
-                  //   );
-                  // }}
                 >
                   {locationOptions.map((option, index) => {
                     return (

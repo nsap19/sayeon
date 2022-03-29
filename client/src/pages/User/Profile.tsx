@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 // import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import SelectProfile from "../../components/User/Profile/SelectProfile";
+import ChangeProfile from "../../components/User/Profile/ChangeProfile";
 import Grid from "@mui/material/Grid";
-import LocationJson from "../../assets/json/location.json";
-import { ReactComponent as Edit } from "../../assets/icon/edit.svg";
-import { ReactComponent as Location } from "../../assets/icon/location.svg";
-import { Stack, Button, Box, FormControl, MenuItem, Select, InputLabel } from "@mui/material";
+import { Stack, Button } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
 import ChangeNickname from 'components/User/Profile/ChangeNickname';
 import ChangeLocation from 'components/User/Profile/ChangeLocation';
@@ -59,7 +56,8 @@ const Profile = () => {
       >
         <Grid container columns={12} sx={{ mb: 4 }}>
           <Grid container sx={{ justifyContent: 'center', ml: 4 }} item xs={4}>
-            <SelectProfile profilePic={profilePic} setProfilePic={setProfilePic} />
+            {/* <ChangeProfile profilePic={profilePic} setProfilePic={setProfilePic} /> */}
+            <ChangeProfile />
           </Grid>
           <Grid container item xs={6}  sx={{ ml: 2, justifyContent: 'center', alignItems: 'center' }}>
             <ChangeNickname />
