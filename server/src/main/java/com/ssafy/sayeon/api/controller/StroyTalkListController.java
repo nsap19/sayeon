@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
-@Api(value = "사연 대화 목록 API", tags = { "StoryList" })
+@Api(value = "사연 대화 목록 조회 API", tags = { "StoryTalkList" })
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/story-talk-list")
