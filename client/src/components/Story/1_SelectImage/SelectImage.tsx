@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button, Stack, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Cropper from "react-cropper";
-import { uploadFile } from "./S3Upload";
+import { uploadFile } from "./utils/uploadFile";
+import { detectKeywords } from "./utils/detectKeywords";
+import { translate } from "./utils/translate";
 import "cropperjs/dist/cropper.css";
 import "./SelectImage.css";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectCreateStory } from "../../../store/createStory";
 import { ReactComponent as Camera } from "assets/icon/camera.svg";
-import { updateImage } from "../../../store/createStory";
+import { updateImage, updateKeywords } from "../../../store/createStory";
 
 const Input = styled("input")({
   display: "none",
@@ -19,7 +21,7 @@ const StyledButton = styled(Button)({
   fontFamily: "S-CoreDream-4Regular",
 });
 
-const CropImage: React.FC<{
+const SelectImage: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }> = ({ setStep }) => {
   const [image, setImage] = useState("");
@@ -52,37 +54,64 @@ const CropImage: React.FC<{
 
   const getCropData = () => {
     if (typeof cropper !== "undefined") {
-      setCropData(cropper.getCroppedCanvas().toDataURL(imageExtension));
+      setCropData(cropper.getCroppedCanvas().toDataURL(imageExtension, 0.1));
     }
   };
+
+  const { receiver } = useAppSelector(selectCreateStory);
+  const dispatch = useAppDispatch();
+  const handleUpload = useCallback(
+    (url: string) => {
+      // 1. 크롭된 이미지를 blob object로 생성
+      cropper.getCroppedCanvas().toBlob((blob: any) => {
+        const formData = new FormData();
+        formData.append("croppedImage", blob, imageName);
+        formData.forEach((file) => {
+          console.log("blob object", file);
+
+          // 2. S3 업로드
+          uploadFile(file)
+            .then((res) => {
+              // 3. 업로드 완료시 키워드 추출
+              console.log("upload 후 then", Date());
+              detectKeywords(imageName)
+                .then((res) => {
+                  console.log("resres", res);
+
+                  // 4. 키워드 추출 후 번역
+                  Promise.all(
+                    res.map((tag: any) => {
+                      console.log(translate(tag.name));
+                      return translate(tag.name);
+                    })
+                  ).then((res) => {
+                    console.log(res);
+
+                    // 5. 번역 완료시 상태 저장
+                    dispatch(updateKeywords(res));
+                  });
+                })
+                .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
+        });
+      }, imageExtension);
+
+      dispatch(updateImage({ name: imageName, url: url, type: imageType }));
+      if (receiver) {
+        setStep(2);
+      } else {
+        setStep(3);
+      }
+    },
+    [cropper, dispatch, imageExtension, imageName, imageType, receiver, setStep]
+  );
 
   useEffect(() => {
     if (cropData) {
       handleUpload(cropData); // getCropDate => handleUpload
     }
-  }, [cropData]);
-
-  const { receiver } = useAppSelector(selectCreateStory);
-  const dispatch = useAppDispatch();
-
-  const handleUpload = async (url: string) => {
-    cropper.getCroppedCanvas().toBlob((blob: any) => {
-      const formData = new FormData();
-      formData.append("croppedImage", blob, imageName);
-
-      formData.forEach((file) => {
-        console.log("blob object", file);
-        uploadFile(file);
-      });
-    });
-
-    dispatch(updateImage({ name: imageName, url: url, type: imageType }));
-    if (receiver) {
-      setStep(2);
-    } else {
-      setStep(3);
-    }
-  };
+  }, [cropData, handleUpload]);
 
   const imageTypeOptions: {
     value: "mini" | "square" | "wide";
@@ -254,4 +283,4 @@ const CropImage: React.FC<{
   );
 };
 
-export default CropImage;
+export default SelectImage;

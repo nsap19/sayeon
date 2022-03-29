@@ -4,7 +4,7 @@ import { Stack } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
 import SelectWaiting from "../../components/Story/2_SelectWaiting/SelectWaiting";
 import SelectKeyword from "../../components/Story/3_SelectKeyword/SelectKeyword";
-import ConfirmStory from "../../components/Story/ConfirmStory";
+import ConfirmStory from "../../components/Story/4_ConfirmStory/ConfirmStory";
 import CreateStoryHeaderbar from "../../components/Story/CreateStoryHeaderbar";
 
 const CreateStory: React.FC = () => {
@@ -23,7 +23,11 @@ const CreateStory: React.FC = () => {
         justifyContent="space-between"
         alignItems="center"
         spacing={2}
-        sx={{ height: "calc(100% - 56px)" }}
+        sx={{
+          height: "calc(100% - 56px)",
+          overflowY: "auto",
+          overflowX: "hidden",
+        }}
       >
         {
           {

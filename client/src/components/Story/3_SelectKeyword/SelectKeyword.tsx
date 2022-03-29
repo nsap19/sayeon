@@ -1,34 +1,30 @@
 import React, { useState } from "react";
 import { Button, Stack, Box, Chip } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "store/hooks";
-import { selectCreateStory, updateSelectedKeyword } from "store/createStory";
+import { selectCreateStory, updateSelectedKeywords } from "store/createStory";
 import Polaroid from "../Polaroid";
 
 const SelectKeyword: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }> = ({ setStep }) => {
-  const { receiver, image } = useAppSelector(selectCreateStory);
-  const imageUrl = image.url;
+  const { receiver, image, keywords } = useAppSelector(selectCreateStory);
 
-  const keywords = ["빵", "음료수", "치즈"];
   const [selectedKeyword, setSelectedKeyword] = useState<string[]>([]);
 
   const handleClick = (keyword: string) => {
-    console.log(keyword);
     let filteredKeyword;
     if (selectedKeyword.includes(keyword)) {
       filteredKeyword = selectedKeyword.filter((item) => item !== keyword);
     } else {
       filteredKeyword = [...selectedKeyword, keyword];
     }
-    console.log(filteredKeyword);
     setSelectedKeyword(filteredKeyword);
   };
 
   const dispatch = useAppDispatch();
   const goToNextStep = () => {
     setStep(4);
-    dispatch(updateSelectedKeyword(selectedKeyword));
+    dispatch(updateSelectedKeywords(selectedKeyword));
   };
 
   return (
@@ -53,8 +49,7 @@ const SelectKeyword: React.FC<{
           <Stack
             direction="row"
             justifyContent="center"
-            spacing={1}
-            sx={{ margin: "10px" }}
+            sx={{ margin: "10px", flexWrap: "wrap" }}
           >
             {keywords.map((keyword) => (
               <Chip
@@ -64,6 +59,7 @@ const SelectKeyword: React.FC<{
                   selectedKeyword.includes(keyword) ? "primary" : "default"
                 }
                 onClick={() => handleClick(keyword)}
+                sx={{ margin: "5px" }}
               />
             ))}
           </Stack>

@@ -1,13 +1,13 @@
 import React from "react";
-import { selectCreateStory } from "../../store/createStory";
-import { useAppSelector } from "../../store/hooks";
-import Polaroid from "./Polaroid";
+import { selectCreateStory } from "../../../store/createStory";
+import { useAppSelector } from "../../../store/hooks";
+import Polaroid from "../Polaroid";
 import { Box, Button, Stack, Chip } from "@mui/material";
 
 const ConfirmStory: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }> = ({ setStep }) => {
-  const { receiver, image, selectedKeyword, waiting } =
+  const { receiver, image, selectedKeywords, waiting } =
     useAppSelector(selectCreateStory);
 
   return (
@@ -35,7 +35,7 @@ const ConfirmStory: React.FC<{
           )}
 
           <Stack direction="row" justifyContent="center" spacing={1}>
-            {selectedKeyword.map((keyword) => (
+            {selectedKeywords.map((keyword) => (
               <Chip key={keyword} label={keyword} color="primary" />
             ))}
           </Stack>
