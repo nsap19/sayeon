@@ -33,6 +33,7 @@ const Polaroid: React.FC<{
     text-align: center;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
     position: relative;
+    height: 100%;
   `;
 
   const Nickname = styled.p`

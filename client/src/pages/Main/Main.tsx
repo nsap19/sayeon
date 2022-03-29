@@ -55,15 +55,15 @@ const main: React.FC = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          height: "30%",
+          height: "40%",
         }}
       >
-        <Box
+        <Stack
+          direction="row"
+          justifyContent="space-between"
           sx={{
             width: "85%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
+            margin: "10px 0",
           }}
         >
           <p>최근 받은 사연</p>
@@ -73,7 +73,7 @@ const main: React.FC = () => {
           {/* <Button href="/send" variant="text">
             더보기
           </Button> */}
-        </Box>
+        </Stack>
         <Box
           sx={{
             height: "100%",
@@ -87,20 +87,26 @@ const main: React.FC = () => {
             justifyContent=""
             alignItems="center"
             spacing={2}
-            sx={{ height: "100%", width: "92%", overflowX: "auto" }}
+            sx={{ width: "92%", overflowX: "auto" }}
           >
             <Polaroid
-              imageUrl={"../../assets/images/test/square_default.png"}
+              imageUrl={
+                "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
+              }
               imageType={"square"}
               senderNickname={"일이삼사오육칠팔구십"}
             />
             <Polaroid
-              imageUrl={"../../assets/images/test/smini_default.png"}
+              imageUrl={
+                "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542644550_image.jpg"
+              }
               imageType={"mini"}
               senderNickname={"일이삼사"}
             />
             <Polaroid
-              imageUrl={"../../assets/images/test/swide_default.png"}
+              imageUrl={
+                "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542662844_pexels-chevanon-photography-1108099.jpg"
+              }
               imageType={"wide"}
               senderNickname={"일이삼사오육칠"}
             />
