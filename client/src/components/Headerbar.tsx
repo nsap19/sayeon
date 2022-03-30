@@ -24,7 +24,7 @@ const Headerbar: React.FC<{ headerName: string }> = ({ headerName }) => {
   return (
     <DivStyle>
       <Grid container>
-        <Grid item xs={4} sx={{ textAlign: "left" }}>
+        <Grid item xs={3} sx={{ textAlign: "left" }}>
           <SvgIcon
             sx={{ margin: "5px 0 0 8px" }}
             component={ArrowLeft}
@@ -32,7 +32,7 @@ const Headerbar: React.FC<{ headerName: string }> = ({ headerName }) => {
             onClick={() => navigate(-1)}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} sx={{ textAlign: "center" }}>
           {headerName}
         </Grid>
       </Grid>
