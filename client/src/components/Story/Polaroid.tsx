@@ -1,24 +1,32 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import { Dialog, IconButton } from "@mui/material";
 import { ReactComponent as Close } from "../../assets/icon/close-circle.svg";
+
+const defaultPolaroidRatios = {
+  mini: 54 / 86,
+  square: 72 / 86,
+  wide: 108 / 86,
+};
+
+const defaultImageAndFrameRatios = {
+  mini: 42 / 54,
+  square: 62 / 72,
+  wide: 99 / 108,
+};
 
 const Polaroid: React.FC<{
   imageUrl: string;
   imageType: "mini" | "square" | "wide";
   senderNickname: string;
 }> = ({ imageUrl, imageType, senderNickname }) => {
-  const defaultPolaroidRatios = {
-    mini: 54 / 86,
-    square: 72 / 86,
-    wide: 108 / 86,
-  };
-
-  const defaultImageAndFrameRatios = {
-    mini: 42 / 54,
-    square: 62 / 72,
-    wide: 99 / 108,
-  };
+  const [open, setOpen] = React.useState(false);
+  const [height, setHeight] = useState(0);
+  const div = useCallback((node) => {
+    if (node !== null) {
+      setHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
 
   const StyledImage = styled.img`
     max-width: ${defaultImageAndFrameRatios[imageType] * 100}%;
@@ -40,9 +48,8 @@ const Polaroid: React.FC<{
     position: absolute;
     bottom: 5px;
     right: 5px;
+    font-size: ${height / 20}px;
   `;
-
-  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,7 +91,7 @@ const Polaroid: React.FC<{
         </PolaroidFrame>
       </Dialog>
 
-      <PolaroidFrame>
+      <PolaroidFrame ref={div}>
         <StyledImage src={imageUrl} alt="img" onClick={handleClickOpen} />
         <Nickname>{senderNickname}</Nickname>
       </PolaroidFrame>
