@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Navigate, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
-import StoryTalkList from "./pages/StoryTalk/storyTalkList";
 import Register from "./pages/User/Register";
 // import ChangePassword from "./components/User/Profile/DeleteAccount";
 import BottomNavbar from "./components/BottomNavbar";
@@ -9,6 +8,8 @@ import Main from "./pages/Main/Main";
 import CreateStory from "./pages/Story/CreateStory";
 import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
+// import StoryTalk from "./pages/StoryTalk/StoryTalk";
+import StoryTalkList from "./pages/StoryTalk/StoryTalkList";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AuthRoute from "AuthRoute";
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/storylist" element={<StoryList />}></Route>
           <Route path="/storyTalkList" element={<StoryTalkList />} />
+          {/* <Route path="/storyTalk" element={<StoryTalk />} /> */}
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

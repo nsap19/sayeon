@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Route } from "react-router-dom";
 import { Button } from "@mui/material";
-import StoryTalk from "../../pages/StoryTalk/storyTalk";
+import StoryTalk from "../../pages/StoryTalk/StoryTalk";
 import Polaroid from "components/Story/Polaroid";
 import { ReactComponent as More } from "../../assets/icon/more.svg";
 
@@ -25,11 +25,7 @@ export default function StoryTalkItem({ storyTalk }: any) {
 
   return (
     <>
-      <Button
-        variant="text"
-        sx={{ color: "black" }}
-        href={"/storyTalkList/" + senderId}
-      >
+      <Button variant="text" sx={{ color: "black" }}>
         storyTalk name
       </Button>
       <More onClick={DeleteStoryTalk}>사연 대화 삭제</More>

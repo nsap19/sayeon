@@ -8,7 +8,7 @@ import Headerbar from "components/Headerbar";
 // test
 import Polaroid from "components/Story/Polaroid";
 import { ReactComponent as More } from "../../assets/icon/more.svg";
-import StoryTalk from "../../pages/StoryTalk/storyTalk";
+import StoryTalk from "../../pages/StoryTalk/StoryTalk";
 
 export default function StoryTalkList() {
   // STATE
@@ -21,7 +21,7 @@ export default function StoryTalkList() {
       .get("/story-talk-list")
       .then((response: any) => {
         console.log("response: ", response);
-        setStoryTalkList(response);
+        setStoryTalkList(response.storyTalkList);
       })
       .catch((err: any) => {
         console.log(err);
