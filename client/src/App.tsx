@@ -43,8 +43,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/send" element={<CreateStory />} />
         <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/storylist" element={<StoryList />}></Route>
-        <Route path="/storyTalkList" element={<StoryTalkList />} />
+        <Route path="/story-list" element={<StoryList />}></Route>
+        <Route path="/story-talk-list" element={<StoryTalkList />} />
         <Route path="/login" element={<Login />} />
       </Routes>
       <BottomNavbar />
