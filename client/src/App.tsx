@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Navigate, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
 import StoryTalkList from "./pages/StoryTalk/storyTalkList";
 import Register from "./pages/User/Register";
@@ -11,6 +11,7 @@ import CreateStory from "./pages/Story/CreateStory";
 import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import AuthRoute from "AuthRoute";
 
 const theme = createTheme({
   palette: {
@@ -41,15 +42,17 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<AuthRoute />}>
+          <Route path="/" element={<Main />} />
+          <Route path="/send" element={<CreateStory />} />
+          <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/storylist" element={<StoryList />}></Route>
+          <Route path="/storyTalkList" element={<StoryTalkList />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/deleteAccount" element={<DeleteAccount />} />
+        </Route>
         <Route path="/register" element={<Register />} />
-        <Route path="/send" element={<CreateStory />} />
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/storylist" element={<StoryList />}></Route>
-        <Route path="/storyTalkList" element={<StoryTalkList />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/changePassword" element={<ChangePassword />} />
-        <Route path="/deleteAccount" element={<DeleteAccount />} />
       </Routes>
       <BottomNavbar />
     </ThemeProvider>

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Stack, Grid, Button } from "@mui/material";
+import { Stack, Grid } from "@mui/material";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
 import "./Profile.css";
 
@@ -20,6 +20,22 @@ const ChangeNickname: React.FC = () => {
     setNickname(e.target.value)
   };
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token") 
+    axios({
+      method: "get",
+      url: 'userInfo/myinfo',
+      headers: {
+        // 'Content-Type': 'application/json',
+        Authorization : `Bearer ${token}`,
+      }
+    })
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) => console.log(err));
+  });
 
   // useEffect(() => {
   //   axios({
