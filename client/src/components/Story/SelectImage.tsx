@@ -78,17 +78,24 @@ const CropImage: React.FC<{
 
   return (
     <>
-      <Box>
+      <Box sx={{ margin: "10px" }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
           }}
         >
-          {receiver ? <p>{receiver}에게 사연보내기</p> : <p>랜덤 사연보내기</p>}
+          {receiver ? (
+            <p style={{ margin: "10px" }}>{receiver}에게 사연보내기</p>
+          ) : (
+            <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
+          )}
 
           {/* <input type="file" onChange={onChange} /> */}
-          <label htmlFor="contained-button-file">
+          <label
+            htmlFor="contained-button-file"
+            style={{ minWidth: "300px", margin: "auto", textAlign: "right" }}
+          >
             <Input
               accept="image/*"
               id="contained-button-file"
@@ -96,7 +103,18 @@ const CropImage: React.FC<{
               type="file"
               onChange={onChange}
             />
-            <Button variant="contained" component="span">
+            <Button
+              href="/send"
+              sx={{
+                color: "white",
+                fontFamily: "S-CoreDream-4Regular",
+                marginBottom: "10px",
+              }}
+              disableElevation={true}
+              variant="contained"
+              component="span"
+              size="small"
+            >
               사진 고르기
             </Button>
           </label>
@@ -147,9 +165,14 @@ const CropImage: React.FC<{
             />
           </div>
         </div>
-        <Box>
+        <Stack sx={{ margin: "auto" }} direction="row" spacing={2}>
           <Button
             variant="contained"
+            sx={{
+              color: "white",
+              fontFamily: "S-CoreDream-4Regular",
+            }}
+            disableElevation={true}
             onClick={() => {
               cropper.setAspectRatio(42 / 62);
               setImageType("mini");
@@ -159,6 +182,11 @@ const CropImage: React.FC<{
           </Button>
           <Button
             variant="contained"
+            sx={{
+              color: "white",
+              fontFamily: "S-CoreDream-4Regular",
+            }}
+            disableElevation={true}
             onClick={() => {
               cropper.setAspectRatio(1 / 1);
               setImageType("square");
@@ -168,6 +196,11 @@ const CropImage: React.FC<{
           </Button>
           <Button
             variant="contained"
+            sx={{
+              color: "white",
+              fontFamily: "S-CoreDream-4Regular",
+            }}
+            disableElevation={true}
             onClick={() => {
               cropper.setAspectRatio(99 / 62);
               setImageType("wide");
@@ -175,7 +208,7 @@ const CropImage: React.FC<{
           >
             wide
           </Button>
-        </Box>
+        </Stack>
       </Box>
 
       {/* 디버깅용 */}
