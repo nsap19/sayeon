@@ -29,10 +29,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.RequiredArgsConstructor;
 
 @Api(value = "내정보 API", tags = { "MyInfo" })
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/userInfo")
 public class MyInfoController {

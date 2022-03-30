@@ -15,7 +15,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    // 절대경로 설정
     "baseUrl": "src"
   },
   "include": ["src"]
