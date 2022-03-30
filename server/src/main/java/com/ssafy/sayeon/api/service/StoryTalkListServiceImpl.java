@@ -59,14 +59,14 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 		for (int i = 0; i < receivedStoryList.size(); i++) {
 			String storyId = receivedStoryList.get(i).getStoryId();
 			SentStory sent = sentStroryRepository.findByStoryId(storyId);
-			String senderId = sent.getSenderId();
+			String senderId = sent.getSender().getUserId();
 			// userId기준으로 받은 목록을 조회해 온거라 receiverId == userId
 //			String receiverId = receivedStoryList.get(i).getReceiverId();
 			String dateSent = sent.getDateSent();
 			String dateReceived = receivedStoryList.get(i).getDateReceived();
 			String image = sent.getImage();
-			int waitingId = sent.getWaitingId();
-			String imageType = sent.getImageType();
+			int waitingId = sent.getWatingId().getWaitingId();
+			String imageType = sent.getImageType().name();
 			if (map.containsKey(senderId)) {
 				map.get(senderId).add(new ReceivedStoryInfo(storyId, senderId, userId, dateSent, dateReceived, image,
 						waitingId, imageType));
@@ -90,8 +90,8 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 				String dateSent = story.getDateSent();
 				String dateReceived = rs.get().getDateReceived();
 				String image = story.getImage();
-				int waitingId = story.getWaitingId();
-				String imageType = story.getImageType();
+				int waitingId = story.getWatingId().getWaitingId();
+				String imageType = story.getImageType().name();
 
 				if (map.containsKey(receiverId)) {
 					map.get(receiverId).add(new ReceivedStoryInfo(storyId, userId, receiverId, dateSent, dateReceived,
