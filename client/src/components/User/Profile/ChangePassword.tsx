@@ -20,7 +20,7 @@ const ChangePassword: React.FC = () => {
   const onSubmit = (data: changePasswordInput) => {
     axios({
       method: "put",
-      url: "/userInfo/password",
+      url: "userInfo/password",
       // headers: {
       //   Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
       //   "Content-Type": "application/json",

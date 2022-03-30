@@ -6,9 +6,7 @@ import "./Profile.css";
 
 const ChangeNickname: React.FC = () => {
   const [isEditingNickname, setIsEditingNickname] = useState<boolean>(false);
-  // const [nickname, setNickname] = useState<string>('닉네임');
   const [nickname, setNickname] = useState<string>('');
-  // const [validatedNickname, setValidatedNickname] = useState(false);
 
   const nicknameEditingMode = () => {
     if (!isEditingNickname) {
@@ -31,23 +29,11 @@ const ChangeNickname: React.FC = () => {
       }
     })
     .then((res) => {
-      console.log(res)
+      // console.log(res)
       setNickname(res.data.data.memberProfile.nickname);
     })
     .catch((err) => console.log(err));
   }, []);
-
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: `users/${userId}`,
-  //   })
-  //   .then((res) => {
-  //     console.log(res)
-  //     setNickname(res.data.nickname);
-  //   })
-  //   .catch((err) => console.log(err))
-  // }, [nickname]);
 
 
   const changeNickname = () => {
@@ -60,8 +46,7 @@ const ChangeNickname: React.FC = () => {
       },
     })
     .then(() => {
-      // setValidatedNickname(true);
-      console.log(nickname)
+      // console.log(nickname)
       axios({
         method: "put",
         url: "userInfo/nickname",
@@ -80,7 +65,6 @@ const ChangeNickname: React.FC = () => {
       .catch((err) => console.log(err));
     })
     .catch(() => {
-      // setValidatedNickname(false);
       alert('중복된 닉네임입니다.')
     });
   };

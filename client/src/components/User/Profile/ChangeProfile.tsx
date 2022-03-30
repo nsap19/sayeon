@@ -37,21 +37,25 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
 
 
   const updateProfilePic = () => {
+    const token = localStorage.getItem("token")
     console.log(selectedValue)
     setOpen(false)
-  //   axios({
-  //     method: "put",
-  //     url: "userInfo/profile-pic",
-  //     data: {
-  //       profilePic: selectedValue 
-  //     }
-  //   })
-  //   .then((res) => {
-  //     console.log('프로필 수정 완료')
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //   })
+    axios({
+      method: "put",
+      url: "userInfo/profile-pic",
+      headers: {
+        Authorization : `Bearer ${token}`,
+      },
+      data: {
+        profilePic: selectedValue 
+      }
+    })
+    .then((res) => {
+      console.log('프로필 수정 완료')
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   };
 
   return (
@@ -111,23 +115,24 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
 }
 const ChangeProfile = () => {
   const [open, setOpen] = React.useState(false);
-  // const [profilePic, setProfilePic] = React.useState('');
-
-  // 테스트용
-  const [profilePic, setProfilePic] = React.useState(1);
+  const [profilePic, setProfilePic] = React.useState(0);
 
 
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: `users/${userId}`,
-  //   })
-  //   .then((res) => {
-  //     console.log(res)
-  //     setProfilePic(res.data.profilePic);
-  //   })
-  //   .catch((err) => console.log(err))
-  // }, [profilePic]);
+  useEffect(() => {
+    const token = localStorage.getItem("token") 
+    axios({
+      method: "get",
+      url: 'userInfo/myinfo',
+      headers: {
+        Authorization : `Bearer ${token}`,
+      }
+    })
+    .then((res) => {
+      console.log(res)
+      setProfilePic(res.data.data.memberProfile.profilePic);
+    })
+    .catch((err) => console.log(err))
+  }, []);
 
 
   const handleClickOpen = () => {

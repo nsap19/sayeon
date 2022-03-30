@@ -11,7 +11,7 @@ const DeleteAccount: React.FC = () => {
   const onClick = () => {
     axios({
       method: "delete",
-      url: "/api/users",
+      url: "users",
     })
       .then((res) => {
         console.log(res);
