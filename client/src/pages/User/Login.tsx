@@ -42,7 +42,7 @@ export default function Login() {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ height: "85%" }}
+      sx={{ height: "calc(100% - 56px)" }}
     >
       <Logo style={{ width: "50%", height: "50%", margin: "40% 5% 10%" }} />
       <button onClick={() => navigate(-1)}>go back</button>
