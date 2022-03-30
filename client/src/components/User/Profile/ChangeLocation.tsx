@@ -8,18 +8,13 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import "./Profile.css";
 
 
-const locationOptions = Object.keys(LocationJson);
+const locationOptions = Object.keys(LocationJson).sort();
 
 const ChangeLocation = () => {
   const [isEditingLocation, setIsEditingLocation] = useState<boolean>(false);
-  // const [locations, setLocations] = useState<string>('');
-  // const [location, setLocation] = useState('');
-  // const [detailedLocation, setDetailedLocation] = useState('');
-  
-  // 테스트용
-  const [locations, setLocations] = useState<string>('서울특별시 종로구');
-  const [location, setLocation] = useState<string>('서울특별시');
-  const [detailedLocation, setDetailedLocation] = useState<string>('종로구');
+  const [locations, setLocations] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
+  const [detailedLocation, setDetailedLocation] = useState<string>('');
 
   // 상세주소용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
@@ -28,23 +23,26 @@ const ChangeLocation = () => {
     location as keyof typeof LocationJson
   ]);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token") 
-  //   axios({
-  //     method: "get",
-  //     url: 'userInfo/myinfo',
-  //     headers: {
-  //       Authorization : `Bearer ${token}`,
-  //     }
-  //   })
-  //   .then((res) => {
-  //     console.log(res)
-  //     setLocations(res.data.data.memberProfile.location);
-  //     setLocation(res.data.data.memberProfile.location.split('')[0]);
-  //     setDetailedLocation(res.data.data.memberProfile.location.split('')[1]);
-  //   })
-  //   .catch((err) => console.log(err));
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token") 
+    axios({
+      method: "get",
+      url: 'userInfo/myinfo',
+      headers: {
+        Authorization : `Bearer ${token}`,
+      }
+    })
+    .then((res) => {
+      console.log(res)
+      setLocations(res.data.data.memberProfile.location);
+      setLocation(res.data.data.memberProfile.location.split(" ")[0]);
+      setDetailedLocation(res.data.data.memberProfile.location.split(" ")[1]);
+      setDetailedLocationOptions(LocationJson[
+        location as keyof typeof LocationJson
+      ]);
+    })
+    .catch((err) => console.log(err));
+  }, []);
 
   // 기존 위치 정보 받아오기
   // useEffect(() => {
@@ -85,20 +83,23 @@ const ChangeLocation = () => {
   
 
   const changeLocation = () => {
-    const newLocation = location + " " + detailedLocation
-    console.log(newLocation)
-    // axios({
-    //   method: "put",
-    //   url: "userInfo/location",
-    //   data: {
-    //     location: newLocation
-    //   }
-    // })
-    // .then(() => {
-    //   console.log('위치 정보 수정 완료')
-    //   setIsEditingLocation(false)
-    // })
-    // .catch((err) => console.log(err));
+    const token = localStorage.getItem("token")
+    axios({
+      method: "put",
+      url: "userInfo/location",
+      headers: {
+        Authorization : `Bearer ${token}`,
+      },
+      data: {
+        location: location + " " + detailedLocation
+      }
+    })
+    .then(() => {
+      console.log('위치 정보 수정 완료')
+      setIsEditingLocation(false)
+      window.location.reload();
+    })
+    .catch((err) => console.log(err));
   }
 
   return (
@@ -119,7 +120,7 @@ const ChangeLocation = () => {
                   label="시/도"
                   onChange={onChangeLocation}
                 >
-                  {locationOptions.map((option, index) => {
+                  {locationOptions && locationOptions.map((option, index) => {
                     return (
                       <MenuItem key={index} value={option}>
                         {option}
@@ -136,7 +137,7 @@ const ChangeLocation = () => {
                   value={detailedLocation}
                   onChange={onChangeDetailedLocation}
                 >
-                  {detailedLocationOptions.map((option, index) => {
+                  {detailedLocationOptions && detailedLocationOptions.map((option, index) => {
                   return (
                     <MenuItem key={index} value={option}>
                       {option}
