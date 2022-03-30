@@ -23,7 +23,11 @@ const SelectKeyword: React.FC<{
 
   const dispatch = useAppDispatch();
   const goToNextStep = () => {
-    setStep(4);
+    if (receiver) {
+      setStep(3);
+    } else {
+      setStep(4);
+    }
     dispatch(updateSelectedKeywords(selectedKeyword));
   };
 

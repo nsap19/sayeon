@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Stack, Box } from "@mui/material";
+import { Button, Stack, Box, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Cropper from "react-cropper";
 import { uploadFile } from "./utils/uploadFile";
@@ -91,9 +91,10 @@ const SelectImage: React.FC<{
                   })
                 ).then((res) => {
                   console.log(res);
+                  let uniqueKeywords = Array.from(new Set(res)); // 중복 제거
 
                   // 5. 번역 완료시 상태 저장
-                  dispatch(updateKeywords(res));
+                  dispatch(updateKeywords(uniqueKeywords));
                   dispatch(
                     updateImage({
                       name: imageName,
@@ -102,11 +103,7 @@ const SelectImage: React.FC<{
                     })
                   );
 
-                  if (receiver) {
-                    setStep(2);
-                  } else {
-                    setStep(3);
-                  }
+                  setStep(2);
                 });
               })
               .catch((err) => console.log(err));
@@ -210,7 +207,7 @@ const SelectImage: React.FC<{
                   }}
                 >
                   {imageName ? (
-                    <p>업로드 중</p>
+                    <CircularProgress />
                   ) : (
                     <>
                       <Camera />
@@ -241,7 +238,7 @@ const SelectImage: React.FC<{
             </Stack>
 
             <Stack
-              sx={{ margin: "20px auto" }}
+              sx={{ margin: "10px auto" }}
               direction="row"
               justifyContent="center"
               spacing={2}

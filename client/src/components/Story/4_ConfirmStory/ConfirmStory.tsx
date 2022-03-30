@@ -56,7 +56,12 @@ const ConfirmStory: React.FC = () => {
 
           <Stack direction="row" justifyContent="center" spacing={1}>
             {selectedKeywords.map((keyword) => (
-              <Chip key={keyword} label={keyword} color="primary" />
+              <Chip
+                key={keyword}
+                label={keyword}
+                color="primary"
+                sx={{ color: "white" }}
+              />
             ))}
           </Stack>
         </Stack>

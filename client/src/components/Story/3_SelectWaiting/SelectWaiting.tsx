@@ -77,7 +77,7 @@ const SelectWaiting: React.FC<{
 
   const dispatch = useAppDispatch();
   const goToNextStep = () => {
-    setStep(3);
+    setStep(4);
     dispatch(updateWaiting(waiting));
   };
 
@@ -95,12 +95,13 @@ const SelectWaiting: React.FC<{
           value={waiting}
           exclusive
           onChange={handleChange}
-          sx={{ width: "100%", height: "70%" }}
+          sx={{ width: "100%" }}
         >
           {waitingOptions.map((waitingOption) => (
             <StyledToggleButton
               value={waitingOption.value}
               aria-label={waitingOption.value}
+              key={waitingOption.value}
             >
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Box>
@@ -109,14 +110,16 @@ const SelectWaiting: React.FC<{
                 <Stack direction="column" sx={{ textAlign: "left" }}>
                   <p
                     style={{
-                      fontSize: "20px",
+                      fontSize: "18px",
                       fontFamily: "S-CoreDream-6Bold",
                     }}
                   >
                     {waitingOption.title}
                   </p>
-                  <p>{waitingOption.content}</p>
-                  <p>{waitingOption.description}</p>
+                  <p style={{ fontSize: "14px" }}>{waitingOption.content}</p>
+                  <p style={{ fontSize: "14px" }}>
+                    {waitingOption.description}
+                  </p>
                 </Stack>
               </Stack>
             </StyledToggleButton>

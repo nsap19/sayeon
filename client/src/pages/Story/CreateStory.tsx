@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import SelectImage from "../../components/Story/1_SelectImage/SelectImage";
 import { Stack } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
-import SelectWaiting from "../../components/Story/2_SelectWaiting/SelectWaiting";
-import SelectKeyword from "../../components/Story/3_SelectKeyword/SelectKeyword";
+import SelectWaiting from "../../components/Story/3_SelectWaiting/SelectWaiting";
+import SelectKeyword from "../../components/Story/2_SelectKeyword/SelectKeyword";
 import ConfirmStory from "../../components/Story/4_ConfirmStory/ConfirmStory";
 import CreateStoryHeaderbar from "../../components/Story/CreateStoryHeaderbar";
 
@@ -22,7 +22,6 @@ const CreateStory: React.FC = () => {
         direction="column"
         justifyContent="space-between"
         alignItems="center"
-        spacing={2}
         sx={{
           height: "calc(100% - 56px)",
           overflowY: "auto",
@@ -32,8 +31,8 @@ const CreateStory: React.FC = () => {
         {
           {
             1: <SelectImage setStep={setStep} />,
-            2: <SelectWaiting setStep={setStep} />,
-            3: <SelectKeyword setStep={setStep} />,
+            2: <SelectKeyword setStep={setStep} />,
+            3: <SelectWaiting setStep={setStep} />,
             4: <ConfirmStory />,
           }[step]
         }
