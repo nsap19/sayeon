@@ -1,22 +1,46 @@
-import React, { useState } from "react";
-import { Controller, Control } from "react-hook-form";
-import { Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Controller,
+  Control,
+  UseFormGetValues,
+  UseFormTrigger,
+} from "react-hook-form";
 import axios from "axios";
 import { StyledTextField } from "./StyledComponent";
 import { registerInput } from "./types";
+import { useIsMount } from "./CustomHook";
 
 const EmailController: React.FC<{
   control: Control<registerInput, any>;
-}> = ({ control }) => {
+  trigger: UseFormTrigger<registerInput>;
+  getValues: UseFormGetValues<registerInput>;
+}> = ({ control, trigger, getValues }) => {
   const [validatedEmail, setValidatedEmail] = useState(false);
 
-  const checkEmailDuplication = (email: string) => {
-    // setValidatedEmail(true);
+  const checkEmailDuplication = () => {
+    const email = getValues().email;
     axios
-      .post("users/email", { email })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .post("users/email", null, {
+        params: {
+          email,
+        },
+      })
+      .then(() => {
+        setValidatedEmail(true);
+        trigger("email");
+      })
+      .catch(() => {
+        setValidatedEmail(false);
+        trigger("email");
+      });
   };
+
+  const isMount = useIsMount();
+  useEffect(() => {
+    if (!isMount) {
+      trigger("email");
+    }
+  }, [isMount, trigger, validatedEmail]);
 
   return (
     <Controller
@@ -41,7 +65,6 @@ const EmailController: React.FC<{
       }}
       render={({ field, fieldState }) => (
         <>
-          <p>{field.value}</p>
           <StyledTextField
             {...field}
             label="이메일"
@@ -49,10 +72,11 @@ const EmailController: React.FC<{
             helperText={
               fieldState.error?.message ? fieldState.error.message : " "
             }
+            onChange={(e) => {
+              field.onChange(e);
+              checkEmailDuplication();
+            }}
           />
-          <Button onClick={() => checkEmailDuplication(field.value)}>
-            중복 확인
-          </Button>
         </>
       )}
     />

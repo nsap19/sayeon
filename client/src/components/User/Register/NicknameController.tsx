@@ -1,21 +1,45 @@
-import React, { useState } from "react";
-import { Controller, Control } from "react-hook-form";
-import { Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Controller,
+  Control,
+  UseFormGetValues,
+  UseFormTrigger,
+} from "react-hook-form";
 import axios from "axios";
 import { StyledTextField } from "./StyledComponent";
 import { registerInput } from "./types";
+import { useIsMount } from "./CustomHook";
 
 const NicknameController: React.FC<{
   control: Control<registerInput, any>;
-}> = ({ control }) => {
+  trigger: UseFormTrigger<registerInput>;
+  getValues: UseFormGetValues<registerInput>;
+}> = ({ control, trigger, getValues }) => {
   const [validatedNickname, setValidatedNickname] = useState(false);
 
-  const checkNicknameDuplication = (nickname: string) => {
+  const checkNicknameDuplication = () => {
+    const nickname = getValues().nickname;
+
     axios
-      .post("users/nickname", { nickname })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .post("users/nickname", null, {
+        params: {
+          nickname,
+        },
+      })
+      .then(() => {
+        setValidatedNickname(true);
+      })
+      .catch(() => {
+        setValidatedNickname(false);
+      });
   };
+
+  const isMount = useIsMount();
+  useEffect(() => {
+    if (!isMount) {
+      trigger("email");
+    }
+  }, [validatedNickname, isMount, trigger]);
 
   return (
     <Controller
@@ -45,6 +69,10 @@ const NicknameController: React.FC<{
           helperText={
             fieldState.error?.message ? fieldState.error.message : " "
           }
+          onChange={(e) => {
+            field.onChange(e);
+            checkNicknameDuplication();
+          }}
         />
       )}
     />
