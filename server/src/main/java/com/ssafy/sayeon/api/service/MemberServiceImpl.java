@@ -12,9 +12,9 @@ import com.ssafy.sayeon.common.exception.NotExistUserException;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
 @Transactional
 @RequiredArgsConstructor
+@Service("memberService")
 public class MemberServiceImpl implements MemberService{
 
 	@Autowired
