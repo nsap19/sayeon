@@ -1,17 +1,18 @@
 package com.ssafy.sayeon.api.service;
 
-import java.awt.print.Pageable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.sayeon.api.response.ReceivedStoryInfo;
 import com.ssafy.sayeon.api.response.StoryTalkBody;
-import com.ssafy.sayeon.api.response.StoryTalkListResponseBody;
+import com.ssafy.sayeon.model.entity.Member;
 import com.ssafy.sayeon.model.entity.ReceivedStory;
 import com.ssafy.sayeon.model.entity.SentStory;
 import com.ssafy.sayeon.model.repository.MemberProfileRepository;
@@ -32,26 +33,26 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 	MemberRepository memberRepository;
 
 	@Override
-	public List<ReceivedStory> getReceivedStoryList(String receiverId) {
+	public List<ReceivedStory> getReceivedStoryList(Member receiver) {
 		// TODO Auto-generated method stub
-		return receivedStroryRepository.findAllByReceiverId(receiverId);
+		return receivedStroryRepository.findAllByReceiver(receiver);
 	}
 
 	@Override
-	public List<SentStory> getSentStoryList(String senderId) {
+	public List<SentStory> getSentStoryList(Member sender) {
 		// TODO Auto-generated method stub
-		return sentStroryRepository.findAllBySenderId(senderId);
+		return sentStroryRepository.findAllBySender(sender);
 	}
 
 	@Override
-	public List<StoryTalkBody> getStoryTalkList(String userId) {
+	public List<StoryTalkBody> getStoryTalkList(Member member) {
 		// TODO Auto-generated method stub
 		List<StoryTalkBody> storyTalkList = new ArrayList<>(); // 하나의 StoryTalkBody : 한 사용자와 나눈 대화 목록
 
 		final int SIZE = 3;
 
 		// 받는 사람이 현재 로그인한 유저인 경우
-		List<ReceivedStory> receivedStoryList = receivedStroryRepository.findAllByReceiverId(userId);// 내가 받은 사연 모두 조회
+		List<ReceivedStory> receivedStoryList = receivedStroryRepository.findAllByReceiver(member);// 내가 받은 사연 모두 조회
 
 		//Key는 대화 목록의 다른 사람의 아이디
 		HashMap<String, List<ReceivedStoryInfo>> map = new HashMap<String, List<ReceivedStoryInfo>>();
@@ -59,20 +60,20 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 		for (int i = 0; i < receivedStoryList.size(); i++) {
 			String storyId = receivedStoryList.get(i).getStoryId();
 			SentStory sent = sentStroryRepository.findByStoryId(storyId);
-			String senderId = sent.getSenderId();
+			String senderId = sent.getSender().getUserId();
 			// userId기준으로 받은 목록을 조회해 온거라 receiverId == userId
 //			String receiverId = receivedStoryList.get(i).getReceiverId();
 			String dateSent = sent.getDateSent();
 			String dateReceived = receivedStoryList.get(i).getDateReceived();
 			String image = sent.getImage();
-			int waitingId = sent.getWaitingId();
-			String imageType = sent.getImageType();
+			int waitingId = sent.getWatingId().getWaitingId();
+			String imageType = sent.getImageType().name();
 			if (map.containsKey(senderId)) {
-				map.get(senderId).add(new ReceivedStoryInfo(storyId, senderId, userId, dateSent, dateReceived, image,
+				map.get(senderId).add(new ReceivedStoryInfo(storyId, senderId, member.getUserId(), dateSent, dateReceived, image,
 						waitingId, imageType));
 			} else {
 				List<ReceivedStoryInfo> list = new ArrayList<ReceivedStoryInfo>();
-				list.add(new ReceivedStoryInfo(storyId, senderId, userId, dateSent, dateReceived, image, waitingId,
+				list.add(new ReceivedStoryInfo(storyId, senderId, member.getUserId(), dateSent, dateReceived, image, waitingId,
 						imageType));
 				map.put(senderId, list);
 			}
@@ -80,25 +81,25 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 		}
 
 		// 보낸 사람이 현재 로그인한 유저인 경우
-		List<SentStory> sentStoryList = sentStroryRepository.findAllBySenderId(userId); // 내가 보낸 사연 모두 조회
+		List<SentStory> sentStoryList = sentStroryRepository.findAllBySender(member); // 내가 보낸 사연 모두 조회
 
 		for (SentStory story : sentStoryList) {
 			Optional<ReceivedStory> rs = receivedStroryRepository.findByStoryId(story.getStoryId());
 			if (rs.isPresent()) {
 				String storyId = story.getStoryId();
-				String receiverId = rs.get().getReceiverId();
+				String receiverId = rs.get().getReceiver().getUserId();
 				String dateSent = story.getDateSent();
 				String dateReceived = rs.get().getDateReceived();
 				String image = story.getImage();
-				int waitingId = story.getWaitingId();
-				String imageType = story.getImageType();
+				int waitingId = story.getWatingId().getWaitingId();
+				String imageType = story.getImageType().name();
 
 				if (map.containsKey(receiverId)) {
-					map.get(receiverId).add(new ReceivedStoryInfo(storyId, userId, receiverId, dateSent, dateReceived,
+					map.get(receiverId).add(new ReceivedStoryInfo(storyId, member.getUserId(), receiverId, dateSent, dateReceived,
 							image, waitingId, imageType));
 				} else {
 					List<ReceivedStoryInfo> list = new ArrayList<ReceivedStoryInfo>();
-					list.add(new ReceivedStoryInfo(storyId, userId, receiverId, dateSent, dateReceived, image,
+					list.add(new ReceivedStoryInfo(storyId, member.getUserId(), receiverId, dateSent, dateReceived, image,
 							waitingId, imageType));
 					map.put(receiverId, list);
 				}

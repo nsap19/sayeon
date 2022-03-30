@@ -1,189 +1,227 @@
-use sys;
-CREATE TABLE `user` (
-	`usreId`	VARCHAR(20)	NOT NULL,
-	`email`	VARCHAR(100)	NOT NULL,
-	`password`	VARCHAR(300)	NOT NULL
-);
+-- MySQL Workbench Forward Engineering
 
-CREATE TABLE `sentStory` (
-	`storyId`	VARCHAR(20)	NOT NULL,
-	`senderId`	VARCHAR(20)	NOT NULL,
-	`waitingId`	INT	NOT NULL,
-	`dateSent`	DATETIME	NOT NULL,
-	`image`	VARCHAR(300)	NOT NULL
-);
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-CREATE TABLE `selectedKeyword` (
-	`storyId`	VARCHAR(20)	NOT NULL,
-	`usreId`	VARCHAR(20)	NOT NULL,
-	`keyword`	VARCHAR(300)	NOT NULL
-);
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema sayeon
+-- -----------------------------------------------------
 
-CREATE TABLE `userProfile` (
-	`usreId`	VARCHAR(20)	NOT NULL,
-	`profilePic`	INT	NOT NULL,
-	`nickname`	VARCHAR(100)	NOT NULL,
-	`location`	VARCHAR(100)	NOT NULL
-);
+-- -----------------------------------------------------
+-- Schema sayeon
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `sayeon` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `sayeon` ;
 
-CREATE TABLE `requestType` (
-	`requestId`	INT	NOT NULL,
-	`typeName`	VARCHAR(20)	NOT NULL
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`user`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`user` ;
 
-CREATE TABLE `report` (
-	`reportId`	INT	NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`storyId`	VARCHAR(20)	NULL,
-	`usreId`	VARCHAR(20)	NOT NULL,
-	`targetId`	VARCHAR(20)	NOT NULL,
-	`reportDate`	DATETIME	NOT NULL
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`user` (
+  `userId` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(300) NOT NULL,
+  PRIMARY KEY (`userId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE `waitingTime` (
-	`waitingId`	INT	NOT NULL,
-	`waitingTime`	FLOAT	NOT NULL,
-	`waitingName`	VARCHAR(20)	NOT NULL
-);
 
-CREATE TABLE `receivedStory` (
-	`storyId`	VARCHAR(20)	NOT NULL,
-	`receiverId`	VARCHAR(20)	NULL,
-	`dateReceived`	DATETIME	NULL
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`waitingtime`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`waitingtime` ;
 
-CREATE TABLE `request` (
-	`usreId`	VARCHAR(20)	NOT NULL,
-	`requestId`	INT	NOT NULL,
-	`requestedId`	INT	NOT NULL
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`waitingtime` (
+  `waitingId` INT NOT NULL AUTO_INCREMENT,
+  `waitingTime` FLOAT NOT NULL,
+  `waitingName` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`waitingId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE `deletedStory` (
-	`usreId`	VARCHAR(20)	NOT NULL,
-	`storyId`	VARCHAR(20)	NOT NULL
-);
 
-ALTER TABLE `user` ADD CONSTRAINT `PK_USER` PRIMARY KEY (
-	`usreId`
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`sentstory`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`sentstory` ;
 
-ALTER TABLE `sentStory` ADD CONSTRAINT `PK_SENTSTORY` PRIMARY KEY (
-	`storyId`,
-	`senderId`,
-	`waitingId`
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`sentstory` (
+  `storyId` VARCHAR(100) NOT NULL,
+  `senderId` VARCHAR(100) NOT NULL,
+  `waitingId` INT NULL,
+  `dateSent` DATETIME NOT NULL,
+  `image` VARCHAR(300) NOT NULL,
+  `imageType` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`storyId`),
+  INDEX `FK_user_TO_sentStory_1` (`senderId` ASC) VISIBLE,
+  INDEX `FK_waitingTime_TO_sentStory_1` (`waitingId` ASC) VISIBLE,
+  CONSTRAINT `FK_user_TO_sentStory_1`
+    FOREIGN KEY (`senderId`)
+    REFERENCES `sayeon`.`user` (`userId`),
+  CONSTRAINT `FK_waitingTime_TO_sentStory_1`
+    FOREIGN KEY (`waitingId`)
+    REFERENCES `sayeon`.`waitingtime` (`waitingId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-ALTER TABLE `selectedKeyword` ADD CONSTRAINT `PK_SELECTEDKEYWORD` PRIMARY KEY (
-	`storyId`,
-	`usreId`
-);
 
-ALTER TABLE `userProfile` ADD CONSTRAINT `PK_USERPROFILE` PRIMARY KEY (
-	`usreId`
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`deletedstory`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`deletedstory` ;
 
-ALTER TABLE `requestType` ADD CONSTRAINT `PK_REQUESTTYPE` PRIMARY KEY (
-	`requestId`
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`deletedstory` (
+  `userId` VARCHAR(100) NOT NULL,
+  `storyId` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`userId`, `storyId`),
+  INDEX `FK_sentStory_TO_deletedStory_1` (`storyId` ASC) VISIBLE,
+  CONSTRAINT `FK_sentStory_TO_deletedStory_1`
+    FOREIGN KEY (`storyId`)
+    REFERENCES `sayeon`.`sentstory` (`storyId`),
+  CONSTRAINT `FK_user_TO_deletedStory_1`
+    FOREIGN KEY (`userId`)
+    REFERENCES `sayeon`.`user` (`userId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-ALTER TABLE `waitingTime` ADD CONSTRAINT `PK_WAITINGTIME` PRIMARY KEY (
-	`waitingId`
-);
 
-ALTER TABLE `receivedStory` ADD CONSTRAINT `PK_RECEIVEDSTORY` PRIMARY KEY (
-	`storyId`
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`receivedstory`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`receivedstory` ;
 
-ALTER TABLE `request` ADD CONSTRAINT `PK_REQUEST` PRIMARY KEY (
-	`usreId`,
-	`requestId`
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`receivedstory` (
+  `storyId` VARCHAR(100) NOT NULL,
+  `receiverId` VARCHAR(100) NOT NULL,
+  `dateReceived` DATETIME NOT NULL,
+  PRIMARY KEY (`storyId`),
+  INDEX `FK_user_TO_receiverstory_idx` (`receiverId` ASC) VISIBLE,
+  CONSTRAINT `FK_sentStory_TO_receivedStory_1`
+    FOREIGN KEY (`storyId`)
+    REFERENCES `sayeon`.`sentstory` (`storyId`),
+  CONSTRAINT `FK_user_TO_receiverstory`
+    FOREIGN KEY (`receiverId`)
+    REFERENCES `sayeon`.`user` (`userId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-ALTER TABLE `deletedStory` ADD CONSTRAINT `PK_DELETEDSTORY` PRIMARY KEY (
-	`usreId`,
-	`storyId`
-);
 
-ALTER TABLE `sentStory` ADD CONSTRAINT `FK_user_TO_sentStory_1` FOREIGN KEY (
-	`senderId`
-)
-REFERENCES `user` (
-	`usreId`
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`report`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`report` ;
 
-ALTER TABLE `sentStory` ADD CONSTRAINT `FK_waitingTime_TO_sentStory_1` FOREIGN KEY (
-	`waitingId`
-)
-REFERENCES `waitingTime` (
-	`waitingId`
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`report` (
+  `reportId` INT NOT NULL AUTO_INCREMENT,
+  `storyId` VARCHAR(100) NULL DEFAULT NULL,
+  `userId` VARCHAR(100) NOT NULL,
+  `targetId` VARCHAR(100) NULL DEFAULT NULL,
+  `reportDate` DATETIME NOT NULL,
+  PRIMARY KEY (`reportId`),
+  INDEX `FK_sentStory_TO_report_1` (`storyId` ASC) VISIBLE,
+  INDEX `FK_user_TO_report_1` (`userId` ASC) VISIBLE,
+  INDEX `FK_user_To_targetId_idx` (`targetId` ASC) VISIBLE,
+  CONSTRAINT `FK_sentStory_TO_report_1`
+    FOREIGN KEY (`storyId`)
+    REFERENCES `sayeon`.`sentstory` (`storyId`),
+  CONSTRAINT `FK_user_TO_report_1`
+    FOREIGN KEY (`userId`)
+    REFERENCES `sayeon`.`user` (`userId`),
+  CONSTRAINT `FK_user_To_targetId`
+    FOREIGN KEY (`targetId`)
+    REFERENCES `sayeon`.`user` (`userId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-ALTER TABLE `selectedKeyword` ADD CONSTRAINT `FK_sentStory_TO_selectedKeyword_1` FOREIGN KEY (
-	`storyId`
-)
-REFERENCES `sentStory` (
-	`storyId`
-);
 
-ALTER TABLE `selectedKeyword` ADD CONSTRAINT `FK_sentStory_TO_selectedKeyword_2` FOREIGN KEY (
-	`usreId`
-)
-REFERENCES `sentStory` (
-	`senderId`
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`requesttype`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`requesttype` ;
 
-ALTER TABLE `userProfile` ADD CONSTRAINT `FK_user_TO_userProfile_1` FOREIGN KEY (
-	`usreId`
-)
-REFERENCES `user` (
-	`usreId`
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`requesttype` (
+  `requestId` INT NOT NULL,
+  `typeName` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`requestId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-ALTER TABLE `report` ADD CONSTRAINT `FK_sentStory_TO_report_1` FOREIGN KEY (
-	`storyId`
-)
-REFERENCES `sentStory` (
-	`storyId`
-);
 
-ALTER TABLE `report` ADD CONSTRAINT `FK_user_TO_report_1` FOREIGN KEY (
-	`usreId`
-)
-REFERENCES `user` (
-	`usreId`
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`request`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`request` ;
 
-ALTER TABLE `receivedStory` ADD CONSTRAINT `FK_sentStory_TO_receivedStory_1` FOREIGN KEY (
-	`storyId`
-)
-REFERENCES `sentStory` (
-	`storyId`
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`request` (
+  `userId` VARCHAR(100) NOT NULL,
+  `requestId` INT NOT NULL,
+  `requestedId` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`userId`, `requestId`, `requestedId`),
+  INDEX `FK_requestType_TO_request_1` (`requestId` ASC) VISIBLE,
+  INDEX `FK_user_TO_requestedId_idx` (`requestedId` ASC) VISIBLE,
+  CONSTRAINT `FK_requestType_TO_request_1`
+    FOREIGN KEY (`requestId`)
+    REFERENCES `sayeon`.`requesttype` (`requestId`),
+  CONSTRAINT `FK_user_TO_request_1`
+    FOREIGN KEY (`userId`)
+    REFERENCES `sayeon`.`user` (`userId`),
+  CONSTRAINT `FK_user_TO_requestedId`
+    FOREIGN KEY (`requestedId`)
+    REFERENCES `sayeon`.`user` (`userId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-ALTER TABLE `request` ADD CONSTRAINT `FK_user_TO_request_1` FOREIGN KEY (
-	`usreId`
-)
-REFERENCES `user` (
-	`usreId`
-);
 
-ALTER TABLE `request` ADD CONSTRAINT `FK_requestType_TO_request_1` FOREIGN KEY (
-	`requestId`
-)
-REFERENCES `requestType` (
-	`requestId`
-);
+-- -----------------------------------------------------
+-- Table `sayeon`.`selectedkeyword`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`selectedkeyword` ;
 
-ALTER TABLE `deletedStory` ADD CONSTRAINT `FK_user_TO_deletedStory_1` FOREIGN KEY (
-	`usreId`
-)
-REFERENCES `user` (
-	`usreId`
-);
+CREATE TABLE IF NOT EXISTS `sayeon`.`selectedkeyword` (
+  `storyId` VARCHAR(100) NOT NULL,
+  `keyword` BLOB NOT NULL COMMENT 'json으로 삽입',
+  PRIMARY KEY (`storyId`),
+  INDEX `FK_sentStory_TO_selectedKeyword_1` (`storyId` ASC) VISIBLE,
+  CONSTRAINT `FK_sentStory_TO_selectedKeyword_1`
+    FOREIGN KEY (`storyId`)
+    REFERENCES `sayeon`.`sentstory` (`storyId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-ALTER TABLE `deletedStory` ADD CONSTRAINT `FK_sentStory_TO_deletedStory_1` FOREIGN KEY (
-	`storyId`
-)
-REFERENCES `sentStory` (
-	`storyId`
-);
 
+-- -----------------------------------------------------
+-- Table `sayeon`.`userprofile`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sayeon`.`userprofile` ;
+
+CREATE TABLE IF NOT EXISTS `sayeon`.`userprofile` (
+  `userId` VARCHAR(100) NOT NULL,
+  `profilePic` INT NOT NULL,
+  `nickname` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`userId`),
+  CONSTRAINT `FK_user_TO_userProfile_1`
+    FOREIGN KEY (`userId`)
+    REFERENCES `sayeon`.`user` (`userId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
