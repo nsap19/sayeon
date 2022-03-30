@@ -1,37 +1,20 @@
 import React, { useState } from 'react';
 // import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import SelectProfile from "../../components/User/Profile/SelectProfile";
+import ChangeProfile from "../../components/User/Profile/ChangeProfile";
 import Grid from "@mui/material/Grid";
-import LocationJson from "../../assets/json/location.json";
-import { ReactComponent as Edit } from "../../assets/icon/edit.svg";
-import { ReactComponent as Location } from "../../assets/icon/location.svg";
-import { Stack, Button, Box, FormControl, MenuItem, Select, InputLabel } from "@mui/material";
+import { Stack, Button } from "@mui/material";
+import Headerbar from "../../components/Headerbar";
+import ChangeNickname from 'components/User/Profile/ChangeNickname';
+import ChangeLocation from 'components/User/Profile/ChangeLocation';
 
-
-const locationOptions = Object.keys(LocationJson).sort();
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   // const [isEditingPic, setIsEditingPic] = useState<boolean>(false);
-  const [isEditingNickname, setIsEditingNickname] = useState<boolean>(false);
-  const [isEditingLocation, setIsEditingLocation] = useState<boolean>(false);
   const [profilePic, setProfilePic] = useState(0);
-
-  // 테스트용
-  const [nickname, setNickname] = useState<string>('닉네임');
-  // const [nickname, setNickname] = useState<string>('');
-
-  // 테스트용
-  const [locations, setLocations] = useState<string>('서울특별시 종로구');
-  const [location, setLocation] = useState('서울특별시');
-  const [detailedLocation, setDetailedLocation] = useState('종로구');
-
-  // 상세주소용
-  const [detailedLocationOptions, setDetailedLocationOptions] = useState<
-    string[]
-  >(LocationJson[
-    location as keyof typeof LocationJson
-  ].sort());
 
 
   // 회원정보 출력
@@ -51,139 +34,90 @@ const Profile = () => {
   //   .catch((err) => console.log(err))
   // }, []);
 
-  // 닉네임 수정
-  const nicknameEditingMode = () => {
-    if (!isEditingNickname) {
-      return setIsEditingNickname(true)
-    }
-  };
 
-  const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value)
-  };
+  // 비밀번호 변경 페이지로 이동
+  const goChangePassword = () => {
+    navigate('/changePassword');
+  }
 
-  const changeNickname = () => {
-    // 중복 체크 추가해야 -
-    axios({
-      method: "post",
-      url: "/api/users/nickname",
-      data: {
-        nickname: nickname
-      }
-    })
-    .then(() => {
-      console.log('닉네임 변경 완료')
-      setIsEditingNickname(false)
-    })
-    .catch((err) => console.log(err));
-  };
-
-  // 위치 정보 수정
-  const locationEditingMode = () => {
-    if (!isEditingLocation) {
-      return setIsEditingLocation(true)
-    }
-  };
-
-  const onChangeLocation = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setLocation(event.target.value as string)};
-
+  // 회원탈퇴 페이지로 이동
+  const goDeleteAccount = () => {
+    navigate('/deleteAccount');
+  }
 
   return (
-    <div>
-      <header>
-        <h1>Profile</h1>
-      </header>
-      <section>
-        <Grid container spacing={2} columns={12} sx={{ mb: 4 }}>
-          <Grid container sx={{ justifyContent: 'center' }} item xs={6}>
-            <SelectProfile profilePic={profilePic} setProfilePic={setProfilePic} />
+    <Stack sx={{ height: "calc(100% - 56px)" }}>
+      <Headerbar headerName={"내 정보"} />
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+        mt={3}
+      >
+        <Grid container columns={12} sx={{ mb: 4 }}>
+          <Grid container sx={{ justifyContent: 'center', ml: 4 }} item xs={4}>
+            {/* <ChangeProfile profilePic={profilePic} setProfilePic={setProfilePic} /> */}
+            <ChangeProfile />
           </Grid>
-          <Grid item xs={3} sx={{ m: "auto" }}>
-            {isEditingNickname ? (
-              <input type="text" value={nickname} onChange={(e) => onChangeNickname(e)} />
-            ) : (
-              <h2>{nickname}</h2>
-            )}
-          </Grid>
-          <Grid item xs={3} sx={{ m: "auto" }}>
-            <div>
-              {isEditingNickname ? (
-                <button onClick={changeNickname}>수정</button>
-              ) : (
-                <Edit onClick={nicknameEditingMode}/>
-              )}
-            </div>
+          <Grid container item xs={6}  sx={{ ml: 2, justifyContent: 'center', alignItems: 'center' }}>
+            <ChangeNickname />
           </Grid>
         </Grid>
-        <Grid container spacing={1} item xs={12} sx={{ justifyContent: 'center', mb: 4 }}>
-          <Grid item sx={{ m: "auto" }}>            
-            <Location />
-          </Grid>
-          <Grid item>
-            {isEditingLocation ? (       
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">시/도</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    defaultValue={location}
-                    label="Age"
-                    onChange={(e) => {
-                      // onChange(e.target.value);
-                      setDetailedLocationOptions(
-                        LocationJson[
-                          e.target.value as keyof typeof LocationJson
-                        ].sort()
-                      );
-                    }}
-                  >
-                    {locationOptions.map((option, index) => {
-                      return (
-                        <MenuItem key={index} value={option}>
-                          {option}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">시/군/구</InputLabel>
-                  <Select
-                    id="demo-simple-select"
-                    label="시/도/군"
-                    defaultValue={detailedLocation}
-                  >
-                    {detailedLocationOptions.map((option, index) => {
-                    return (
-                      <MenuItem key={index} value={option}>
-                        {option}
-                      </MenuItem>
-                    );
-                  })}
-                  </Select>
-                </FormControl>
-              </Box>
-            ): (
-              <h3>{locations}</h3>
-            )}
-          </Grid>
-          <Grid item sx={{ m: "auto" }}>
-            {isEditingLocation ? (
-              <button>수정</button>
-            ) : (
-              <Edit onClick={locationEditingMode}/>
-            )}
-          </Grid>
-        </Grid>
+        <ChangeLocation />
         <Stack spacing={2}>
-          <Button variant="contained">비밀번호 수정</Button> 
-          <Button variant="contained">로그아웃</Button> 
-          <Button variant="contained">회원탈퇴</Button> 
+          {/* <Button variant="contained">비밀번호 수정</Button>  */}
+          {/* <Button variant="contained">로그아웃</Button> 
+          <Button variant="contained">회원탈퇴</Button>  */}
+          <Button
+              sx={{
+                color: "white",
+                fontFamily: "S-CoreDream-4Regular",
+                marginTop: "30px",
+                width: "300px",
+                backgroundColor: "#B6B6B6",
+                borderRadius: 31.5,
+              }}
+              disableElevation={true}
+              size="large"
+              variant="contained"
+              onClick={goChangePassword}
+            >
+              비밀번호 수정
+            </Button>
+            <Button
+              sx={{
+                color: "white",
+                fontFamily: "S-CoreDream-4Regular",
+                marginTop: "30px",
+                width: "300px",
+                backgroundColor: "#B6B6B6",
+                borderRadius: 31.5,
+              }}
+              disableElevation={true}
+              size="large"
+              variant="contained"
+            >
+              로그아웃
+            </Button>
+            <Button
+              sx={{
+                color: "white",
+                fontFamily: "S-CoreDream-4Regular",
+                marginTop: "30px",
+                width: "300px",
+                backgroundColor: "#B6B6B6",
+                borderRadius: 31.5,
+              }}
+              disableElevation={true}
+              size="large"
+              variant="contained"
+              onClick={goDeleteAccount}
+            >
+              회원탈퇴
+            </Button>
         </Stack>
-      </section>
-    </div>
+      </Stack>
+    </Stack>
   )
 }
 

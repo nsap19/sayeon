@@ -63,8 +63,8 @@ export default function BottomNavbar() {
         />
         <BottomNavigationAction
           component={Link}
-          to="/user"
-          value="/user"
+          to="/profile"
+          value="/profile"
           icon={<SvgIcon component={User} inheritViewBox />}
         />
       </BottomNavigation>

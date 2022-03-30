@@ -3,7 +3,8 @@ import { Routes, Navigate, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
 import StoryTalkList from "./pages/StoryTalk/storyTalkList";
 import Register from "./pages/User/Register";
-// import ChangePassword from "./components/User/Profile/DeleteAccount";
+import ChangePassword from "./components/User/Profile/ChangePassword";
+import DeleteAccount from "components/User/Profile/DeleteAccount";
 import BottomNavbar from "./components/BottomNavbar";
 import Main from "./pages/Main/Main";
 import CreateStory from "./pages/Story/CreateStory";
@@ -50,6 +51,8 @@ function App() {
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/changePassword" element={<ChangePassword />} />
+        <Route path="/deleteAccount" element={<DeleteAccount />} />
       </Routes>
       <BottomNavbar />
     </ThemeProvider>
