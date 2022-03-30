@@ -1,9 +1,29 @@
-import React from "react";
-import { Box, Button, Stack, Link } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, Stack, Link, Snackbar, Alert } from "@mui/material";
 import Polaroid from "../../components/Story/Polaroid";
 import { ReactComponent as Logo } from "../../assets/logo/logo.svg";
+import { useLocation } from "react-router-dom";
 
-const main: React.FC = () => {
+interface CustomizedState {
+  openSnackbar: boolean;
+}
+
+const Main: React.FC = () => {
+  // 회원가입 성공시 스낵바
+  const location = useLocation();
+  const state = location.state as CustomizedState;
+  const [snackbar, setSnackbar] = useState(state ? state.openSnackbar : false);
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbar(false);
+  };
+
   return (
     <Stack
       direction="column"
@@ -12,6 +32,17 @@ const main: React.FC = () => {
       spacing={2}
       sx={{ height: "calc(100% - 56px)" }}
     >
+      <Snackbar
+        open={snackbar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          {"회원가입이 완료되었습니다."}
+        </Alert>
+      </Snackbar>
+
       {/* <Box sx={{ height: "15%" }}>
       </Box> */}
       <Logo style={{ width: "100%", height: "15%", marginTop: "10%" }} />
@@ -111,4 +142,4 @@ const main: React.FC = () => {
   );
 };
 
-export default main;
+export default Main;

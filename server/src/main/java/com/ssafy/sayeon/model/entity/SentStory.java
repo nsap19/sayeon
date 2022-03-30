@@ -1,33 +1,35 @@
 package com.ssafy.sayeon.model.entity;
 
-import java.util.Optional;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import net.bytebuddy.utility.RandomString;
+
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+
 
 @Entity
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="sentstory")
 public class SentStory {
 
@@ -37,10 +39,8 @@ public class SentStory {
 	@Column(name="storyId", nullable=false, unique=true, length=100,columnDefinition = "BINARY(16)")
     private String storyId;
 
-    @ManyToOne
-    @JoinColumn(name="senderId")
-    @JsonIgnore
-    private Member member;
+    @Column(name="senderId", length=100, nullable=false)
+    private String senderId;
     
     @Column(name="dateSent", length=100, nullable=false)
     private String dateSent;
@@ -48,22 +48,15 @@ public class SentStory {
     @Column(name="image", length=300, nullable=false)
     private String image;
 
-    @ManyToOne
-    @JoinColumn(name="waitingId")
-	@ColumnDefault("0")
-    private WaitingTime watingId;
-	
-	@OneToOne(mappedBy="sentStory")
-	ReceivedStory receivedStory; //읽기 전용 필드
+	@Column(name="waitingId", nullable=false)
+    private int waitingId;
 	
 	@Column(name="imageType", nullable=false)
-	@ColumnDefault("SQUARE")
-	private ImageType imageType;
-
+    private String imageType;
 	
-	public enum ImageType {
-		MINI, WIDE, SQUARE
-	}
-
-
+	@JsonIgnore
+	@OneToOne(mappedBy="sentStory")
+	ReceivedStory receivedStory; 
+	
+}
 }

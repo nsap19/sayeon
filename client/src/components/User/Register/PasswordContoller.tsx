@@ -1,0 +1,78 @@
+import React, { useRef } from "react";
+import { Controller, Control, UseFormWatch } from "react-hook-form";
+import { StyledTextField } from "./StyledComponent";
+import { registerInput } from "./types";
+
+const PasswordContoller: React.FC<{
+  control: Control<registerInput, any>;
+  watch: UseFormWatch<registerInput>;
+}> = ({ control, watch }) => {
+  const password = useRef("");
+  password.current = watch("password", "");
+
+  return (
+    <>
+      <Controller
+        name="password"
+        control={control}
+        defaultValue=""
+        rules={{
+          required: {
+            value: true,
+            message: "비밀번호를 입력해주세요.",
+          },
+          pattern: {
+            value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
+            message: "영소문자, 숫자, 특수문자를 포함해 8자 이상 입력해주세요.",
+          },
+        }}
+        render={({ field, fieldState }) => (
+          <StyledTextField
+            {...field}
+            label="비밀번호"
+            type="password"
+            error={!!fieldState.error}
+            helperText={
+              fieldState.error?.message ? fieldState.error.message : " "
+            }
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          />
+        )}
+      />
+
+      <Controller
+        name="confirmPassword"
+        control={control}
+        defaultValue=""
+        rules={{
+          required: {
+            value: true,
+            message: "비밀번호를 다시 입력해주세요.",
+          },
+          validate: (value) => {
+            if (value !== password.current) {
+              return "비밀번호가 일치하지 않습니다.";
+            }
+          },
+        }}
+        render={({ field, fieldState }) => (
+          <StyledTextField
+            {...field}
+            label="비밀번호 확인"
+            type="password"
+            error={!!fieldState.error}
+            helperText={
+              fieldState.error?.message ? fieldState.error.message : " "
+            }
+          />
+        )}
+      />
+    </>
+  );
+};
+
+export default PasswordContoller;

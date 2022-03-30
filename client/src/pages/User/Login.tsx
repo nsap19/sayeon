@@ -1,103 +1,91 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useAppDispatch } from "store/hooks";
-import { setLoggedUser } from "store/user";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Stack, Button } from "@mui/material";
+import { ReactComponent as Logo } from "assets/logo/logo.svg";
+import { loginInput } from "components/User/Login/types";
+import EmailController from "components/User/Login/EmailController";
+import PasswordController from "components/User/Login/PasswordController";
 import axios from "axios";
+// import { useAppDispatch } from "store/hooks";
+// import { setLoggedUser } from "store/user";
 
 export default function Login() {
-  // STATE
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [disabled, setDisabled] = useState(false);
+  // const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  // DISPATCHER
-  const dispatch = useAppDispatch();
-
-  // HANDLER
-  const handleSubmit = async (event: any) => {
-    setDisabled(true); // 로그인 중에는 새로운 요청을 받지 않음
-    event.preventDefault(); // submit event 중 새로고침 x
-    // axios 요청 - login
+  const { handleSubmit, control } = useForm<loginInput>();
+  const onSubmit: SubmitHandler<loginInput> = async (data) => {
     await axios
-      .post(
-        "/api/users/login",
-        JSON.stringify({
-          email: email,
-          password: password,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .post("/users/login", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => {
-        console.log("axios resonse: ", response);
-        console.log("res.data.accessToken: ", response.data);
+        const token = response.data.token;
         // default header
         axios.defaults.headers.common["Authorization"] =
-          "Bearer " + response.data;
+          "Bearer " + response.data.token;
         // get User date & dispatch
-        dispatch(setLoggedUser(response.data));
+        localStorage.setItem("token", token);
+        // dispatch(setLoggedUser(response.data));
+        navigate(-1);
       })
-      /// routing
-      ///
       .catch((err) => {
         console.log("axios err: ", err);
       });
-
-    // form reset
-    setEmail("");
-    setPassword("");
-    // button active
-    setDisabled(false);
   };
 
-  // 이메일 입력
-  function handleEmailValue(event: any) {
-    setEmail(event.target.value);
-  }
-  // 비밀번호 입력
-  function handlePasswordValue(event: any) {
-    setPassword(event.target.value);
-  }
-
-  // VALIDATION
-  function validateForm() {
-    // 이메일, 비밀번호 검증 형식
-    return email.length > 10;
-  }
-
   return (
-    <div>
-      <img src={"경로"} alt={"로고"} />
-      <form className="loginform" onSubmit={handleSubmit}>
-        <label>
-          <input
-            type="text"
-            name="email"
-            placeholder="이메일을 입력하세요"
-            onChange={handleEmailValue}
-            required
-            value={email}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="비밀번호를 입력하세요"
-            onChange={handlePasswordValue}
-            required
-            value={password}
-          />
-        </label>
-        <button type="submit" disabled={!validateForm() || disabled}>
-          LOG IN
-        </button>
+    <Stack
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ height: "85%" }}
+    >
+      <Logo style={{ width: "50%", height: "50%", margin: "40% 5% 10%" }} />
+      <button onClick={() => navigate(-1)}>go back</button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={0}>
+          <EmailController control={control} />
+          <PasswordController control={control} />
+          <Button
+            sx={{
+              color: "white",
+              fontFamily: "S-CoreDream-4Regular",
+              width: "300px",
+              borderRadius: 31.5,
+            }}
+            disableElevation={true}
+            size="large"
+            variant="contained"
+            type="submit"
+          >
+            로그인
+          </Button>
+        </Stack>
       </form>
-      <button type="button">
-        <Link to="/register">회원가입</Link>
-      </button>
-      <div>비밀번호를 잊으셨나요?</div>
-    </div>
+      <Button
+        sx={{
+          color: "white",
+          backgroundColor: "gray",
+          fontFamily: "S-CoreDream-4Regular",
+          marginTop: "30px",
+          width: "300px",
+          borderRadius: 31.5,
+        }}
+        disableElevation={true}
+        size="large"
+        variant="contained"
+        type="button"
+        href="/register"
+      >
+        회원가입
+      </Button>
+      <Button variant="text" sx={{ color: "black" }} href="/password">
+        비밀번호를 잊으셨나요?
+      </Button>
+    </Stack>
   );
 }
