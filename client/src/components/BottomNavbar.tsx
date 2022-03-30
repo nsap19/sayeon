@@ -11,18 +11,16 @@ import { ReactComponent as Send } from "../assets/icon/add-square.svg";
 import { ReactComponent as StoryList } from "../assets/icon/story-list.svg";
 import { ReactComponent as User } from "../assets/icon/user-square.svg";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function BottomNavbar() {
-  const [value, setValue] = React.useState(0);
+  const location = useLocation();
 
   return (
     <Box sx={{ position: "sticky", bottom: 0 }}>
       <BottomNavigation
         showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
+        value={location.pathname}
         sx={{
           "& .MuiBottomNavigationAction-root": {
             minWidth: "",
@@ -36,16 +34,19 @@ export default function BottomNavbar() {
         <BottomNavigationAction
           component={Link}
           to="/"
+          value="/"
           icon={<SvgIcon component={Home} inheritViewBox />}
         />
         <BottomNavigationAction
           component={Link}
-          to="/"
+          to="/story-talk-list"
+          value="/story-talk-list"
           icon={<SvgIcon component={StoryTalkList} inheritViewBox />}
         />
         <BottomNavigationAction
           component={Link}
-          to="/"
+          to="/send"
+          value="/send"
           icon={
             <SvgIcon
               sx={{ width: "35px", height: "35px" }}
@@ -56,12 +57,14 @@ export default function BottomNavbar() {
         />
         <BottomNavigationAction
           component={Link}
-          to="/"
+          to="/story-talk"
+          value="/story-talk"
           icon={<SvgIcon component={StoryList} inheritViewBox />}
         />
         <BottomNavigationAction
           component={Link}
-          to="/register"
+          to="/user"
+          value="/user"
           icon={<SvgIcon component={User} inheritViewBox />}
         />
       </BottomNavigation>

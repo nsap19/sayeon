@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @Api(value = "내정보 API", tags = { "MyInfo" })
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/userInfo")
 public class MyInfoController {
 
 	@Autowired

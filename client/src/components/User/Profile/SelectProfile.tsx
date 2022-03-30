@@ -1,14 +1,16 @@
 import React from "react";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
-import { ReactComponent as Close } from "../../../assets/icon/close.svg";
 import {
   DialogTitle,
   Dialog,
   ImageList,
   ImageListItem,
   IconButton,
+  Button,
   Box,
 } from "@mui/material";
+import axios from "axios";
+
 
 const profilePics = [0, 1, 2, 3, 4, 5, 6, 7];
 
@@ -29,55 +31,47 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
     onClose(value);
   };
 
+  // const updateProfilePic = (data: SelectProfilePIcDialogProps) => {
+  //   axios({
+  //     method: "put",
+  //     url: "/api/users/profile-pic",
+  //     data: {
+  //       profilePic: data.selectedValue 
+  //     }
+  //   })
+  //   .then((res) => {
+  //     console.log('프로필 수정 완료')
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
+  // }
+
   return (
-    <Dialog
-      PaperProps={{
-        style: { borderRadius: 30 },
-      }}
-      onClose={handleClose}
-      open={open}
-      fullWidth={true}
-    >
+    <Dialog onClose={handleClose} open={open}>
       <DialogTitle>
         <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>프로필 선택</Box>
-          <Box>
-            <IconButton
-              aria-label="close"
-              sx={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
-              }}
-              onClick={handleClose}
-            >
-              <Close />
-            </IconButton>
-          </Box>
+          <Box flexGrow={1}>프로필을 선택해주세요</Box>
+          <hr />
         </Box>
       </DialogTitle>
-      <Box sx={{ padding: "24px" }}>
-        <ImageList cols={4} gap={15}>
-          {profilePics.map((profilePic) => (
-            <ImageListItem
-              onClick={() => handleListItemClick(profilePic)}
-              key={profilePic}
-            >
-              {/* <img
-              src={`/images/profile/Avatars-${profilePic}.png`}
+      <ImageList cols={4}>
+        {profilePics.map((profilePic) => (
+          <ImageListItem
+            onClick={() => handleListItemClick(profilePic)}
+            key={profilePic}
+          >
+            <img
+              src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
               alt="profile pic"
               style={{ width: "50px" }}
-            /> */}
-              <img
-                src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
-                alt="profile pic"
-                style={{ width: "50px", margin: "auto" }}
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
-      </Box>
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+      <Button>
+        수정
+      </Button>
     </Dialog>
   );
 }
@@ -101,7 +95,7 @@ const SelectProfile: React.FC<{
       <img
         src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
         alt="profile pic"
-        style={{ width: "90px" }}
+        style={{ width: "100px" }}
       />
       <IconButton
         style={{
@@ -109,18 +103,17 @@ const SelectProfile: React.FC<{
           transform: `translateX("-20px")`,
           borderRadius: "20px",
           backgroundColor: "white",
-          bottom: "5px",
-          left: "60px",
+          bottom: 0,
+          left: "70px",
           width: "35px",
           height: "35px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          boxShadow: "0 3px 6px rgb(0 0 0 / 10%), 0 3px 6px rgb(0 0 0 / 20%)",
+          boxShadow: "0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%)",
         }}
-        onClick={handleClickOpen}
       >
-        <Edit />
+        <Edit onClick={handleClickOpen} />
       </IconButton>
       <SelectProfilePIcDialog
         selectedValue={profilePic}
