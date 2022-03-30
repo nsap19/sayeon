@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Stack, Grid, Box, FormControl, InputLabel, MenuItem } from "@mui/material";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
@@ -8,7 +8,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import "./Profile.css";
 
 
-const locationOptions = Object.keys(LocationJson).sort();
+const locationOptions = Object.keys(LocationJson);
 
 const ChangeLocation = () => {
   const [isEditingLocation, setIsEditingLocation] = useState<boolean>(false);
@@ -26,7 +26,25 @@ const ChangeLocation = () => {
     string[]
   >(LocationJson[
     location as keyof typeof LocationJson
-  ].sort());
+  ]);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token") 
+  //   axios({
+  //     method: "get",
+  //     url: 'userInfo/myinfo',
+  //     headers: {
+  //       Authorization : `Bearer ${token}`,
+  //     }
+  //   })
+  //   .then((res) => {
+  //     console.log(res)
+  //     setLocations(res.data.data.memberProfile.location);
+  //     setLocation(res.data.data.memberProfile.location.split('')[0]);
+  //     setDetailedLocation(res.data.data.memberProfile.location.split('')[1]);
+  //   })
+  //   .catch((err) => console.log(err));
+  // }, []);
 
   // 기존 위치 정보 받아오기
   // useEffect(() => {

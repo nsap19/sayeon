@@ -6,8 +6,8 @@ import "./Profile.css";
 
 const ChangeNickname: React.FC = () => {
   const [isEditingNickname, setIsEditingNickname] = useState<boolean>(false);
-  const [nickname, setNickname] = useState<string>('닉네임');
-  // const [nickname, setNickname] = useState<string>('');
+  // const [nickname, setNickname] = useState<string>('닉네임');
+  const [nickname, setNickname] = useState<string>('');
   // const [validatedNickname, setValidatedNickname] = useState(false);
 
   const nicknameEditingMode = () => {
@@ -27,15 +27,15 @@ const ChangeNickname: React.FC = () => {
       method: "get",
       url: 'userInfo/myinfo',
       headers: {
-        // 'Content-Type': 'application/json',
         Authorization : `Bearer ${token}`,
       }
     })
     .then((res) => {
       console.log(res)
+      setNickname(res.data.data.memberProfile.nickname);
     })
     .catch((err) => console.log(err));
-  });
+  }, []);
 
   // useEffect(() => {
   //   axios({
@@ -51,6 +51,7 @@ const ChangeNickname: React.FC = () => {
 
 
   const changeNickname = () => {
+    const token = localStorage.getItem("token")
     // 닉네임 중복 체크
     axios
     .post("users/nickname", null, {
@@ -60,11 +61,16 @@ const ChangeNickname: React.FC = () => {
     })
     .then(() => {
       // setValidatedNickname(true);
+      console.log(nickname)
       axios({
         method: "put",
         url: "userInfo/nickname",
+        headers: {
+          // 'Content-Type': 'application/json',
+          Authorization : `Bearer ${token}`,
+        },
         data: {
-          nickname: nickname
+          nickname,
         }
       })
       .then(() => {

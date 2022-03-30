@@ -23,7 +23,6 @@ export default function Login() {
         },
       })
       .then((response) => {
-        console.log(response)
         const token = response.data.token;
         // default header
         axios.defaults.headers.common["Authorization"] =
