@@ -59,3 +59,4 @@ public class SentStory {
 	ReceivedStory receivedStory; 
 	
 }
+}

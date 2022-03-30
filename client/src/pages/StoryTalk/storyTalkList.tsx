@@ -5,11 +5,16 @@ import StoryTalkItem from "../../components/StoryTalk/storyTalkItem";
 export default function StoryTalkList() {
   // STATE
   const [storyTalkList, setStoryTalkList] = useState<any[]>();
+  const token = localStorage.getItem("token");
 
   // GET 요청
   const GetStoryTalkList = () => {
     axios
-      .get("/api/story-talk-list")
+      .get("/story-talk-list", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response: any) => {
         console.log("response: ", response);
         setStoryTalkList(response);
@@ -32,7 +37,10 @@ export default function StoryTalkList() {
     );
   });
 
-  return <>
-  storyTalkList
-  {showStoryTalkItems}</>;
+  return (
+    <>
+      storyTalkList
+      {showStoryTalkItems}
+    </>
+  );
 }
