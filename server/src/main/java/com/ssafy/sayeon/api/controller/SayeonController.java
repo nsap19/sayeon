@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.sayeon.api.request.SayeonReq;
+import com.ssafy.sayeon.api.response.AdvancedResponseBody;
 import com.ssafy.sayeon.api.response.BaseResponseBody;
 import com.ssafy.sayeon.api.service.SayeonService;
 import com.ssafy.sayeon.common.util.ImageUtil;
@@ -87,6 +88,14 @@ public class SayeonController {
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사연 저장 성공"));
 
+	}
+
+	@GetMapping(value = "/waitingTime")
+	@ApiOperation(value = "대기시간 조회")
+	@ApiResponses({ @ApiResponse(code = 200, message = "대기시간 조회 성공"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> getWaitingTime() {
+		return ResponseEntity.status(200)
+				.body(AdvancedResponseBody.of(200, "대기시간 조회 성공", sayeonService.getWaitingTime()));
 	}
 
 }
