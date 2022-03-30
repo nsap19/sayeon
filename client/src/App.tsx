@@ -46,8 +46,8 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/send" element={<CreateStory />} />
           <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/storylist" element={<StoryList />}></Route>
-          <Route path="/storyTalkList" element={<StoryTalkList />} />
+          <Route path="/story-list" element={<StoryList />}></Route>
+          <Route path="/story-talk-list" element={<StoryTalkList />} />
           <Route path="/changePassword" element={<ChangePassword />} />
           <Route path="/deleteAccount" element={<DeleteAccount />} />
         </Route>
