@@ -9,6 +9,7 @@ import CreateStory from "./pages/Story/CreateStory";
 import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import NotFound from "pages/Main/NotFound";
 
 const theme = createTheme({
   palette: {
@@ -46,6 +47,7 @@ function App() {
         <Route path="/story-list" element={<StoryList />}></Route>
         <Route path="/story-talk-list" element={<StoryTalkList />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <BottomNavbar />
     </ThemeProvider>
