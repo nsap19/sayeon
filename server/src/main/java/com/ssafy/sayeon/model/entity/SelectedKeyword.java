@@ -17,33 +17,33 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-
 @Entity
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
+@Table(name="selectedkeyword")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="receivedstory")
-public class ReceivedStory {
-
+@AllArgsConstructor
+public class SelectedKeyword {
 	@OneToOne
-	@MapsId 
-	@JoinColumn(name = "storyId")
+	@MapsId
+	@JoinColumn(name="storyId")
 	@JsonIgnore
 	SentStory sentStory;
 	
 	@Id
-	@Column(name = "storyId", nullable = false)
+	@Column(name="storyId", nullable=false)
 	@JsonIgnore
 	String storyId;
 	
-	@Column(name = "receiverId", length = 100, nullable = false)
-	String receiverId;
+	@Column(name="keyword", nullable=false)
+	String keyword;
 
-    @Column(name="dateReceived", length=100, nullable=false)
-    private String dateReceived;
-
-
+	public SelectedKeyword(SentStory sentStory, String keyword) {
+		super();
+		this.sentStory = sentStory;
+		this.keyword = keyword;
+	}
+	
+	
 }
