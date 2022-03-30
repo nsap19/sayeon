@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import StoryTalkItem from "../../components/StoryTalk/storyTalkItem";
+import StoryTalkItem from "../../components/StoryTalk/StoryTalkItem";
 
 export default function StoryTalkList() {
   // STATE
@@ -32,7 +32,10 @@ export default function StoryTalkList() {
     );
   });
 
-  return <>
-  storyTalkList
-  {showStoryTalkItems}</>;
+  return (
+    <>
+      storyTalkList
+      {showStoryTalkItems}
+    </>
+  );
 }

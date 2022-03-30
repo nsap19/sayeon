@@ -8,6 +8,7 @@ import Main from "./pages/Main/Main";
 import CreateStory from "./pages/Story/CreateStory";
 import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
+import StoryTalk from "pages/StoryTalk/StoryTalk";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -45,6 +46,10 @@ function App() {
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/storylist" element={<StoryList />}></Route>
         <Route path="/storyTalkList" element={<StoryTalkList />} />
+        <Route
+          path="/story-list/:userNickname"
+          element={<StoryTalk firstId={"123"} secondId={"111"} />}
+        />
         <Route path="/login" element={<Login />} />
       </Routes>
       <BottomNavbar />
