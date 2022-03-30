@@ -19,7 +19,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name="userprofile")
 @NoArgsConstructor
 @AllArgsConstructor
