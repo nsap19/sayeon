@@ -9,14 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.sayeon.api.request.SayeonReq;
+import com.ssafy.sayeon.common.exception.NotExistUserException;
 import com.ssafy.sayeon.common.exception.NotExistWaitingTimeException;
 import com.ssafy.sayeon.common.util.ImageUtil;
 import com.ssafy.sayeon.model.entity.Member;
-import com.ssafy.sayeon.model.entity.SelectedKeyword;
+import com.ssafy.sayeon.model.entity.ReceivedStory;
 import com.ssafy.sayeon.model.entity.SentStory;
 import com.ssafy.sayeon.model.entity.SentStory.ImageType;
 import com.ssafy.sayeon.model.entity.WaitingTime;
 import com.ssafy.sayeon.model.repository.MemberRepository;
+import com.ssafy.sayeon.model.repository.ReceivedStroryRepository;
 import com.ssafy.sayeon.model.repository.SayeonRepository;
 import com.ssafy.sayeon.model.repository.SelectedKeywordRepository;
 import com.ssafy.sayeon.model.repository.WaitingTimeRepository;
@@ -38,6 +40,9 @@ public class SayeonServiceImpl implements SayeonService {
 	
 	@Autowired
 	SelectedKeywordRepository selectedKeywordRepository;
+	
+	@Autowired
+	ReceivedStroryRepository receivedStoryRepository;
 
 	@Override
 	@Transactional
@@ -54,8 +59,11 @@ public class SayeonServiceImpl implements SayeonService {
 		
 		story = sayeonRepository.save(story);
 			
-		SelectedKeyword sk = new SelectedKeyword(story, sayeon.getKeyword());
-		selectedKeywordRepository.save(sk);
+		if(!sayeon.getReceiverId().equals("null")) {
+			Member receiver = memberRepository.findById(sayeon.getReceiverId()).orElseThrow(()-> new NotExistUserException());
+			ReceivedStory rc = new ReceivedStory(story, story.getStoryId(), receiver, LocalDateTime.now().toString());
+			receivedStoryRepository.save(rc);
+		}
 	}
 
 	@Override
