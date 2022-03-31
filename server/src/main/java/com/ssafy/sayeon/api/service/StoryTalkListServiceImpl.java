@@ -14,6 +14,7 @@ import com.ssafy.sayeon.api.response.ReceivedStoryInfo;
 import com.ssafy.sayeon.api.response.StoryTalkBody;
 import com.ssafy.sayeon.model.entity.Member;
 import com.ssafy.sayeon.model.entity.ReceivedStory;
+import com.ssafy.sayeon.model.entity.ReceivedStoryView;
 import com.ssafy.sayeon.model.entity.SentStory;
 import com.ssafy.sayeon.model.repository.MemberProfileRepository;
 import com.ssafy.sayeon.model.repository.MemberRepository;
@@ -130,6 +131,12 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 		}
 
 		return storyTalkList;
+	}
+
+	@Override
+	public List<ReceivedStoryView> getConversationList(Member me, String friendId) {
+		List<ReceivedStoryView> list = sentStroryRepository.findAllWithConditions(me.getUserId(), friendId);
+		return list;
 	}
 
 }
