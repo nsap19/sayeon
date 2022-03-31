@@ -43,7 +43,7 @@ public class SayeonServiceImpl implements SayeonService {
 	@Transactional
 	public void saveStory(Member member, SayeonReq sayeon) {
 		SentStory story = new SentStory(); 
-		story.setMember(member);
+		story.setSender(member);
 		story.setDateSent(LocalDateTime.now().toString());
 		story.setImage(sayeon.getImageUrl());
 		story.setImageType(ImageType.valueOf(sayeon.getImageType().toUpperCase()));
