@@ -2,13 +2,14 @@ import React from "react";
 import axios from "axios";
 import { Route } from "react-router-dom";
 import { Button } from "@mui/material";
-import StoryTalk from "../../pages/StoryTalk/StoryTalk";
+import StoryTalk from "pages/StoryTalk/StoryTalk";
 import Polaroid from "components/Story/Polaroid";
 import { ReactComponent as More } from "../../assets/icon/more.svg";
 
 export default function StoryTalkItem({ storyTalk }: any) {
   // STATE
   const senderId = storyTalk.senderId;
+  const nickname = "";
 
   // 삭제 요청
   const DeleteStoryTalk = async () => {
@@ -25,16 +26,19 @@ export default function StoryTalkItem({ storyTalk }: any) {
 
   return (
     <>
-      <Button variant="text" sx={{ color: "black" }}>
+      <Button
+        variant="text"
+        sx={{ color: "black" }}
+        href="/story-talk/:nickname"
+      >
         storyTalk name
       </Button>
       <More onClick={DeleteStoryTalk}>사연 대화 삭제</More>
       <Polaroid
         imageUrl={storyTalk.image}
         imageType="mini"
-        senderNickname="sotryTalk.senderId"
+        senderNickname="storyTalk.senderId"
       />
-      <Route path="/story-talk/:senderId" element={<StoryTalk />} />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import StoryTalkItem from "../../components/StoryTalk/storyTalkItem";
+import StoryTalkItem from "components/StoryTalk/StoryTalkItem";
 import { Stack, Button } from "@mui/material";
 import { Route, Link } from "react-router-dom";
 import Headerbar from "components/Headerbar";
