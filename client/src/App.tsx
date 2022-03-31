@@ -52,7 +52,12 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route
           path="/story-list/:userNickname"
-          element={<StoryTalk firstId={"123"} secondId={"111"} />}
+          element={
+            <StoryTalk
+              firstId={"e4738614-cc21-41ed-8ba0-6c1bd2501083"}
+              secondId={"de9322ee-03bb-47e3-8f7a-9c38dc3d59bb"}
+            />
+          }
         />
         <Route path="/login" element={<Login />} />
       </Routes>

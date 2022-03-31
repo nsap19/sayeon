@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { SvgIcon, Grid } from "@mui/material";
 import { ReactComponent as ArrowLeft } from "assets/icon/arrow-left.svg";
+import { ReactComponent as Send } from "assets/icon/send.svg";
 import { useNavigate } from "react-router-dom";
 
 const DivStyle = styled.div`
@@ -18,14 +19,16 @@ const DivStyle = styled.div`
   justify-content: center;
 `;
 
-const StoryTalkHeaderbar: React.FC<{ headerName: string | undefined }> = ({
-  headerName,
-}) => {
+const StoryTalkHeaderbar: React.FC<{
+  headerName: string | undefined;
+  otherUserInfo: { profilePic: number; nickname: string } | undefined;
+  otherUserId: string | undefined;
+}> = ({ headerName, otherUserInfo, otherUserId }) => {
   const navigate = useNavigate();
 
   return (
     <DivStyle>
-      <Grid container>
+      <Grid container alignItems="center">
         <Grid item xs={4} sx={{ textAlign: "left" }}>
           <SvgIcon
             sx={{ margin: "5px 0 0 8px" }}
@@ -34,8 +37,29 @@ const StoryTalkHeaderbar: React.FC<{ headerName: string | undefined }> = ({
             onClick={() => navigate(-1)}
           />
         </Grid>
-        <Grid item xs={4}>
-          {headerName}
+
+        <Grid item xs={4} container alignItems="center">
+          {otherUserInfo !== undefined && (
+            <img
+              src={require(`../../assets/images/profile/Avatars-${otherUserInfo.profilePic}.png`)}
+              alt="profile pic"
+              style={{ width: "40px", marginRight: "10px" }}
+            />
+          )}
+          <span>{headerName}</span>
+        </Grid>
+
+        <Grid item xs={4} sx={{ textAlign: "right" }}>
+          <SvgIcon
+            sx={{ margin: "5px 12px 0 0" }}
+            component={Send}
+            inheritViewBox
+            onClick={() =>
+              navigate("/send", {
+                state: { receiverId: otherUserId, receiverInfo: otherUserInfo },
+              })
+            }
+          />
         </Grid>
       </Grid>
     </DivStyle>
