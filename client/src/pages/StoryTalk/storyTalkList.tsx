@@ -8,7 +8,7 @@ import Headerbar from "components/Headerbar";
 // test
 import Polaroid from "components/Story/Polaroid";
 import { ReactComponent as More } from "../../assets/icon/more.svg";
-import StoryTalk from "../../pages/StoryTalk/StoryTalk";
+import StoryTalk from "pages/StoryTalk/StoryTalk";
 
 export default function StoryTalkList() {
   // STATE
@@ -38,35 +38,89 @@ export default function StoryTalkList() {
   });
 
   return (
-    <Stack direction="column" sx={{ height: "calc(100% - 56px)" }}>
+    <>
       <Headerbar headerName={"사연 대화 목록"} />
-      {/* {showStoryTalkItems} */}
       <Stack
-        direction="row"
-        justifyContent="space-between"
-        sx={{ marginTop: 5 }}
+        direction="column"
+        sx={{ height: "calc(100% - 56px)", margin: "30px" }}
+        spacing={3}
       >
-        <Button
-          variant="text"
-          sx={{ color: "black" }}
-          href={"/storyTalkList/" + senderId}
-        >
-          storyTalk name
-        </Button>
-        <More>사연 대화 삭제</More>
+        <div>
+          {/* {showStoryTalkItems} */}
+          <Stack direction="row" justifyContent="space-between">
+            <Button
+              variant="text"
+              sx={{ color: "black" }}
+              href={"/storyTalkList/" + senderId}
+            >
+              storyTalk name
+            </Button>
+            <More>사연 대화 삭제</More>
+          </Stack>
+          <Stack direction="row" justifyContent="start" spacing={2}>
+            <Polaroid
+              imageUrl="1"
+              imageType="mini"
+              senderNickname="sotryTalk.senderId"
+            />
+            <Polaroid
+              imageUrl="2"
+              imageType="mini"
+              senderNickname="sotryTalk.senderId"
+            />
+          </Stack>
+        </div>
+        <div>
+          {/* {showStoryTalkItems} */}
+          <Stack direction="row" justifyContent="space-between">
+            <Button
+              variant="text"
+              sx={{ color: "black" }}
+              href={"/storyTalkList/" + senderId}
+            >
+              storyTalk name
+            </Button>
+            <More>사연 대화 삭제</More>
+          </Stack>
+          <Stack direction="row" justifyContent="start" spacing={2}>
+            <Polaroid
+              imageUrl="1"
+              imageType="mini"
+              senderNickname="sotryTalk.senderId"
+            />
+            <Polaroid
+              imageUrl="2"
+              imageType="square"
+              senderNickname="sotryTalk.senderId"
+            />
+          </Stack>
+        </div>
+        <div>
+          {/* {showStoryTalkItems} */}
+          <Stack direction="row" justifyContent="space-between">
+            <Button
+              variant="text"
+              sx={{ color: "black" }}
+              href={"/storyTalkList/" + senderId}
+            >
+              storyTalk name
+            </Button>
+            <More>사연 대화 삭제</More>
+          </Stack>
+          <Stack direction="row" justifyContent="start" spacing={2}>
+            <Polaroid
+              imageUrl="1"
+              imageType="wide"
+              senderNickname="sotryTalk.senderId"
+            />
+            <Polaroid
+              imageUrl="2"
+              imageType="mini"
+              senderNickname="sotryTalk.senderId"
+            />
+          </Stack>
+        </div>
       </Stack>
-      <Stack direction="row" justifyContent="start" spacing={2}>
-        <Polaroid
-          imageUrl="1"
-          imageType="mini"
-          senderNickname="sotryTalk.senderId"
-        />
-        <Polaroid
-          imageUrl="2"
-          imageType="mini"
-          senderNickname="sotryTalk.senderId"
-        />
-      </Stack>
-    </Stack>
+    </>
   );
 }
