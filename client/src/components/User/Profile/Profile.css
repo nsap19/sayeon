@@ -1,16 +1,39 @@
 .input-custom {
-  width: 130px;
+  /* width: 140.66px; */
+  width: 185.06px;
+  font-size: 1.5em;
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom: 1px solid #B6B6B6;
+  background-color: #F9F9F9;
 }
+.input-custom:focus { outline: none; }
 
 .button-custom {
-  color: white;
-  height: 25px;
+  color: #A4CCF3;
+  font-size: 1em;
+  height: 30px;
   width: 40px;
   border: none;
   border-radius: 20px;
-  background-color: #C8E0F8;
+  background-color: #F9F9F9;
+}
+
+.select-custom {
+  width: 185.06px;
+  border: #B6B6B6;
+  opacity: .6;
+}
+
+.svg-custom {
+  color: #8C8888;
+  opacity: .4;
+}
+
+.small-custom {
+  color: #8C8888;
+  font-size: x-small;
+  display: block;
+  opacity: .6;
 }
