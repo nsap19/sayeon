@@ -42,7 +42,7 @@ export default function StoryTalkList() {
       <Headerbar headerName={"사연 대화 목록"} />
       <Stack
         direction="column"
-        sx={{ height: "calc(100% - 56px)", margin: "30px" }}
+        sx={{ height: "calc(100% - 56px - 70px)", padding: "30px" }}
         spacing={3}
       >
         <div>

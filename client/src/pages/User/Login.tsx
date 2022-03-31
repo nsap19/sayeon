@@ -39,51 +39,57 @@ export default function Login() {
   };
 
   return (
-    <Stack direction="column" sx={{ height: "calc(100% - 56px)" }}>
+    <>
       <Headerbar headerName={"로그인"} />
-      <Stack alignItems="center">
-        <Logo style={{ width: "50%", height: "50%", margin: "10% 5% 10%" }} />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={0}>
-            <EmailController control={control} />
-            <PasswordController control={control} />
-            <Button
-              sx={{
-                color: "white",
-                fontFamily: "S-CoreDream-4Regular",
-                width: "300px",
-                borderRadius: 31.5,
-              }}
-              disableElevation={true}
-              size="large"
-              variant="contained"
-              type="submit"
-            >
-              로그인
-            </Button>
-          </Stack>
-        </form>
-        <Button
-          sx={{
-            color: "white",
-            backgroundColor: "gray",
-            fontFamily: "S-CoreDream-4Regular",
-            marginTop: "30px",
-            width: "300px",
-            borderRadius: 31.5,
-          }}
-          disableElevation={true}
-          size="large"
-          variant="contained"
-          type="button"
-          href="/register"
-        >
-          회원가입
-        </Button>
-        <Button variant="text" sx={{ color: "black" }} href="/password">
-          비밀번호를 잊으셨나요?
-        </Button>
+      <Stack
+        direction="column"
+        justifyContent="center"
+        sx={{ height: "calc(100% - 56px - 70px)", textAlign: "center" }}
+      >
+        <Stack direction="column" alignItems="center">
+          <Logo style={{ width: "80%", height: "80%", margin: "0 auto 10%" }} />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={0}>
+              <EmailController control={control} />
+              <PasswordController control={control} />
+              <Button
+                sx={{
+                  color: "white",
+                  fontFamily: "S-CoreDream-4Regular",
+                  width: "300px",
+                  borderRadius: 31.5,
+                }}
+                disableElevation={true}
+                size="large"
+                variant="contained"
+                type="submit"
+              >
+                로그인
+              </Button>
+            </Stack>
+          </form>
+          <Button
+            sx={{
+              color: "white",
+              backgroundColor: "gray",
+              fontFamily: "S-CoreDream-4Regular",
+              marginTop: "30px",
+              width: "300px",
+              borderRadius: 31.5,
+            }}
+            disableElevation={true}
+            size="large"
+            variant="contained"
+            type="button"
+            href="/register"
+          >
+            회원가입
+          </Button>
+          <Button variant="text" sx={{ color: "black" }} href="/password">
+            비밀번호를 잊으셨나요?
+          </Button>
+        </Stack>
       </Stack>
-    </Stack>
+    </>
   );
 }

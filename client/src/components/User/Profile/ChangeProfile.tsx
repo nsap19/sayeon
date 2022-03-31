@@ -12,21 +12,20 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-
 const profilePics = [0, 1, 2, 3, 4, 5, 6, 7];
 
 export interface SelectProfilePIcDialogProps {
   open: boolean;
   selectedValue: number;
   onClose: (value: number) => void;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
   const { onClose, selectedValue, open, setOpen } = props;
 
   const handleClose = () => {
-    setOpen(false)
+    setOpen(false);
     onClose(selectedValue);
   };
 
@@ -35,27 +34,26 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
     onClose(value);
   };
 
-
   const updateProfilePic = () => {
-    const token = localStorage.getItem("token")
-    console.log(selectedValue)
-    setOpen(false)
+    const token = localStorage.getItem("token");
+    console.log(selectedValue);
+    setOpen(false);
     axios({
       method: "put",
       url: "userInfo/profile-pic",
       headers: {
-        Authorization : `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       data: {
-        profilePic: selectedValue 
-      }
+        profilePic: selectedValue,
+      },
     })
-    .then((res) => {
-      console.log('프로필 수정 완료')
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+      .then((res) => {
+        console.log("프로필 수정 완료");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -107,9 +105,7 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
           ))}
         </ImageList>
       </Box>
-      <Button onClick={() => updateProfilePic()}>
-        수정
-      </Button>
+      <Button onClick={() => updateProfilePic()}>수정</Button>
     </Dialog>
   );
 }
@@ -117,23 +113,22 @@ const ChangeProfile = () => {
   const [open, setOpen] = React.useState(false);
   const [profilePic, setProfilePic] = React.useState(0);
 
-
   useEffect(() => {
-    const token = localStorage.getItem("token") 
+    const token = localStorage.getItem("token");
+    console.log(token);
     axios({
       method: "get",
-      url: 'userInfo/myinfo',
+      url: "userInfo/myinfo",
       headers: {
-        Authorization : `Bearer ${token}`,
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
-    .then((res) => {
-      console.log(res)
-      setProfilePic(res.data.data.memberProfile.profilePic);
-    })
-    .catch((err) => console.log(err))
+      .then((res) => {
+        console.log(res);
+        setProfilePic(res.data.data.memberProfile.profilePic);
+      })
+      .catch((err) => console.log(err));
   }, []);
-
 
   const handleClickOpen = () => {
     setOpen(true);
