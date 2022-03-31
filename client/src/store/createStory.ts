@@ -6,7 +6,7 @@ export type CreateStoryType = {
   image: { name: string; url: string; type: "mini" | "square" | "wide" };
   keywords: string[];
   selectedKeywords: string[];
-  waiting: string;
+  waiting: number;
 };
 
 const initialState: CreateStoryType = {
@@ -14,7 +14,7 @@ const initialState: CreateStoryType = {
   image: { name: "", url: "", type: "square" },
   keywords: [],
   selectedKeywords: [],
-  waiting: "",
+  waiting: 0,
 };
 
 export const CreateStorySlice = createSlice({
@@ -34,7 +34,7 @@ export const CreateStorySlice = createSlice({
     ) => {
       state.image = action.payload;
     },
-    updateWaiting: (state, action: PayloadAction<string>) => {
+    updateWaiting: (state, action: PayloadAction<number>) => {
       state.waiting = action.payload;
     },
     updateKeywords: (state, action: PayloadAction<string[]>) => {

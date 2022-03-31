@@ -5,6 +5,7 @@ import { ReactComponent as ArrowLeft } from "../../assets/icon/arrow-left.svg";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import { selectCreateStory } from "../../store/createStory";
+import { receiverState } from "./types";
 
 const DivStyle = styled.div`
   background-color: white;
@@ -23,14 +24,14 @@ const DivStyle = styled.div`
 const CreateStoryHeaderbar: React.FC<{
   headerName: string;
   setStep: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ headerName, setStep }) => {
-  const { receiver } = useAppSelector(selectCreateStory);
+  receiver: receiverState;
+}> = ({ headerName, setStep, receiver }) => {
   const handleClick = () => {
     if (receiver) {
       setStep((prevStep) => prevStep - 1);
     } else {
       setStep((prevStep) => {
-        if (prevStep === 3) return 1; // 랜덤 작성일때는 키워드 선택 => 사진 선택
+        if (prevStep === 4) return 2; // 랜덤 작성일때는 시간 선택 제외
         return prevStep - 1;
       });
     }

@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { selectCreateStory } from "../../../store/createStory";
 import { useAppSelector } from "../../../store/hooks";
 import Polaroid from "../Polaroid";
 import { Box, Button, Stack, Chip } from "@mui/material";
 import axios from "axios";
+import { receiverState } from "../types";
 
-const ConfirmStory: React.FC = () => {
-  const { receiver, image, selectedKeywords, waiting } =
+const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
+  const { image, selectedKeywords, waiting } =
     useAppSelector(selectCreateStory);
 
   const onClick = () => {
@@ -17,12 +18,12 @@ const ConfirmStory: React.FC = () => {
           imageType: image.type,
           imageUrl: image.url,
           keyword: selectedKeywords.join(),
-          waitingId: 0,
+          waitingId: waiting,
+          receiverId: receiver.id,
         },
         {
           headers: {
-            // Authorization: `Bearer ${localStorage.getItem("token")}`,
-            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJxd2VAcXdlLmNvbSIsImlhdCI6MTY0ODU0MDM2NCwiZXhwIjoxNjQ4NTQzOTY0fQ.lW3KIn5-DMyT9EcRfj9LUFhunqCyyQhqDhP-G-nhPyS1IwKyKeu-cl7KBK9bxno_CBcsMwk7HcIzZb_71s7ZZQ`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       )
@@ -30,11 +31,19 @@ const ConfirmStory: React.FC = () => {
       .catch((err) => console.log(err));
   };
 
+  const waitingName = ["", "비둘기", "우체국", "자전거"];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
-      <Box sx={{ margin: "10px", width: "100%", height: "100%" }}>
+      <Box sx={{ margin: "10px", width: "100%" }}>
         {receiver ? (
-          <p style={{ margin: "10px" }}>{receiver}에게 사연보내기</p>
+          <p style={{ margin: "10px" }}>
+            {receiver.info.nickname}에게 사연보내기
+          </p>
         ) : (
           <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
         )}
@@ -50,13 +59,18 @@ const ConfirmStory: React.FC = () => {
           </Box>
           {waiting && (
             <Box>
-              <p>선택한 시간 | {waiting}</p>
+              <p>선택한 시간 | {waitingName[waiting]}</p>
             </Box>
           )}
 
           <Stack direction="row" justifyContent="center" spacing={1}>
             {selectedKeywords.map((keyword) => (
-              <Chip key={keyword} label={keyword} color="primary" />
+              <Chip
+                key={keyword}
+                label={keyword}
+                color="primary"
+                sx={{ color: "white" }}
+              />
             ))}
           </Stack>
         </Stack>

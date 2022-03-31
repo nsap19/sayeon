@@ -9,7 +9,7 @@ import Main from "./pages/Main/Main";
 import CreateStory from "./pages/Story/CreateStory";
 import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
-// import StoryTalk from "./pages/StoryTalk/StoryTalk";
+import StoryTalk from "pages/StoryTalk/StoryTalk";
 import StoryTalkList from "./pages/StoryTalk/StoryTalkList";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AuthRoute from "AuthRoute";
@@ -52,6 +52,15 @@ function App() {
           {/* <Route path="/story-talk" element={<StoryTalk />} /> */}
         </Route>
         <Route path="/register" element={<Register />} />
+        <Route
+          path="/story-talk/:userNickname"
+          element={
+            <StoryTalk
+              firstId={"e4738614-cc21-41ed-8ba0-6c1bd2501083"}
+              secondId={"de9322ee-03bb-47e3-8f7a-9c38dc3d59bb"}
+            />
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/changePassword" element={<ChangePassword />} />
         <Route path="/deleteAccount" element={<DeleteAccount />} />

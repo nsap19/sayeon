@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Stack, Box } from "@mui/material";
+import { Button, Stack, Box, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Cropper from "react-cropper";
 import { uploadFile } from "./utils/uploadFile";
@@ -12,6 +12,7 @@ import { selectCreateStory } from "../../../store/createStory";
 import { ReactComponent as Camera } from "assets/icon/camera.svg";
 import { updateImage, updateKeywords } from "../../../store/createStory";
 import Loading from "./Loading";
+import { receiverState } from "../types";
 
 const Input = styled("input")({
   display: "none",
@@ -24,7 +25,8 @@ const StyledButton = styled(Button)({
 
 const SelectImage: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ setStep }) => {
+  receiver: receiverState;
+}> = ({ setStep, receiver }) => {
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
   const [cropper, setCropper] = useState<any>();
@@ -62,7 +64,7 @@ const SelectImage: React.FC<{
     }
   };
 
-  const { receiver } = useAppSelector(selectCreateStory);
+  // const { receiver } = useAppSelector(selectCreateStory);
   const dispatch = useAppDispatch();
   const handleUpload = useCallback(() => {
     setKeywordsReady(true);
@@ -91,9 +93,10 @@ const SelectImage: React.FC<{
                   })
                 ).then((res) => {
                   console.log(res);
+                  let uniqueKeywords = Array.from(new Set(res)); // 중복 제거
 
                   // 5. 번역 완료시 상태 저장
-                  dispatch(updateKeywords(res));
+                  dispatch(updateKeywords(uniqueKeywords));
                   dispatch(
                     updateImage({
                       name: imageName,
@@ -102,11 +105,7 @@ const SelectImage: React.FC<{
                     })
                   );
 
-                  if (receiver) {
-                    setStep(2);
-                  } else {
-                    setStep(3);
-                  }
+                  setStep(2);
                 });
               })
               .catch((err) => console.log(err));
@@ -114,17 +113,11 @@ const SelectImage: React.FC<{
           .catch((err) => console.log(err));
       });
     }, imageExtension);
-  }, [
-    cropper,
-    dispatch,
-    imageExtension,
-    imageName,
-    imageType,
-    receiver,
-    setStep,
-  ]);
+  }, [cropper, dispatch, imageExtension, imageName, imageType, setStep]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (cropData) {
       handleUpload(); // getCropDate => handleUpload
     }
@@ -148,7 +141,9 @@ const SelectImage: React.FC<{
           <Box sx={{ margin: "10px", overflow: "hidden" }}>
             <Stack direction="column">
               {receiver ? (
-                <p style={{ margin: "10px" }}>{receiver}에게 사연보내기</p>
+                <p style={{ margin: "10px" }}>
+                  {receiver.info.nickname}에게 사연보내기
+                </p>
               ) : (
                 <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
               )}
@@ -210,7 +205,7 @@ const SelectImage: React.FC<{
                   }}
                 >
                   {imageName ? (
-                    <p>업로드 중</p>
+                    <CircularProgress />
                   ) : (
                     <>
                       <Camera />
@@ -241,7 +236,7 @@ const SelectImage: React.FC<{
             </Stack>
 
             <Stack
-              sx={{ margin: "20px auto" }}
+              sx={{ margin: "10px auto" }}
               direction="row"
               justifyContent="center"
               spacing={2}

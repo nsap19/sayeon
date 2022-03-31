@@ -1,28 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectImage from "../../components/Story/1_SelectImage/SelectImage";
 import { Stack } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
-import SelectWaiting from "../../components/Story/2_SelectWaiting/SelectWaiting";
-import SelectKeyword from "../../components/Story/3_SelectKeyword/SelectKeyword";
+import SelectWaiting from "../../components/Story/3_SelectWaiting/SelectWaiting";
+import SelectKeyword from "../../components/Story/2_SelectKeyword/SelectKeyword";
 import ConfirmStory from "../../components/Story/4_ConfirmStory/ConfirmStory";
 import CreateStoryHeaderbar from "../../components/Story/CreateStoryHeaderbar";
+import { useLocation } from "react-router-dom";
+
+interface CustomizedState {
+  id: string;
+  info: { profilePic: number; nickname: string };
+}
 
 const CreateStory: React.FC = () => {
+  const location = useLocation();
+  const receiver = location.state as CustomizedState;
   const [step, setStep] = useState<number>(1);
+
+  useEffect(() => {
+    document.getElementById("create-story")!.scrollTo(0, 0);
+  }, [step]);
 
   return (
     <>
       {step === 1 ? (
         <Headerbar headerName={"사연 작성"} />
       ) : (
-        <CreateStoryHeaderbar headerName={"사연 작성"} setStep={setStep} />
+        <CreateStoryHeaderbar
+          headerName={"사연 작성"}
+          setStep={setStep}
+          receiver={receiver}
+        />
       )}
 
       <Stack
+        id="create-story"
         direction="column"
         justifyContent="space-between"
         alignItems="center"
-        spacing={2}
         sx={{
           height: "calc(100% - 56px)",
           overflowY: "auto",
@@ -31,10 +47,10 @@ const CreateStory: React.FC = () => {
       >
         {
           {
-            1: <SelectImage setStep={setStep} />,
-            2: <SelectWaiting setStep={setStep} />,
-            3: <SelectKeyword setStep={setStep} />,
-            4: <ConfirmStory />,
+            1: <SelectImage setStep={setStep} receiver={receiver} />,
+            2: <SelectKeyword setStep={setStep} receiver={receiver} />,
+            3: <SelectWaiting setStep={setStep} receiver={receiver} />,
+            4: <ConfirmStory receiver={receiver} />,
           }[step]
         }
       </Stack>

@@ -1,5 +1,7 @@
 import React from "react";
 import { Stack, CircularProgress } from "@mui/material";
+import Lottie from "lottie-react";
+import Keywords from "assets/json/Lottie/Keywords.json";
 
 const Loading: React.FC<{ keywordsReady: boolean }> = ({ keywordsReady }) => {
   return (
@@ -10,8 +12,7 @@ const Loading: React.FC<{ keywordsReady: boolean }> = ({ keywordsReady }) => {
       spacing={3}
       sx={{ height: "100%" }}
     >
-      <CircularProgress />
-      <p>키워드 생성중</p>
+      <Lottie animationData={Keywords} loop={true} style={{ width: "50%" }} />
     </Stack>
   );
 };
