@@ -37,7 +37,7 @@ const Register: React.FC = () => {
     })
       .then((res) => {
         console.log(res);
-        navigate("/", { state: { openSnackbar: true } });
+        navigate("/login", { state: { openSnackbar: true } });
       })
       .catch((err) => {
         console.log(err);
