@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Stack, Box, Chip } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { selectCreateStory, updateSelectedKeywords } from "store/createStory";
 import Polaroid from "../Polaroid";
+import { receiverState } from "../types";
 
 const SelectKeyword: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ setStep }) => {
-  const { receiver, image, keywords } = useAppSelector(selectCreateStory);
+  receiver: receiverState;
+}> = ({ setStep, receiver }) => {
+  const { image, keywords } = useAppSelector(selectCreateStory);
 
   const [selectedKeyword, setSelectedKeyword] = useState<string[]>([]);
 
@@ -31,11 +33,17 @@ const SelectKeyword: React.FC<{
     dispatch(updateSelectedKeywords(selectedKeyword));
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Box sx={{ margin: "10px", width: "100%" }}>
         {receiver ? (
-          <p style={{ margin: "10px" }}>{receiver}에게 사연보내기</p>
+          <p style={{ margin: "10px" }}>
+            {receiver.info.nickname}에게 사연보내기
+          </p>
         ) : (
           <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
         )}

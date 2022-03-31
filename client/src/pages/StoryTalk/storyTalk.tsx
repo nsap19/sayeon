@@ -189,7 +189,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
             variant="contained"
             onClick={() =>
               navigate("/send", {
-                state: { receiverId: otherUserId, receiverInfo: otherUserInfo },
+                state: { id: otherUserId, info: otherUserInfo },
               })
             }
           >

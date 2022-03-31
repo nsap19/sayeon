@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   Box,
@@ -9,6 +9,7 @@ import {
 import { styled } from "@mui/material/styles";
 import { selectCreateStory, updateWaiting } from "store/createStory";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import { receiverState } from "../types";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -38,13 +39,13 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
 
 const SelectWaiting: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ setStep }) => {
-  const { receiver } = useAppSelector(selectCreateStory);
-  const [waiting, setWaiting] = React.useState("dove");
+  receiver: receiverState;
+}> = ({ setStep, receiver }) => {
+  const [waiting, setWaiting] = React.useState(0);
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    nextWaiting: string
+    nextWaiting: number
   ) => {
     if (nextWaiting !== null) {
       setWaiting(nextWaiting);
@@ -53,21 +54,21 @@ const SelectWaiting: React.FC<{
 
   const waitingOptions = [
     {
-      value: "dove",
+      value: "1",
       image: "🦅",
       title: "비둘기 1일",
       content: "비둘기가 날아가고 있어요.",
       description: "편지가 도착하는데 하루가 소요됩니다.",
     },
     {
-      value: "post",
+      value: "2",
       image: "🏤",
       title: "우체통 3시간",
       content: "우체부가 배달하고 있어요.",
       description: "편지가 도착하는데 세 시간이 소요됩니다.",
     },
     {
-      value: "bike",
+      value: "3",
       image: "🚲",
       title: "자전거 1시간",
       content: "자전거를 타고 가고 있어요.",
@@ -81,11 +82,19 @@ const SelectWaiting: React.FC<{
     dispatch(updateWaiting(waiting));
   };
 
+  useEffect(() => {
+    setTimeout(function () {
+      window.scrollTo(0, 0);
+    }, 200);
+  }, []);
+
   return (
     <>
       <Box sx={{ margin: "10px", width: "100%", height: "100%" }}>
         {receiver ? (
-          <p style={{ margin: "10px" }}>{receiver}에게 사연보내기</p>
+          <p style={{ margin: "10px" }}>
+            {receiver.info.nickname}에게 사연보내기
+          </p>
         ) : (
           <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
         )}

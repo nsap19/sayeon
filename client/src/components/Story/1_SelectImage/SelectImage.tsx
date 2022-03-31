@@ -12,6 +12,7 @@ import { selectCreateStory } from "../../../store/createStory";
 import { ReactComponent as Camera } from "assets/icon/camera.svg";
 import { updateImage, updateKeywords } from "../../../store/createStory";
 import Loading from "./Loading";
+import { receiverState } from "../types";
 
 const Input = styled("input")({
   display: "none",
@@ -24,7 +25,8 @@ const StyledButton = styled(Button)({
 
 const SelectImage: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
-}> = ({ setStep }) => {
+  receiver: receiverState;
+}> = ({ setStep, receiver }) => {
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
   const [cropper, setCropper] = useState<any>();
@@ -62,7 +64,7 @@ const SelectImage: React.FC<{
     }
   };
 
-  const { receiver } = useAppSelector(selectCreateStory);
+  // const { receiver } = useAppSelector(selectCreateStory);
   const dispatch = useAppDispatch();
   const handleUpload = useCallback(() => {
     setKeywordsReady(true);
@@ -111,17 +113,11 @@ const SelectImage: React.FC<{
           .catch((err) => console.log(err));
       });
     }, imageExtension);
-  }, [
-    cropper,
-    dispatch,
-    imageExtension,
-    imageName,
-    imageType,
-    receiver,
-    setStep,
-  ]);
+  }, [cropper, dispatch, imageExtension, imageName, imageType, setStep]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (cropData) {
       handleUpload(); // getCropDate => handleUpload
     }
@@ -145,7 +141,9 @@ const SelectImage: React.FC<{
           <Box sx={{ margin: "10px", overflow: "hidden" }}>
             <Stack direction="column">
               {receiver ? (
-                <p style={{ margin: "10px" }}>{receiver}에게 사연보내기</p>
+                <p style={{ margin: "10px" }}>
+                  {receiver.info.nickname}에게 사연보내기
+                </p>
               ) : (
                 <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
               )}
