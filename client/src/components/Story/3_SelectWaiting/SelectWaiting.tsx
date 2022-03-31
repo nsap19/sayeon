@@ -28,7 +28,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 }));
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
-  height: "33%",
+  height: "130px",
   backgroundColor: "white",
   "&.Mui-selected, &.Mui-selected:hover": {
     backgroundColor: "white",
@@ -81,12 +81,6 @@ const SelectWaiting: React.FC<{
     setStep(4);
     dispatch(updateWaiting(waiting));
   };
-
-  useEffect(() => {
-    setTimeout(function () {
-      window.scrollTo(0, 0);
-    }, 200);
-  }, []);
 
   return (
     <>

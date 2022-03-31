@@ -33,10 +33,6 @@ const SelectKeyword: React.FC<{
     dispatch(updateSelectedKeywords(selectedKeyword));
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <>
       <Box sx={{ margin: "10px", width: "100%" }}>

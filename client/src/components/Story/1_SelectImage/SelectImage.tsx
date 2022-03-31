@@ -13,6 +13,8 @@ import { ReactComponent as Camera } from "assets/icon/camera.svg";
 import { updateImage, updateKeywords } from "../../../store/createStory";
 import Loading from "./Loading";
 import { receiverState } from "../types";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 const Input = styled("input")({
   display: "none",
@@ -22,6 +24,34 @@ const StyledButton = styled(Button)({
   color: "white",
   fontFamily: "S-CoreDream-4Regular",
 });
+
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  "& .MuiToggleButtonGroup-grouped": {
+    fontFamily: "S-CoreDream-4Regular",
+    margin: theme.spacing(2),
+    border: 0,
+    "&:not(:first-of-type)": {
+      borderRadius: "30px",
+    },
+    "&:first-of-type": {
+      borderRadius: "30px",
+    },
+  },
+}));
+
+const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+  backgroundColor: "white",
+  padding: "7px 15px",
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+  "&.Mui-selected, &.Mui-selected:hover": {
+    backgroundColor: "#A4CCF3",
+    color: "white",
+    borderTop: "",
+  },
+}));
 
 const SelectImage: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -116,8 +146,6 @@ const SelectImage: React.FC<{
   }, [cropper, dispatch, imageExtension, imageName, imageType, setStep]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     if (cropData) {
       handleUpload(); // getCropDate => handleUpload
     }
@@ -137,127 +165,127 @@ const SelectImage: React.FC<{
       {keywordsReady ? (
         <Loading keywordsReady={keywordsReady} />
       ) : (
-        <>
-          <Box sx={{ margin: "10px", overflow: "hidden" }}>
-            <Stack direction="column">
-              {receiver ? (
-                <p style={{ margin: "10px" }}>
-                  {receiver.info.nickname}에게 사연보내기
-                </p>
-              ) : (
-                <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
-              )}
+        <Stack
+          justifyContent="space-around"
+          sx={{
+            margin: "10px",
+            overflowY: "auto",
+            overflowX: "hidden",
+            height: "100%",
+          }}
+        >
+          <Stack direction="column">
+            {receiver ? (
+              <p style={{ margin: "10px" }}>
+                {receiver.info.nickname}에게 사연보내기
+              </p>
+            ) : (
+              <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
+            )}
 
-              {/* <input type="file" onChange={onChange} /> */}
-              <label
-                htmlFor="contained-button-file"
-                style={{
-                  minWidth: "300px",
-                  margin: "auto",
-                  textAlign: "right",
-                }}
-              >
-                <Input
-                  accept="image/*"
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  onChange={onChange}
-                />
-                <Button
-                  href="/send"
-                  sx={{
-                    color: "white",
-                    fontFamily: "S-CoreDream-4Regular",
-                    marginBottom: "10px",
-                  }}
-                  disableElevation={true}
-                  variant="contained"
-                  component="span"
-                  size="small"
-                >
-                  사진 고르기
-                </Button>
-              </label>
-
-              <Box
-                // 최소 window 크기 320px 기준 = 양 옆 마진 10px + 최소 사진 너비 300px
+            {/* <input type="file" onChange={onChange} /> */}
+            <label
+              htmlFor="contained-button-file"
+              style={{
+                minWidth: "300px",
+                margin: "auto",
+                textAlign: "right",
+              }}
+            >
+              <Input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                onChange={onChange}
+              />
+              <Button
+                href="/send"
                 sx={{
-                  margin: "0 10px",
-                  minWidth: "300px",
-                  height: "300px",
-                  backgroundColor: imageReady ? "rgba(0, 0, 0, 50%)" : "white",
-                  borderRadius: "20px",
-                  boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.05)",
-                  display: "flex",
+                  color: "white",
+                  fontFamily: "S-CoreDream-4Regular",
+                  marginBottom: "10px",
+                }}
+                disableElevation={true}
+                variant="contained"
+                component="span"
+                size="small"
+              >
+                사진 고르기
+              </Button>
+            </label>
+
+            <Box
+              // 최소 window 크기 320px 기준 = 양 옆 마진 10px + 최소 사진 너비 300px
+              sx={{
+                margin: "0 10px",
+                minWidth: "300px",
+                height: "300px",
+                backgroundColor: imageReady ? "rgba(0, 0, 0, 50%)" : "white",
+                borderRadius: "20px",
+                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.05)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+              }}
+            >
+              <Box
+                sx={{
+                  display: imageReady ? "none" : "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
+                  position: "absolute",
                 }}
               >
-                <Box
-                  sx={{
-                    display: imageReady ? "none" : "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    position: "absolute",
-                  }}
-                >
-                  {imageName ? (
-                    <CircularProgress />
-                  ) : (
-                    <>
-                      <Camera />
-                      <p>사진 업로드</p>
-                    </>
-                  )}
-                </Box>
-                <Cropper
-                  style={{ maxHeight: "300px" }}
-                  aspectRatio={1}
-                  preview=".img-preview"
-                  src={image}
-                  viewMode={1}
-                  minCropBoxHeight={10}
-                  minCropBoxWidth={10}
-                  background={false}
-                  responsive={true}
-                  autoCropArea={1}
-                  checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-                  onInitialized={(instance) => {
-                    setCropper(instance);
-                  }}
-                  guides={true}
-                  zoomOnWheel={false}
-                  ready={() => setImageReady(true)}
-                />
+                {imageName ? (
+                  <CircularProgress />
+                ) : (
+                  <>
+                    <Camera />
+                    <p>사진 업로드</p>
+                  </>
+                )}
               </Box>
-            </Stack>
+              <Cropper
+                style={{ maxHeight: "300px" }}
+                aspectRatio={1}
+                preview=".img-preview"
+                src={image}
+                viewMode={1}
+                minCropBoxHeight={10}
+                minCropBoxWidth={10}
+                background={false}
+                responsive={true}
+                autoCropArea={1}
+                checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+                onInitialized={(instance) => {
+                  setCropper(instance);
+                }}
+                guides={true}
+                zoomOnWheel={false}
+                ready={() => setImageReady(true)}
+              />
+            </Box>
+          </Stack>
 
-            <Stack
-              sx={{ margin: "10px auto" }}
-              direction="row"
-              justifyContent="center"
-              spacing={2}
-            >
-              {imageTypeOptions.map((imageTypeOption) => (
-                <StyledButton
-                  variant="contained"
-                  disableElevation={true}
-                  onClick={() => {
-                    cropper.setAspectRatio(imageTypeOption.ratio);
-                    setImageType(imageTypeOption.value);
-                  }}
-                  key={imageTypeOption.value}
-                >
-                  {imageTypeOption.value}
-                </StyledButton>
-              ))}
-            </Stack>
-          </Box>
+          <StyledToggleButtonGroup size="small" value={imageType} exclusive>
+            {imageTypeOptions.map((imageTypeOption) => (
+              <StyledToggleButton
+                onClick={() => {
+                  cropper.setAspectRatio(imageTypeOption.ratio);
+                  setImageType(imageTypeOption.value);
+                }}
+                key={imageTypeOption.value}
+                value={imageTypeOption.value}
+              >
+                {imageTypeOption.value}
+              </StyledToggleButton>
+            ))}
+          </StyledToggleButtonGroup>
 
-          <Box>
+          <Box sx={{ textAlign: "center" }}>
             <Button
               onClick={getCropData}
               disabled={!imageReady}
@@ -275,7 +303,7 @@ const SelectImage: React.FC<{
               다음
             </Button>
           </Box>
-        </>
+        </Stack>
       )}
     </>
   );

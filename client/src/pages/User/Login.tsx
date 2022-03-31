@@ -1,7 +1,7 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Stack, Button } from "@mui/material";
+import { Stack, Button, Snackbar, Alert } from "@mui/material";
 import { ReactComponent as Logo } from "assets/logo/logo.svg";
 import { loginInput } from "components/User/Login/types";
 import EmailController from "components/User/Login/EmailController";
@@ -10,6 +10,10 @@ import axios from "axios";
 import Headerbar from "components/Headerbar";
 // import { useAppDispatch } from "store/hooks";
 // import { setLoggedUser } from "store/user";
+
+interface CustomizedState {
+  openSnackbar: boolean;
+}
 
 export default function Login() {
   // const dispatch = useAppDispatch();
@@ -38,9 +42,35 @@ export default function Login() {
       });
   };
 
+  // 회원가입 성공시 스낵바
+  const location = useLocation();
+  const state = location.state as CustomizedState;
+  const [snackbar, setSnackbar] = useState(state ? state.openSnackbar : false);
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbar(false);
+  };
+
   return (
     <>
       <Headerbar headerName={"로그인"} />
+
+      <Snackbar
+        open={snackbar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          {"회원가입이 완료되었습니다."}
+        </Alert>
+      </Snackbar>
+
       <Stack
         direction="column"
         justifyContent="center"
