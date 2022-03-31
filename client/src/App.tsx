@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import React from "react";
-import { Routes, Navigate, Route } from "react-router-dom";
-=======
 import { Routes, Route } from "react-router-dom";
->>>>>>> origin/feature/create-story
 import Login from "./pages/User/Login";
 import Register from "./pages/User/Register";
 import ChangePassword from "./components/User/Profile/ChangePassword";
@@ -52,8 +48,8 @@ function App() {
           <Route path="/send" element={<CreateStory />} />
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/storylist" element={<StoryList />}></Route>
-          <Route path="/storyTalkList" element={<StoryTalkList />} />
-          {/* <Route path="/storyTalk" element={<StoryTalk />} /> */}
+          <Route path="/story-talk-list" element={<StoryTalkList />} />
+          {/* <Route path="/story-talk" element={<StoryTalk />} /> */}
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
