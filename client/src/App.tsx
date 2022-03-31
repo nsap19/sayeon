@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import React from "react";
-import { Routes, Navigate, Route } from "react-router-dom";
-=======
 import { Routes, Route } from "react-router-dom";
->>>>>>> origin/feature/create-story
 import Login from "./pages/User/Login";
 import StoryTalkList from "./pages/StoryTalk/storyTalkList";
 import Register from "./pages/User/Register";
