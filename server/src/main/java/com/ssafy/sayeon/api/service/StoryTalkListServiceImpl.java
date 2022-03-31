@@ -141,10 +141,22 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 			for (int i = 0; i < s; i++) {
 				limitedlist.add(list.get(i));
 			}
-
-			StoryTalkBody stb = new StoryTalkBody(limitedlist);
-			storyTalkList.add(stb);
+			if (limitedlist.size() > 0) {
+				StoryTalkBody stb = new StoryTalkBody(limitedlist);
+				storyTalkList.add(stb);
+			}
 		}
+
+		Collections.sort(storyTalkList, new Comparator<StoryTalkBody>() {
+
+			@Override
+			public int compare(StoryTalkBody o1, StoryTalkBody o2) {
+				// TODO Auto-generated method stub
+				return (int) (Long.parseLong( o2.getStoryTalk().get(0).getDateReceived().replaceAll("[ :-]", "")) - 
+						Long.parseLong( o1.getStoryTalk().get(0).getDateReceived().replaceAll("[ :-]", "")));
+			}
+
+		});
 
 		return storyTalkList;
 	}
