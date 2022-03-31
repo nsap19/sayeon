@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Stack, Grid, Button } from "@mui/material";
+import { Stack, Grid } from "@mui/material";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
 import "./Profile.css";
 
 const ChangeNickname: React.FC = () => {
   const [isEditingNickname, setIsEditingNickname] = useState<boolean>(false);
-  const [nickname, setNickname] = useState<string>('닉네임');
-  // const [nickname, setNickname] = useState<string>('');
-  // const [validatedNickname, setValidatedNickname] = useState(false);
+  const [nickname, setNickname] = useState<string>('');
 
   const nicknameEditingMode = () => {
     if (!isEditingNickname) {
@@ -21,20 +19,25 @@ const ChangeNickname: React.FC = () => {
   };
 
 
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: `users/${userId}`,
-  //   })
-  //   .then((res) => {
-  //     console.log(res)
-  //     setNickname(res.data.nickname);
-  //   })
-  //   .catch((err) => console.log(err))
-  // }, [nickname]);
+  useEffect(() => {
+    const token = localStorage.getItem("token") 
+    axios({
+      method: "get",
+      url: 'userInfo/myinfo',
+      headers: {
+        Authorization : `Bearer ${token}`,
+      }
+    })
+    .then((res) => {
+      // console.log(res)
+      setNickname(res.data.data.memberProfile.nickname);
+    })
+    .catch((err) => console.log(err));
+  }, []);
 
 
   const changeNickname = () => {
+    const token = localStorage.getItem("token")
     // 닉네임 중복 체크
     axios
     .post("users/nickname", null, {
@@ -43,12 +46,16 @@ const ChangeNickname: React.FC = () => {
       },
     })
     .then(() => {
-      // setValidatedNickname(true);
+      // console.log(nickname)
       axios({
         method: "put",
         url: "userInfo/nickname",
+        headers: {
+          // 'Content-Type': 'application/json',
+          Authorization : `Bearer ${token}`,
+        },
         data: {
-          nickname: nickname
+          nickname,
         }
       })
       .then(() => {
@@ -58,7 +65,6 @@ const ChangeNickname: React.FC = () => {
       .catch((err) => console.log(err));
     })
     .catch(() => {
-      // setValidatedNickname(false);
       alert('중복된 닉네임입니다.')
     });
   };

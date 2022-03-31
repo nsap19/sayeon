@@ -7,22 +7,42 @@ import Headerbar from "../../Headerbar";
 
 const DeleteAccount: React.FC = () => {
   const navigate = useNavigate();
+  const [password, setPassword] = useState<string>('');
 
   const onClick = () => {
-    axios({
-      method: "delete",
-      url: "/api/users",
+    console.log(password)
+    const token = localStorage.getItem("token")
+    axios.delete("userInfo", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data: {
+        password
+      }
     })
-      .then((res) => {
-        console.log(res);
-        setOpen(true);
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        setAlertState("error");
-        setOpen(true);
-      });
+
+    // axios({
+    //   method: "delete",
+    //   url: "userInfo",
+    //   params: {
+    //     password: password
+    //   }
+    // })
+    .then((res) => {
+      console.log(res);
+      setOpen(true);
+      navigate("/");
+    })
+    .catch((err) => {
+      console.log(err);
+      setAlertState("error");
+      setOpen(true);
+    });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log(e)
+    setPassword(e.target.value)
   };
 
   // 스낵바 관련
@@ -56,7 +76,7 @@ const DeleteAccount: React.FC = () => {
           sx={{ width: "100%" }}
         >
           {alertState === "success"
-            ? "비밀번호가 변경되었습니다."
+            ? "회원탈퇴"
             : "다시 시도해주세요."}
         </Alert>
       </Snackbar>
@@ -64,6 +84,7 @@ const DeleteAccount: React.FC = () => {
       <Headerbar headerName={"회원탈퇴"} />
       <p>정말 탈퇴하시겠습니까?</p>
       <p>삭제된 계정 정보는 복구되지 않습니다.</p>
+      <input type="password" value={password} onChange={(e) => handleChange(e)}/>
       <Button variant="contained" onClick={onClick}>
         탈퇴
       </Button>

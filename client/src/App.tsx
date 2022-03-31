@@ -47,23 +47,22 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/send" element={<CreateStory />} />
           <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/storylist" element={<StoryList />}></Route>
+          <Route path="/story-list" element={<StoryList />}></Route>
           <Route path="/story-talk-list" element={<StoryTalkList />} />
-          {/* <Route path="/story-talk" element={<StoryTalk />} /> */}
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/delete-account" element={<DeleteAccount />} />
+          <Route
+	          path="/story-talk/:userNickname"
+	          element={
+	            <StoryTalk
+	              firstId={"e4738614-cc21-41ed-8ba0-6c1bd2501083"}
+	              secondId={"de9322ee-03bb-47e3-8f7a-9c38dc3d59bb"}
+	            />
+	          }
+	        />
         </Route>
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/story-talk/:userNickname"
-          element={
-            <StoryTalk
-              firstId={"e4738614-cc21-41ed-8ba0-6c1bd2501083"}
-              secondId={"de9322ee-03bb-47e3-8f7a-9c38dc3d59bb"}
-            />
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/changePassword" element={<ChangePassword />} />
-        <Route path="/deleteAccount" element={<DeleteAccount />} />
+        <Route path="/login" element={<Login />} />      
       </Routes>
       <BottomNavbar />
     </ThemeProvider>

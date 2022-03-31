@@ -6,12 +6,12 @@ import { Box, ImageList, ImageListItem } from "@mui/material";
 const StoryListSent: React.FC = () => {
   return (
     <div>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }} mx={3}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mx: 3 }}>
         <p>보낸 사연</p>
         {/* 보낸 사연 수 */}
         <p>24</p>
       </Box>
-      <Box>
+      <Box sx={{ px: 2, height: 520, overflowY: 'scroll', mt: 2 }}>
         <ImageList variant="masonry" cols={2} gap={10}>
           <ImageListItem>
             <Polaroid
@@ -57,43 +57,6 @@ const StoryListSent: React.FC = () => {
           </ImageListItem>
         </ImageList>
       </Box>
-      {/* <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Polaroid
-            imageUrl={require("../../assets/images/test/square_default.png")}
-            imageType={"square"}
-            senderNickname={"발신자 닉네임 1"}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Polaroid
-            imageUrl={require("../../assets/images/test/mini_default.png")}
-            imageType={"mini"}
-            senderNickname={"발신자 닉네임 2"}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Polaroid
-            imageUrl={require("../../assets/images/test/wide_default.png")}
-            imageType={"wide"}
-            senderNickname={"발신자 닉네임 3"}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Polaroid
-            imageUrl={require("../../assets/images/test/square_default.png")}
-            imageType={"square"}
-            senderNickname={"발신자 닉네임 4"}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Polaroid
-            imageUrl={require("../../assets/images/test/wide_default.png")}
-            imageType={"wide"}
-            senderNickname={"발신자 닉네임 3"}
-          />
-        </Grid>
-      </Grid> */}
     </div>
   )
 }

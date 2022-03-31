@@ -18,19 +18,20 @@ const ChangePassword: React.FC = () => {
 
   const navigate = useNavigate();
   const onSubmit = (data: changePasswordInput) => {
+    const token = localStorage.getItem("token")
     axios({
       method: "put",
-      url: "/userInfo/password",
-      // headers: {
-      //   Authorization: `Bearer ${process.env.REACT_APP_KEY}`,
-      //   "Content-Type": "application/json",
-      // },
+      url: "userInfo/password",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       data: {
         password: data.password,
       },
     })
       .then((res) => {
         console.log(res);
+        console.log('비밀번호 변경완료');
         setOpen(true);
         navigate("/");
       })

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from 'react';
 // import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+// import axios from "axios";
 import ChangeProfile from "../../components/User/Profile/ChangeProfile";
 import Grid from "@mui/material/Grid";
 import { Stack, Button } from "@mui/material";
@@ -13,31 +13,16 @@ import ChangeLocation from 'components/User/Profile/ChangeLocation';
 const Profile = () => {
   const navigate = useNavigate();
 
-  // const [isEditingPic, setIsEditingPic] = useState<boolean>(false);
-  const [profilePic, setProfilePic] = useState(0);
-
-
-  // 회원정보 출력
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: `/api/users/${userId}`,
-  //   })
-  //   .then((res) => {
-  //     console.log(res)
-  //     setNickname(res.data.nickname);
-  //     setProfilePic(res.data.profilePic);
-  //     setLocations(res.data.locations);
-  //     setLocation(res.data.location.split('')[0]);
-  //     setDetailedLocation(res.data.location.split('')[1]);
-  //   })
-  //   .catch((err) => console.log(err))
-  // }, []);
-
 
   // 비밀번호 변경 페이지로 이동
   const goChangePassword = () => {
     navigate('/changePassword');
+  }
+
+  // 로그아웃
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
   }
 
   // 회원탈퇴 페이지로 이동
@@ -65,9 +50,6 @@ const Profile = () => {
         </Grid>
         <ChangeLocation />
         <Stack spacing={2}>
-          {/* <Button variant="contained">비밀번호 수정</Button>  */}
-          {/* <Button variant="contained">로그아웃</Button> 
-          <Button variant="contained">회원탈퇴</Button>  */}
           <Button
               sx={{
                 color: "white",
@@ -96,6 +78,7 @@ const Profile = () => {
               disableElevation={true}
               size="large"
               variant="contained"
+              onClick={logout}
             >
               로그아웃
             </Button>
