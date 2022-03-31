@@ -40,7 +40,7 @@ const CreateStory: React.FC = () => {
         justifyContent="space-between"
         alignItems="center"
         sx={{
-          height: "calc(100% - 56px)",
+          height: "calc(100% - 56px - 70px)",
           overflowY: "auto",
           overflowX: "hidden",
         }}
