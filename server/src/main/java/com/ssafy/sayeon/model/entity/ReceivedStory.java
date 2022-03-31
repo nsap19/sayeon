@@ -1,5 +1,6 @@
 package com.ssafy.sayeon.model.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ import lombok.ToString;
 @Table(name="receivedstory")
 public class ReceivedStory {
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@MapsId 
 	@JoinColumn(name = "storyId")
 	@JsonIgnore

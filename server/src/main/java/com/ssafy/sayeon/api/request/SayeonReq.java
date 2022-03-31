@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 @ApiModel("SayeonRequest")
 public class SayeonReq {
+	@ApiModelProperty(name="수신자", notes="필수값, 지정자 없을 시에 \"null\" 전달")
+	String receiverId;
 	@ApiModelProperty(name="이미지")
 	String imageUrl;
 	@ApiModelProperty(name="이미지 타입")
