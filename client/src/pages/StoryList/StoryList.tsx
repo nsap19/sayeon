@@ -3,7 +3,7 @@ import StoryListReceived from "../../components/StoryList/StoryListReceived";
 import StoryListSent from "../../components/StoryList/StoryListSent";
 import { Stack, Box } from "@mui/material";
 import "./StoryList.css";
-import StoryListHeaderbar from "./StoryListHeaderbar"
+import StoryListHeaderbar from "../../components/StoryList/StoryListHeaderbar"
 
 const StoryList: React.FC = () => {
   const [isActive, setIsActive] = React.useState(true);
@@ -21,7 +21,7 @@ const StoryList: React.FC = () => {
       <header>
         <StoryListHeaderbar headerName={"내 사연함"} />
       </header>
-      <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 1, bgcolor: 'white' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around', p: .5, bgcolor: 'white', color: '#8c8888' }}>
         <p onClick={handleActive}>보낸 사연함</p>
         <p onClick={handleDisabled}>받은 사연함</p>
       </Box>

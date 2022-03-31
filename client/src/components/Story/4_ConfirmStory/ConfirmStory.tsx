@@ -21,8 +21,8 @@ const ConfirmStory: React.FC = () => {
         },
         {
           headers: {
-            // Authorization: `Bearer ${localStorage.getItem("token")}`,
-            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJxd2VAcXdlLmNvbSIsImlhdCI6MTY0ODU0MDM2NCwiZXhwIjoxNjQ4NTQzOTY0fQ.lW3KIn5-DMyT9EcRfj9LUFhunqCyyQhqDhP-G-nhPyS1IwKyKeu-cl7KBK9bxno_CBcsMwk7HcIzZb_71s7ZZQ`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            // Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJxd2VAcXdlLmNvbSIsImlhdCI6MTY0ODU0MDM2NCwiZXhwIjoxNjQ4NTQzOTY0fQ.lW3KIn5-DMyT9EcRfj9LUFhunqCyyQhqDhP-G-nhPyS1IwKyKeu-cl7KBK9bxno_CBcsMwk7HcIzZb_71s7ZZQ`,
           },
         }
       )
