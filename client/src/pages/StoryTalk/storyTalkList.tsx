@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StoryTalkItem from "components/StoryTalk/StoryTalkItem";
-import { Stack, Button } from "@mui/material";
+import { Stack, Button, Box } from "@mui/material";
 import { Route, Link } from "react-router-dom";
 import Headerbar from "components/Headerbar";
 
@@ -42,8 +42,8 @@ export default function StoryTalkList() {
       <Headerbar headerName={"사연 대화 목록"} />
       <Stack
         direction="column"
-        sx={{ height: "calc(100% - 56px - 70px)", padding: "30px" }}
-        spacing={3}
+        sx={{ height: "calc(100% - 56px - 70px)", padding: "10%" }}
+        spacing={15}
       >
         <div>
           {/* {showStoryTalkItems} */}
@@ -51,24 +51,38 @@ export default function StoryTalkList() {
             <Button
               variant="text"
               sx={{ color: "black" }}
-              href={"/storyTalkList/" + senderId}
+              href={"/story-talk/" + senderId}
             >
-              storyTalk name
+              닉네임
             </Button>
             <More>사연 대화 삭제</More>
           </Stack>
-          <Stack direction="row" justifyContent="start" spacing={2}>
-            <Polaroid
-              imageUrl="1"
-              imageType="mini"
-              senderNickname="sotryTalk.senderId"
-            />
-            <Polaroid
-              imageUrl="2"
-              imageType="mini"
-              senderNickname="sotryTalk.senderId"
-            />
-          </Stack>
+          <Box
+            sx={{
+              width: "175%",
+              height: "175%",
+              display: "flex",
+              justifyContent: "start",
+            }}
+          >
+            <Stack direction="row" justifyContent="start" spacing={2}>
+              {/* Test */}
+              <Polaroid
+                imageUrl={
+                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
+                }
+                imageType={"square"}
+                senderNickname={"일이삼사오육칠팔구십"}
+              />
+              <Polaroid
+                imageUrl={
+                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542644550_image.jpg"
+                }
+                imageType={"mini"}
+                senderNickname={"일이삼사"}
+              />
+            </Stack>
+          </Box>
         </div>
         <div>
           {/* {showStoryTalkItems} */}
@@ -76,24 +90,37 @@ export default function StoryTalkList() {
             <Button
               variant="text"
               sx={{ color: "black" }}
-              href={"/storyTalkList/" + senderId}
+              href={"/story-talk/" + senderId}
             >
-              storyTalk name
+              닉네임
             </Button>
             <More>사연 대화 삭제</More>
           </Stack>
-          <Stack direction="row" justifyContent="start" spacing={2}>
-            <Polaroid
-              imageUrl="1"
-              imageType="mini"
-              senderNickname="sotryTalk.senderId"
-            />
-            <Polaroid
-              imageUrl="2"
-              imageType="square"
-              senderNickname="sotryTalk.senderId"
-            />
-          </Stack>
+          <Box
+            sx={{
+              width: "175%",
+              height: "175%",
+              display: "flex",
+              justifyContent: "start",
+            }}
+          >
+            <Stack direction="row" justifyContent="start" spacing={2}>
+              <Polaroid
+                imageUrl={
+                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542644550_image.jpg"
+                }
+                imageType={"mini"}
+                senderNickname={"일이삼사"}
+              />
+              <Polaroid
+                imageUrl={
+                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542662844_pexels-chevanon-photography-1108099.jpg"
+                }
+                imageType={"wide"}
+                senderNickname={"일이삼사오육칠"}
+              />
+            </Stack>
+          </Box>
         </div>
         <div>
           {/* {showStoryTalkItems} */}
@@ -101,24 +128,37 @@ export default function StoryTalkList() {
             <Button
               variant="text"
               sx={{ color: "black" }}
-              href={"/storyTalkList/" + senderId}
+              href={"/story-talk/" + senderId}
             >
-              storyTalk name
+              닉네임
             </Button>
             <More>사연 대화 삭제</More>
           </Stack>
-          <Stack direction="row" justifyContent="start" spacing={2}>
-            <Polaroid
-              imageUrl="1"
-              imageType="wide"
-              senderNickname="sotryTalk.senderId"
-            />
-            <Polaroid
-              imageUrl="2"
-              imageType="mini"
-              senderNickname="sotryTalk.senderId"
-            />
-          </Stack>
+          <Box
+            sx={{
+              width: "175%",
+              height: "175%",
+              display: "flex",
+              justifyContent: "start",
+            }}
+          >
+            <Stack direction="row" justifyContent="start" spacing={2}>
+              <Polaroid
+                imageUrl={
+                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542662844_pexels-chevanon-photography-1108099.jpg"
+                }
+                imageType={"wide"}
+                senderNickname={"일이삼사오육칠"}
+              />
+              <Polaroid
+                imageUrl={
+                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
+                }
+                imageType={"square"}
+                senderNickname={"일이삼사오육칠팔구십"}
+              />
+            </Stack>
+          </Box>
         </div>
       </Stack>
     </>
