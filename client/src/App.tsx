@@ -13,6 +13,7 @@ import StoryTalkList from "./pages/StoryTalk/StoryTalkList";
 import StoryTalk from "pages/StoryTalk/StoryTalk";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AuthRoute from "AuthRoute";
+import NotFound from "pages/Main/NotFound";
 
 const theme = createTheme({
   palette: {
@@ -62,7 +63,12 @@ function App() {
           />
         </Route>
         <Route path="/register" element={<Register />} />
+        <Route path="/send" element={<CreateStory />} />
+        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/story-list" element={<StoryList />}></Route>
+        <Route path="/story-talk-list" element={<StoryTalkList />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <BottomNavbar />
     </ThemeProvider>
