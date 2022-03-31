@@ -23,6 +23,7 @@ import com.ssafy.sayeon.api.service.SayeonService;
 import com.ssafy.sayeon.common.util.ImageUtil;
 import com.ssafy.sayeon.common.util.JwtTokenUtil;
 import com.ssafy.sayeon.model.entity.Member;
+import com.ssafy.sayeon.model.entity.SentStory;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -84,7 +85,10 @@ public class SayeonController {
 
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 
-		sayeonService.saveStory(member, sayeon);
+		SentStory story = sayeonService.saveStory(member, sayeon);
+		
+		//사연 매칭
+		sayeonService.storyMatching(story);
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사연 저장 성공"));
 
