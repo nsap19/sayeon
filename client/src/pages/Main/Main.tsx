@@ -41,10 +41,10 @@ const Main: React.FC = () => {
         direction="column"
         justifyContent="space-around"
         alignItems="center"
-        spacing={2}
+        spacing={1.5}
         sx={{ height: "calc(100% - 56px)", padding: "20px 0 10px" }}
       >
-        <Logo style={{ width: "85%", height: "auto" }} />
+        <Logo style={{ width: "60%", height: "auto", marginTop: "55" }} />
 
         <Box
           sx={{

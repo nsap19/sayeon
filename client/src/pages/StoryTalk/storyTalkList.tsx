@@ -42,8 +42,8 @@ export default function StoryTalkList() {
       <Headerbar headerName={"사연 대화 목록"} />
       <Stack
         direction="column"
-        sx={{ height: "calc(100% - 56px - 70px)", padding: "10%" }}
-        spacing={15}
+        sx={{ height: "calc(100% - 56px - 70px)", padding: "5%" }}
+        spacing={17}
       >
         <div>
           {/* {showStoryTalkItems} */}
@@ -59,8 +59,8 @@ export default function StoryTalkList() {
           </Stack>
           <Box
             sx={{
-              width: "100%",
-              height: "100%",
+              width: "230%",
+              height: "230%",
               display: "flex",
               justifyContent: "start",
             }}
@@ -98,8 +98,8 @@ export default function StoryTalkList() {
           </Stack>
           <Box
             sx={{
-              width: "175%",
-              height: "175%",
+              width: "230%",
+              height: "230%",
               display: "flex",
               justifyContent: "start",
             }}
@@ -136,8 +136,8 @@ export default function StoryTalkList() {
           </Stack>
           <Box
             sx={{
-              width: "175%",
-              height: "175%",
+              width: "230%",
+              height: "230%",
               display: "flex",
               justifyContent: "start",
             }}

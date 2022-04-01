@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Stack, Button, Snackbar, Alert } from "@mui/material";
+import { Stack, Button, Snackbar, Alert, Box } from "@mui/material";
 import { ReactComponent as Logo } from "assets/logo/logo.svg";
 import { loginInput } from "components/User/Login/types";
 import EmailController from "components/User/Login/EmailController";
@@ -103,25 +103,27 @@ export default function Login() {
         sx={{ height: "calc(100% - 56px - 70px)", textAlign: "center" }}
       >
         <Stack direction="column" alignItems="center">
-          <Logo style={{ width: "80%", height: "80%", margin: "0 auto 10%" }} />
+          <Logo style={{ width: "60%", height: "60%", margin: "0 auto 10%" }} />
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={0}>
+            <Stack spacing={0.1}>
               <EmailController control={control} />
               <PasswordController control={control} />
-              <Button
-                sx={{
-                  color: "white",
-                  fontFamily: "S-CoreDream-4Regular",
-                  width: "300px",
-                  borderRadius: 31.5,
-                }}
-                disableElevation={true}
-                size="large"
-                variant="contained"
-                type="submit"
-              >
-                로그인
-              </Button>
+              <Box sx={{ marginTop: 8 }}>
+                <Button
+                  sx={{
+                    color: "white",
+                    fontFamily: "S-CoreDream-4Regular",
+                    width: "300px",
+                    borderRadius: 31.5,
+                  }}
+                  disableElevation={true}
+                  size="large"
+                  variant="contained"
+                  type="submit"
+                >
+                  로그인
+                </Button>
+              </Box>
             </Stack>
           </form>
           <Button
@@ -143,7 +145,11 @@ export default function Login() {
           </Button>
           <Button
             variant="text"
-            sx={{ color: "black", fontFamily: "S-CoreDream-4Regular" }}
+            sx={{
+              color: "black",
+              fontSize: "5",
+              fontFamily: "S-CoreDream-4Regular",
+            }}
             href="/password"
           >
             비밀번호를 잊으셨나요?
