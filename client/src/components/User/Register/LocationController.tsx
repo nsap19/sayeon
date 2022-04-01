@@ -4,6 +4,7 @@ import { FormControl, MenuItem } from "@mui/material";
 import { StyledTextField } from "./StyledComponent";
 import { registerInput } from "./types";
 import LocationJson from "assets/json/location.json";
+import { styled } from "@mui/material/styles";
 
 const locationOptions = Object.keys(LocationJson).sort();
 
@@ -46,10 +47,24 @@ const LocationController: React.FC<{
               resetField("detailedLocation");
               setIsDisabled(false);
             }}
+            SelectProps={{
+              MenuProps: {
+                PaperProps: {
+                  sx: {
+                    borderRadius: "10px",
+                    padding: "10px",
+                  },
+                },
+              },
+            }}
           >
             {locationOptions.map((option, index) => {
               return (
-                <MenuItem key={index} value={option}>
+                <MenuItem
+                  key={index}
+                  value={option}
+                  sx={{ fontFamily: "S-CoreDream-4Regular" }}
+                >
                   {option}
                 </MenuItem>
               );
@@ -79,10 +94,24 @@ const LocationController: React.FC<{
               helperText={
                 fieldState.error?.message ? fieldState.error.message : " "
               }
+              SelectProps={{
+                MenuProps: {
+                  PaperProps: {
+                    sx: {
+                      borderRadius: "10px",
+                      padding: "10px",
+                    },
+                  },
+                },
+              }}
             >
               {detailedLocationOptions.map((option) => {
                 return (
-                  <MenuItem key={option} value={option}>
+                  <MenuItem
+                    key={option}
+                    value={option}
+                    sx={{ fontFamily: "S-CoreDream-4Regular" }}
+                  >
                     {option}
                   </MenuItem>
                 );

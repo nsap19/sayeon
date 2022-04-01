@@ -28,9 +28,11 @@ const NicknameController: React.FC<{
       })
       .then(() => {
         setValidatedNickname(true);
+        trigger("nickname");
       })
       .catch(() => {
         setValidatedNickname(false);
+        trigger("nickname");
       });
   };
 

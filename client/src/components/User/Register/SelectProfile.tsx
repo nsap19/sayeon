@@ -101,7 +101,7 @@ const SelectProfile: React.FC<{
       <img
         src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
         alt="profile pic"
-        style={{ width: "90px" }}
+        style={{ width: "80px", margin: "20px" }}
       />
       <IconButton
         style={{
@@ -109,8 +109,8 @@ const SelectProfile: React.FC<{
           transform: `translateX("-20px")`,
           borderRadius: "20px",
           backgroundColor: "white",
-          bottom: "5px",
-          left: "60px",
+          bottom: "20px",
+          left: "75px",
           width: "35px",
           height: "35px",
           display: "flex",
