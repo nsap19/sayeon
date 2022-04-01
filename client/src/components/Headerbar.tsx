@@ -9,7 +9,7 @@ const DivStyle = styled.div`
   font-size: 24px;
   height: 70px;
   text-align: center;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 2px 2px rgba(0, 0, 1, 0.1);
   position: sticky;
   top: 0;
   z-index: 1;
