@@ -148,15 +148,14 @@ public class SayeonServiceImpl implements SayeonService {
 			SentStory matchedStory = sentStoryRepository.findByStoryId(maxStoryId);
 
 			// 날짜 계산 : 기존의 sentdate + waitingid.waitingtime * 거리 기준 계산 ??
-			String dateReceived = "";
 
 			// 매칭되면 receivedStory에 내 스토리 저장
-			ReceivedStory mine = new ReceivedStory(story, story.getStoryId(), matchedStory.getSender(), dateReceived);
+			ReceivedStory mine = new ReceivedStory(story, story.getStoryId(), matchedStory.getSender(), LocalDateTime.now().toString());
 			receivedStoryRepository.save(mine);
 
 			// 상대방 스토리도 저장
 			ReceivedStory yours = new ReceivedStory(matchedStory, matchedStory.getStoryId(), story.getSender(),
-					dateReceived);
+					LocalDateTime.now().toString());
 			receivedStoryRepository.save(yours);
 		}
 
