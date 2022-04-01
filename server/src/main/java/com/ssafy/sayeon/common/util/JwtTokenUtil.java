@@ -31,7 +31,7 @@ public class JwtTokenUtil {
 //	@Value("${spring.jwt.secret}")
 //	private static String secret;
 	private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    public static final long JWT_TOKEN_VALIDITY = 1000L  * 60 * 60; // // 1시간만 토큰 유효
+    public static final long JWT_TOKEN_VALIDITY = 1000L  * 60 * 60 * 24; // // 24시간만 토큰 유효
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getId);
