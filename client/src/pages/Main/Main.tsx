@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, Stack, Link, Snackbar, Alert } from "@mui/material";
 import Polaroid from "../../components/Story/Polaroid";
 import { ReactComponent as Logo } from "../../assets/logo/logo.svg";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 interface CustomizedState {
   openSnackbar: boolean;
@@ -13,6 +14,7 @@ const Main: React.FC = () => {
   const location = useLocation();
   const state = location.state as CustomizedState;
   const [snackbar, setSnackbar] = useState(state ? state.openSnackbar : false);
+  const [recentStories, setRecentStories] = useState([]);
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -23,6 +25,20 @@ const Main: React.FC = () => {
     }
     setSnackbar(false);
   };
+
+  const getRecentStories = () => {
+    axios
+      .get("story-list/received", { params: { page: 1, size: 3 } })
+      .then((res) => {
+        console.log(res);
+        setRecentStories(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getRecentStories();
+  }, []);
 
   return (
     <>
@@ -98,9 +114,6 @@ const Main: React.FC = () => {
             <Link href="/story-list" underline="none">
               더보기
             </Link>
-            {/* <Button href="/send" variant="text">
-            더보기
-          </Button> */}
           </Stack>
           <Box
             sx={{
@@ -117,27 +130,15 @@ const Main: React.FC = () => {
               spacing={2}
               sx={{ width: "92%", overflowX: "auto" }}
             >
-              <Polaroid
-                imageUrl={
-                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
-                }
-                imageType={"square"}
-                senderNickname={"일이삼사오육칠팔구십"}
-              />
-              <Polaroid
-                imageUrl={
-                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542644550_image.jpg"
-                }
-                imageType={"mini"}
-                senderNickname={"일이삼사"}
-              />
-              <Polaroid
-                imageUrl={
-                  "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542662844_pexels-chevanon-photography-1108099.jpg"
-                }
-                imageType={"wide"}
-                senderNickname={"일이삼사오육칠"}
-              />
+              {recentStories.map((recentStory) => (
+                <Polaroid
+                  imageUrl={
+                    "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
+                  }
+                  imageType={"square"}
+                  senderNickname={"일이삼사오육칠팔구십"}
+                />
+              ))}
             </Stack>
           </Box>
         </Box>
