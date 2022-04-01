@@ -28,7 +28,12 @@ const Main: React.FC = () => {
 
   const getRecentStories = () => {
     axios
-      .get("story-list/received", { params: { page: 1, size: 3 } })
+      .get("story-list/received", {
+        params: { page: 1, size: 3 },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => {
         console.log(res);
         setRecentStories(res.data.data);
@@ -44,7 +49,7 @@ const Main: React.FC = () => {
     <>
       <Snackbar
         open={snackbar}
-        autoHideDuration={30000}
+        autoHideDuration={3000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
@@ -55,12 +60,12 @@ const Main: React.FC = () => {
 
       <Stack
         direction="column"
-        justifyContent="space-around"
+        justifyContent="flex-end"
         alignItems="center"
         spacing={2}
         sx={{ height: "calc(100% - 56px)", padding: "20px 0 10px" }}
       >
-        <Logo style={{ width: "85%", height: "auto" }} />
+        <Logo style={{ width: "60%", height: "auto" }} />
 
         <Box
           sx={{
@@ -99,7 +104,7 @@ const Main: React.FC = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            height: "40%",
+            height: "35%",
           }}
         >
           <Stack
@@ -128,16 +133,18 @@ const Main: React.FC = () => {
               justifyContent=""
               alignItems="center"
               spacing={2}
-              sx={{ width: "92%", overflowX: "auto" }}
+              sx={{ width: "92%", overflowX: "auto", height: "100%" }}
             >
               {recentStories.map((recentStory) => (
-                <Polaroid
-                  imageUrl={
-                    "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
-                  }
-                  imageType={"square"}
-                  senderNickname={"일이삼사오육칠팔구십"}
-                />
+                <Box sx={{ width: "auto", height: "90%" }}>
+                  <Polaroid
+                    imageUrl={
+                      "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
+                    }
+                    imageType={"square"}
+                    senderNickname={"일이삼사오육칠팔구십"}
+                  />
+                </Box>
               ))}
             </Stack>
           </Box>

@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 const DivStyle = styled.div`
   background-color: white;
-  font-size: 24px;
+  font-size: 18px;
   height: 70px;
   text-align: center;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
   z-index: 1;
@@ -32,8 +32,17 @@ const Headerbar: React.FC<{ headerName: string }> = ({ headerName }) => {
             onClick={() => navigate(-1)}
           />
         </Grid>
-        <Grid item xs={6} sx={{ textAlign: "center" }}>
-          {headerName}
+        <Grid
+          item
+          xs={6}
+          sx={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <p style={{ fontFamily: "S-CoreDream-6Bold" }}>{headerName}</p>
         </Grid>
       </Grid>
     </DivStyle>
