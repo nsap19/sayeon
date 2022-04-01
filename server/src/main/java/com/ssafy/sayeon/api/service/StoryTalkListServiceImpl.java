@@ -14,10 +14,13 @@ import com.ssafy.sayeon.api.response.ReceivedStoryInfo;
 import com.ssafy.sayeon.api.response.StoryTalkBody;
 import com.ssafy.sayeon.model.entity.Member;
 import com.ssafy.sayeon.model.entity.ReceivedStory;
+import com.ssafy.sayeon.model.entity.ReceivedStoryView;
+import com.ssafy.sayeon.model.entity.Request;
 import com.ssafy.sayeon.model.entity.SentStory;
 import com.ssafy.sayeon.model.repository.MemberProfileRepository;
 import com.ssafy.sayeon.model.repository.MemberRepository;
 import com.ssafy.sayeon.model.repository.ReceivedStroryRepository;
+import com.ssafy.sayeon.model.repository.RequestRepository;
 import com.ssafy.sayeon.model.repository.SentStroryRepository;
 
 @Service("sayeonTalkListService")
@@ -31,6 +34,8 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 	SentStroryRepository sentStroryRepository;
 	@Autowired
 	MemberRepository memberRepository;
+	@Autowired
+	RequestRepository requestRepository;
 
 	@Override
 	public List<ReceivedStory> getReceivedStoryList(Member receiver) {
@@ -54,9 +59,9 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 		// 받는 사람이 현재 로그인한 유저인 경우
 		List<ReceivedStory> receivedStoryList = receivedStroryRepository.findAllByReceiver(member);// 내가 받은 사연 모두 조회
 
-		//Key는 대화 목록의 다른 사람의 아이디
+		// Key는 대화 목록의 다른 사람의 아이디
 		HashMap<String, List<ReceivedStoryInfo>> map = new HashMap<String, List<ReceivedStoryInfo>>();
-		
+
 		for (int i = 0; i < receivedStoryList.size(); i++) {
 			String storyId = receivedStoryList.get(i).getStoryId();
 			SentStory sent = sentStroryRepository.findByStoryId(storyId);
@@ -69,12 +74,12 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 			int waitingId = sent.getWatingId().getWaitingId();
 			String imageType = sent.getImageType().name();
 			if (map.containsKey(senderId)) {
-				map.get(senderId).add(new ReceivedStoryInfo(storyId, senderId, member.getUserId(), dateSent, dateReceived, image,
-						waitingId, imageType));
+				map.get(senderId).add(new ReceivedStoryInfo(storyId, senderId, member.getUserId(), dateSent,
+						dateReceived, image, waitingId, imageType));
 			} else {
 				List<ReceivedStoryInfo> list = new ArrayList<ReceivedStoryInfo>();
-				list.add(new ReceivedStoryInfo(storyId, senderId, member.getUserId(), dateSent, dateReceived, image, waitingId,
-						imageType));
+				list.add(new ReceivedStoryInfo(storyId, senderId, member.getUserId(), dateSent, dateReceived, image,
+						waitingId, imageType));
 				map.put(senderId, list);
 			}
 
@@ -95,18 +100,31 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 				String imageType = story.getImageType().name();
 
 				if (map.containsKey(receiverId)) {
-					map.get(receiverId).add(new ReceivedStoryInfo(storyId, member.getUserId(), receiverId, dateSent, dateReceived,
-							image, waitingId, imageType));
+					map.get(receiverId).add(new ReceivedStoryInfo(storyId, member.getUserId(), receiverId, dateSent,
+							dateReceived, image, waitingId, imageType));
 				} else {
 					List<ReceivedStoryInfo> list = new ArrayList<ReceivedStoryInfo>();
-					list.add(new ReceivedStoryInfo(storyId, member.getUserId(), receiverId, dateSent, dateReceived, image,
-							waitingId, imageType));
+					list.add(new ReceivedStoryInfo(storyId, member.getUserId(), receiverId, dateSent, dateReceived,
+							image, waitingId, imageType));
 					map.put(receiverId, list);
 				}
 			}
 		}
 
-		
+		List<Request> r = requestRepository.findAllByUserId(member);
+		List<String> removeList = new ArrayList<String>();
+		for (String key : map.keySet()) {
+			for (int i = 0; i < r.size(); i++) {
+				if (r.get(i).getRequestedId().getUserId().equals(key)) {
+					removeList.add(key);
+				}
+			}
+		}
+
+		for (String id : removeList) {
+			map.remove(id);
+		}
+
 		for (String key : map.keySet()) {
 			List<ReceivedStoryInfo> list = map.get(key);
 			// 날짜순 정렬
@@ -124,12 +142,30 @@ public class StoryTalkListServiceImpl implements StoryTalkListService {
 			for (int i = 0; i < s; i++) {
 				limitedlist.add(list.get(i));
 			}
-
-			StoryTalkBody stb = new StoryTalkBody(limitedlist);
-			storyTalkList.add(stb);
+			if (limitedlist.size() > 0) {
+				StoryTalkBody stb = new StoryTalkBody(limitedlist);
+				storyTalkList.add(stb);
+			}
 		}
 
+		Collections.sort(storyTalkList, new Comparator<StoryTalkBody>() {
+
+			@Override
+			public int compare(StoryTalkBody o1, StoryTalkBody o2) {
+				// TODO Auto-generated method stub
+				return (int) (Long.parseLong( o2.getStoryTalk().get(0).getDateReceived().replaceAll("[ :-]", "")) - 
+						Long.parseLong( o1.getStoryTalk().get(0).getDateReceived().replaceAll("[ :-]", "")));
+			}
+
+		});
+
 		return storyTalkList;
+	}
+
+	@Override
+	public List<ReceivedStoryView> getConversationList(Member me, String friendId) {
+		List<ReceivedStoryView> list = sentStroryRepository.findAllWithConditions(me.getUserId(), friendId);
+		return list;
 	}
 
 }
