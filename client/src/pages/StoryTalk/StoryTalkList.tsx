@@ -59,8 +59,8 @@ export default function StoryTalkList() {
           </Stack>
           <Box
             sx={{
-              width: "175%",
-              height: "175%",
+              width: "100%",
+              height: "100%",
               display: "flex",
               justifyContent: "start",
             }}
