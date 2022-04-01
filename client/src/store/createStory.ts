@@ -3,16 +3,18 @@ import { RootState } from ".";
 
 export type CreateStoryType = {
   receiver: string;
-  image: { url: string; type: "mini" | "square" | "wide" };
-  selectedKeyword: string[];
-  waiting: string;
+  image: { name: string; url: string; type: "mini" | "square" | "wide" };
+  keywords: string[];
+  selectedKeywords: string[];
+  waiting: number;
 };
 
 const initialState: CreateStoryType = {
   receiver: "",
-  image: { url: "", type: "square" },
-  selectedKeyword: [],
-  waiting: "",
+  image: { name: "", url: "", type: "square" },
+  keywords: [],
+  selectedKeywords: [],
+  waiting: 0,
 };
 
 export const CreateStorySlice = createSlice({
@@ -24,15 +26,22 @@ export const CreateStorySlice = createSlice({
     },
     updateImage: (
       state,
-      action: PayloadAction<{ url: string; type: "mini" | "square" | "wide" }>
+      action: PayloadAction<{
+        name: string;
+        url: string;
+        type: "mini" | "square" | "wide";
+      }>
     ) => {
       state.image = action.payload;
     },
-    updateWaiting: (state, action: PayloadAction<string>) => {
+    updateWaiting: (state, action: PayloadAction<number>) => {
       state.waiting = action.payload;
     },
-    updateSelectedKeyword: (state, action: PayloadAction<string[]>) => {
-      state.selectedKeyword = action.payload;
+    updateKeywords: (state, action: PayloadAction<string[]>) => {
+      state.keywords = action.payload;
+    },
+    updateSelectedKeywords: (state, action: PayloadAction<string[]>) => {
+      state.selectedKeywords = action.payload;
     },
   },
 });
@@ -41,7 +50,8 @@ export const {
   updateReceiver,
   updateImage,
   updateWaiting,
-  updateSelectedKeyword,
+  updateKeywords,
+  updateSelectedKeywords,
 } = CreateStorySlice.actions;
 
 export const selectCreateStory = (state: RootState) => state.createStory;

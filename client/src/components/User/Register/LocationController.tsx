@@ -70,7 +70,7 @@ const LocationController: React.FC<{
             <StyledTextField
               {...field}
               select
-              label="시/도/군"
+              label="시/군/구"
               disabled={isDisabled}
               defaultValue=""
               error={!!fieldState.error}

@@ -1,15 +1,5 @@
 package com.ssafy.sayeon.model.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import net.bytebuddy.utility.RandomString;
-
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +11,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
 
@@ -49,7 +46,7 @@ public class Member {
 	
 	@OneToOne(mappedBy="member")
 	MemberProfile memberProfile; //읽기 전용 필드
-
+	
     public Member(String email, String password) {
         this.email = email;
         this.password = password;
@@ -59,5 +56,5 @@ public class Member {
 //       String uid = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
     	return new Member(email,password);
     }
-
+    
 }

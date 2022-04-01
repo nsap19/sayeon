@@ -21,9 +21,17 @@ const PasswordContoller: React.FC<{
             value: true,
             message: "비밀번호를 입력해주세요.",
           },
+          minLength: {
+            value: 8,
+            message: "비밀번호는 8자 이상 입력해주세요.",
+          },
+          maxLength: {
+            value: 20,
+            message: "비밀번호는 20자 이내로 입력해주세요.",
+          },
           pattern: {
             value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
-            message: "영소문자, 숫자, 특수문자를 포함해 8자 이상 입력해주세요.",
+            message: "영소문자, 숫자, 특수문자를 포함해주세요.",
           },
         }}
         render={({ field, fieldState }) => (
@@ -35,11 +43,6 @@ const PasswordContoller: React.FC<{
             helperText={
               fieldState.error?.message ? fieldState.error.message : " "
             }
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
           />
         )}
       />
