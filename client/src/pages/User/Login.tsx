@@ -33,6 +33,7 @@ export default function Login() {
         },
       })
       .then((response) => {
+        console.log(response.data.token);
         const token = response.data.token;
         // default header
         axios.defaults.headers.common["Authorization"] =
@@ -140,7 +141,11 @@ export default function Login() {
           >
             회원가입
           </Button>
-          <Button variant="text" sx={{ color: "black" }} href="/password">
+          <Button
+            variant="text"
+            sx={{ color: "black", fontFamily: "S-CoreDream-4Regular" }}
+            href="/password"
+          >
             비밀번호를 잊으셨나요?
           </Button>
         </Stack>
