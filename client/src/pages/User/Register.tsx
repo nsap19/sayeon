@@ -10,6 +10,7 @@ import NicknameController from "components/User/Register/NicknameController";
 import PasswordContoller from "components/User/Register/PasswordContoller";
 import LocationController from "components/User/Register/LocationController";
 import { registerInput } from "components/User/Register/types";
+import LocationJson from "assets/json/location.json";
 
 const Register: React.FC = () => {
   const { control, trigger, getValues, handleSubmit, watch, resetField } =
@@ -33,6 +34,12 @@ const Register: React.FC = () => {
         nickname: data.nickname,
         location: data.location + " " + data.detailedLocation,
         profilePic: profilePic,
+        longitude:
+          // @ts-ignore
+          LocationJson[data.location][data.detailedLocation].longitude,
+        latitude:
+          // @ts-ignore
+          LocationJson[data.location][data.detailedLocation].latitude,
       },
     })
       .then((res) => {

@@ -39,7 +39,9 @@ const LocationController: React.FC<{
             onChange={(e) => {
               onChange(e.target.value);
               setDetailedLocationOptions(
-                LocationJson[e.target.value as keyof typeof LocationJson].sort()
+                Object.keys(
+                  LocationJson[e.target.value as keyof typeof LocationJson]
+                ).sort()
               );
               resetField("detailedLocation");
               setIsDisabled(false);
@@ -78,9 +80,9 @@ const LocationController: React.FC<{
                 fieldState.error?.message ? fieldState.error.message : " "
               }
             >
-              {detailedLocationOptions.map((option, index) => {
+              {detailedLocationOptions.map((option) => {
                 return (
-                  <MenuItem key={index} value={option}>
+                  <MenuItem key={option} value={option}>
                     {option}
                   </MenuItem>
                 );
