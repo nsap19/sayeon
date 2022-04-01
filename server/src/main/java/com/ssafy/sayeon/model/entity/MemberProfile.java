@@ -42,12 +42,6 @@ public class MemberProfile {
 
 	@Column(name = "location", length = 100, nullable = false)
 	String location;
-	
-	@Column(name="latitude")
-	Double latitude;
-	
-	@Column(name="longitude")
-	Double longitude;
 
 	public MemberProfile(Member member, int profilePic, String nickname, String location) {
 		super();
@@ -57,15 +51,5 @@ public class MemberProfile {
 		this.location = location;
 	}
 
-	public MemberProfile(Member member, int profilePic, String nickname, String location, Double latitude,
-			Double longitude) {
-		super();
-		this.member = member;
-		this.profilePic = profilePic;
-		this.nickname = nickname;
-		this.location = location;
-		this.latitude = latitude;
-		this.longitude = longitude;
-	}
 	
 }

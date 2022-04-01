@@ -2,10 +2,6 @@ package com.ssafy.sayeon.api.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -90,11 +86,9 @@ public class SayeonController {
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 
 		SentStory story = sayeonService.saveStory(member, sayeon);
-
-		// 사연 매칭
-		if (sayeon.getReceiverId().equals("null")) { // 받는 사람이 없으면 사연 매칭
-			sayeonService.storyMatching(story);
-		}
+		
+		//사연 매칭
+		sayeonService.storyMatching(story);
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사연 저장 성공"));
 

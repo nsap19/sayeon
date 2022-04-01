@@ -19,8 +19,4 @@ public class UserRegisterReq {
 	int profilePic;
 	@ApiModelProperty(name="유저 위치정보", required = false)
 	String location;
-	@ApiModelProperty(name="위치정보 위도")
-	Double latitude;
-	@ApiModelProperty(name="위치정보 경도")
-	Double longitude;
 }
