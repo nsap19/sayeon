@@ -13,7 +13,7 @@ public class SayeonReq {
 	String receiverId;
 	@ApiModelProperty(name="이미지")
 	String imageUrl;
-	@ApiModelProperty(name="이미지 타입")
+	@ApiModelProperty(name="이미지 타입", notes="mini,square,wide 중 하나 입력, 대소문자 상관없음")
 	String imageType;
 	@ApiModelProperty(name="대기시간", required = false)
 	int waitingId;
