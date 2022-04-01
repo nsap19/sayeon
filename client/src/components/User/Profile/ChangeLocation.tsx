@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Stack, Grid, Box, FormControl, InputLabel, MenuItem } from "@mui/material";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
-import { ReactComponent as Location } from "../../../assets/icon/location.svg";
+// import { ReactComponent as Location } from "../../../assets/icon/location.svg";
 import LocationJson from "../../../assets/json/location.json";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import "./Profile.css";
@@ -15,6 +15,9 @@ const ChangeLocation = () => {
   const [locations, setLocations] = useState<string>('');
   const [location, setLocation] = useState<string>('');
   const [detailedLocation, setDetailedLocation] = useState<string>('');
+  const [defaultLocation, setDefaultLocation] = useState<string>('');
+  const [defaultDetailedLocation, setDefaultDetailedLocation] = useState<string>('');
+
 
   // 상세주소용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
@@ -36,35 +39,32 @@ const ChangeLocation = () => {
       console.log(res)
       setLocations(res.data.data.memberProfile.location);
       setLocation(res.data.data.memberProfile.location.split(" ")[0]);
+      setDefaultLocation(res.data.data.memberProfile.location.split(" ")[0]);
       setDetailedLocation(res.data.data.memberProfile.location.split(" ")[1]);
+      setDefaultDetailedLocation(res.data.data.memberProfile.location.split(" ")[1]);
+
       setDetailedLocationOptions(LocationJson[
-        location as keyof typeof LocationJson
+        defaultLocation as keyof typeof LocationJson
       ]);
     })
     .catch((err) => console.log(err));
   }, []);
 
-  // 기존 위치 정보 받아오기
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: `users/${userId}`,
-  //   })
-  //   .then((res) => {
-  //     console.log(res)
-  //     setLocations(res.data.locations);
-  //     setLocation(res.data.location.split('')[0]);
-  //     setDetailedLocation(res.data.location.split('')[1]);
-  //   })
-  //   .catch((err) => console.log(err))
-  // }, [detailedLocation]);
 
+  const closeEditing = () => {
+    setIsEditingLocation(false)
+    setLocation(defaultLocation)
+    setDetailedLocation(defaultDetailedLocation)
+  };
 
   // 위치 정보 수정
   const locationEditingMode = () => {
     if (!isEditingLocation) {
       return setIsEditingLocation(true)
     }
+    setDetailedLocationOptions(LocationJson[
+      defaultLocation as keyof typeof LocationJson
+    ]);
   };
 
   // 시/도 부분 수정
@@ -104,11 +104,8 @@ const ChangeLocation = () => {
 
   return (
     <Stack>
-      <Grid container spacing={1} item xs={12} sx={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Grid item sx={{ m: "auto" }}>            
-          <Location width="30" height="30"/>
-        </Grid>
-        <Grid item>
+      <Grid container item xs={12} sx={{ alignItems: 'center' }}>
+        <Grid item xs={7} marginLeft="10%">
           {isEditingLocation ? (       
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
@@ -119,6 +116,7 @@ const ChangeLocation = () => {
                   value={location}
                   label="시/도"
                   onChange={onChangeLocation}
+                  className="select-custom"
                 >
                   {locationOptions && locationOptions.map((option, index) => {
                     return (
@@ -136,6 +134,7 @@ const ChangeLocation = () => {
                   label="시/군/구"
                   value={detailedLocation}
                   onChange={onChangeDetailedLocation}
+                  className="select-custom"
                 >
                   {detailedLocationOptions && detailedLocationOptions.map((option, index) => {
                   return (
@@ -151,11 +150,14 @@ const ChangeLocation = () => {
             <h3>{locations}</h3>
           )}
         </Grid>
-        <Grid item sx={{ m: "auto", ml: 1 }}>
+        <Grid item xs={3}>
           {isEditingLocation ? (
-            <button className="button-custom" onClick={changeLocation}>수정</button>
+            <Grid marginY="auto">
+              <button className="button-custom" onClick={changeLocation}>수정</button>
+              <button className="button-custom" onClick={closeEditing}>취소</button>
+            </Grid>
           ) : (
-            <Edit onClick={locationEditingMode}/>
+            <Edit onClick={locationEditingMode} className="svg-custom" />
           )}
         </Grid>
       </Grid>

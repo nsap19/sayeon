@@ -1,5 +1,5 @@
 import React from "react";
-import Polaroid from "../Story/Polaroid";
+import Polaroid from "./StoryListPolaroid";
 import { Box, ImageList, ImageListItem } from "@mui/material";
 
 
