@@ -1,22 +1,31 @@
 package com.ssafy.sayeon.api.service;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ssafy.sayeon.api.request.SayeonReq;
+import com.ssafy.sayeon.common.exception.NotExistUserException;
 import com.ssafy.sayeon.common.exception.NotExistWaitingTimeException;
 import com.ssafy.sayeon.common.util.ImageUtil;
 import com.ssafy.sayeon.model.entity.Member;
+import com.ssafy.sayeon.model.entity.ReceivedStory;
 import com.ssafy.sayeon.model.entity.SelectedKeyword;
 import com.ssafy.sayeon.model.entity.SentStory;
 import com.ssafy.sayeon.model.entity.SentStory.ImageType;
 import com.ssafy.sayeon.model.entity.WaitingTime;
 import com.ssafy.sayeon.model.repository.MemberRepository;
+import com.ssafy.sayeon.model.repository.ReceivedStroryRepository;
 import com.ssafy.sayeon.model.repository.SayeonRepository;
 import com.ssafy.sayeon.model.repository.SelectedKeywordRepository;
 import com.ssafy.sayeon.model.repository.WaitingTimeRepository;
@@ -38,10 +47,13 @@ public class SayeonServiceImpl implements SayeonService {
 	
 	@Autowired
 	SelectedKeywordRepository selectedKeywordRepository;
+	
+	@Autowired
+	ReceivedStroryRepository receivedStoryRepository;
 
 	@Override
 	@Transactional
-	public void saveStory(Member member, SayeonReq sayeon) {
+	public SentStory saveStory(Member member, SayeonReq sayeon) {
 		SentStory story = new SentStory(); 
 		story.setSender(member);
 		story.setDateSent(LocalDateTime.now().toString());
@@ -53,14 +65,50 @@ public class SayeonServiceImpl implements SayeonService {
 		}
 		
 		story = sayeonRepository.save(story);
-			
-		SelectedKeyword sk = new SelectedKeyword(story, sayeon.getKeyword());
+		
+		//수신자 지정 있을 시 receivedStory 저장
+		if(!sayeon.getReceiverId().equals("null")) {
+			Member receiver = memberRepository.findById(sayeon.getReceiverId()).orElseThrow(()-> new NotExistUserException());
+			ReceivedStory rc = new ReceivedStory(story, story.getStoryId(), receiver, LocalDateTime.now().toString());
+			receivedStoryRepository.save(rc);
+		}
+		
+		//선택한 키워드 저장
+		Gson gson = new Gson();
+		String[] arr = sayeon.getKeyword().replaceAll(" ", "").toLowerCase().split(",");
+		Set<String> keywords = new HashSet<String>(Arrays.asList(arr));
+		
+		String str = gson.toJson(keywords);
+		SelectedKeyword sk = new SelectedKeyword(story, str);
 		selectedKeywordRepository.save(sk);
+		
+		System.out.println(str);
+		
+		return story;
 	}
 
 	@Override
 	public List<WaitingTime> getWaitingTime() {
 		return waitingTimeRepository.findAll();
+	}
+
+	@Override
+	public void storyMatching(SentStory story) {
+		//내 키워드
+		String myKeywordStr = selectedKeywordRepository.getById(story.getStoryId()).getKeyword();
+		String[] myKeywords = myKeywordStr.split(",");
+		
+		List<SelectedKeyword> keywordList= selectedKeywordRepository.findAllKeywordWithNotMachingUser(story.getStoryId());
+
+		Gson gson = new Gson();
+		for(SelectedKeyword sk :keywordList) {
+			
+			Type setType = new TypeToken<HashSet<String>>(){}.getType();
+			Set<String> keywords = gson.fromJson(sk.getKeyword(), setType);	 //json -> set		
+			
+			System.out.println(sk.getStoryId()+" "+keywords);
+		}
+		
 	}
 
 }

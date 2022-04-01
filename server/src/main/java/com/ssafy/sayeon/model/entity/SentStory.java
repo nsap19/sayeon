@@ -48,7 +48,6 @@ public class SentStory {
 
     @ManyToOne
     @JoinColumn(name="waitingId")
-	@ColumnDefault("0")
     private WaitingTime watingId;
 	
 	@OneToOne(mappedBy="sentStory")
