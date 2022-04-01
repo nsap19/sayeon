@@ -63,7 +63,7 @@ public class SayeonServiceImpl implements SayeonService {
 
 	@Override
 	@Transactional
-	public SentStory saveStory(Member member, SayeonReq sayeon) {
+	public SentStory saveStory(Member member, SayeonReq sayeon) throws ParseException {
 		SentStory story = new SentStory();
 		story.setSender(member);
 		story.setDateSent(LocalDateTime.now().toString());
@@ -81,7 +81,16 @@ public class SayeonServiceImpl implements SayeonService {
 		if (!sayeon.getReceiverId().equals("null")) {
 			Member receiver = memberRepository.findById(sayeon.getReceiverId())
 					.orElseThrow(() -> new NotExistUserException());
-			ReceivedStory rc = new ReceivedStory(story, story.getStoryId(), receiver, LocalDateTime.now().toString());
+
+			double distance = getDistance(
+					member.getMemberProfile().getLatitude(),
+					member.getMemberProfile().getLongitude(), 
+					receiver.getMemberProfile().getLatitude(),
+					receiver.getMemberProfile().getLongitude(), "kilometer");
+
+			String receivedDate = getTime(story.getDateSent(), distance, story.getWatingId().getWaitingTime());
+
+			ReceivedStory rc = new ReceivedStory(story, story.getStoryId(), receiver, receivedDate);
 			receivedStoryRepository.save(rc);
 		}
 
@@ -137,7 +146,7 @@ public class SayeonServiceImpl implements SayeonService {
 				}
 			}
 
-			double similarity = count / ((double)(keywords.size() + myKeywords.length) - count);
+			double similarity = count / ((double) (keywords.size() + myKeywords.length) - count);
 			System.out.println("유사도 : " + similarity);
 
 			if (maxSimilarity < similarity) {
@@ -154,7 +163,8 @@ public class SayeonServiceImpl implements SayeonService {
 			// 날짜 계산 : 기존의 sentdate + waitingid.waitingtime * 거리 기준 계산 ??
 
 			// 매칭되면 receivedStory에 내 스토리 저장
-			ReceivedStory mine = new ReceivedStory(story, story.getStoryId(), matchedStory.getSender(), LocalDateTime.now().toString());
+			ReceivedStory mine = new ReceivedStory(story, story.getStoryId(), matchedStory.getSender(),
+					LocalDateTime.now().toString());
 			receivedStoryRepository.save(mine);
 
 			// 상대방 스토리도 저장
@@ -165,7 +175,7 @@ public class SayeonServiceImpl implements SayeonService {
 
 	}
 
-	 /**
+	/**
 	 * 두 지점간의 거리 계산
 	 * 
 	 * @param lat1 지점 1 위도
@@ -175,8 +185,8 @@ public class SayeonServiceImpl implements SayeonService {
 	 * @param unit 거리 표출단위
 	 * @return
 	 */
-	
-	private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
+
+	private static double getDistance(double lat1, double lon1, double lat2, double lon2, String unit) {
 
 		double theta = lon1 - lon2;
 		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2))
@@ -205,7 +215,7 @@ public class SayeonServiceImpl implements SayeonService {
 		return (rad * 180 / Math.PI);
 	}
 
-	private static String getTime(String sentdate, double distance, int waitingtime) throws ParseException {
+	private static String getTime(String sentdate, double distance, float waitingtime) throws ParseException {
 
 		// 2022-03-31 14:58:23
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -216,17 +226,16 @@ public class SayeonServiceImpl implements SayeonService {
 
 		int distToSecond = (int) (distance / 100 * 600);
 
-		int waitSecond = distToSecond * waitingtime;
+		int waitSecond = (int) (distToSecond * waitingtime);
 		cal.add(Calendar.SECOND, waitSecond);
-		
+
 		String receivedDate = format.format(cal.getTime());
-		
+
 		System.out.println(sentdate);
 		System.out.println(receivedDate);
 
 		// 100km당 한시간
 		return receivedDate;
 	}
-
 
 }
