@@ -18,6 +18,11 @@ interface CustomizedState {
 export default function Login() {
   // const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [err, setError] = useState({
+    hasError: false,
+    message: "",
+    type: "server",
+  });
 
   const { handleSubmit, control } = useForm<loginInput>();
   const onSubmit: SubmitHandler<loginInput> = async (data) => {
@@ -38,7 +43,13 @@ export default function Login() {
         navigate(-1);
       })
       .catch((err) => {
-        console.log("axios err: ", err);
+        // console.log("axios err: ", err);
+        setError({
+          ...err,
+          hasError: true,
+          message: "",
+          type: "server",
+        });
       });
   };
 
@@ -54,6 +65,10 @@ export default function Login() {
       return;
     }
     setSnackbar(false);
+    setError({
+      ...err,
+      hasError: false,
+    });
   };
 
   return (
@@ -68,6 +83,16 @@ export default function Login() {
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           {"회원가입이 완료되었습니다."}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={err.hasError}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>
+          {"이메일과 비밀번호를 확인해주세요."}
         </Alert>
       </Snackbar>
 
