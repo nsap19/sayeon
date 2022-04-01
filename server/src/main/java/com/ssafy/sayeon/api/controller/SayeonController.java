@@ -2,6 +2,10 @@ package com.ssafy.sayeon.api.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -88,7 +92,7 @@ public class SayeonController {
 		SentStory story = sayeonService.saveStory(member, sayeon);
 
 		// 사연 매칭
-		if (sayeon.getReceiverId().equals("null")) { //받는 사람이 없으면 사연 매칭
+		if (sayeon.getReceiverId().equals("null")) { // 받는 사람이 없으면 사연 매칭
 			sayeonService.storyMatching(story);
 		}
 
