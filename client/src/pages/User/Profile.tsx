@@ -2,7 +2,7 @@ import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 import ChangeProfile from "../../components/User/Profile/ChangeProfile";
-import { Stack, Button, Box, Snackbar, Alert } from "@mui/material";
+import { Stack, Button, Box, Snackbar, Alert, Grid } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
 import ChangeNickname from "components/User/Profile/ChangeNickname";
 import ChangeLocation from "components/User/Profile/ChangeLocation";
@@ -66,15 +66,20 @@ const Profile = () => {
         </Alert>
       </Snackbar>
 
-      <Stack spacing={3} my={5} marginLeft="10%">
-        <ChangeProfile />
-      </Stack>
-      <Stack spacing={3}>
-        <Box sx={{ height: 25}}>
+      <Grid container spacing={1} justifyContent="center" alignItems="center" margin="10% 5%">
+        {/* <Grid spacing={3} my={5} marginLeft="10%"> */}
+        <Grid item xs={3} marginLeft="10px">
+          <ChangeProfile />
+        </Grid>
+        <Grid item xs={7}>
+          {/* <Box sx={{ height: 25}}> */}
           <ChangeNickname />
-        </Box>
+          {/* </Box> */}
+        </Grid>
+      </Grid>
+      <Stack>
         <Box sx={{ height: 150}}>
-          <ChangeLocation />
+          {/* <ChangeLocation /> */}
         </Box>
       </Stack>
       <Stack alignItems="center" spacing={2}>

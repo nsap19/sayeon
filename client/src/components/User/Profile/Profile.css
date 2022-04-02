@@ -1,7 +1,12 @@
+.p-custom {
+  font-size: 15px;
+}
+
 .input-custom {
-  /* width: 140.66px; */
-  width: 185.06px;
-  font-size: 1.5em;
+  width: 130px;
+  /* width: 185.06px; */
+  /* font-size: 1.5em; */
+  font-size: 15px;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -12,9 +17,9 @@
 
 .button-custom {
   color: #A4CCF3;
-  font-size: 1em;
+  font-size: 13px;
   height: 30px;
-  width: 40px;
+  width: 30px;
   border: none;
   border-radius: 20px;
   background-color: #F9F9F9;
@@ -27,6 +32,8 @@
 }
 
 .svg-custom {
+  height: 20px;
+  width: 20px;
   color: #8C8888;
   opacity: .4;
 }

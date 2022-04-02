@@ -22,9 +22,9 @@ const ChangeLocation = () => {
   // 상세주소용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
     string[]
-  >(LocationJson[
+  >(Object.keys(LocationJson[
     location as keyof typeof LocationJson
-  ]);
+  ]));
 
   useEffect(() => {
     const token = localStorage.getItem("token") 
@@ -43,9 +43,9 @@ const ChangeLocation = () => {
       setDetailedLocation(res.data.data.memberProfile.location.split(" ")[1]);
       setDefaultDetailedLocation(res.data.data.memberProfile.location.split(" ")[1]);
 
-      setDetailedLocationOptions(LocationJson[
+      setDetailedLocationOptions(Object.keys(LocationJson[
         defaultLocation as keyof typeof LocationJson
-      ]);
+      ]));
     })
     .catch((err) => console.log(err));
   }, []);
@@ -62,18 +62,18 @@ const ChangeLocation = () => {
     if (!isEditingLocation) {
       return setIsEditingLocation(true)
     }
-    setDetailedLocationOptions(LocationJson[
+    setDetailedLocationOptions(Object.keys(LocationJson[
       defaultLocation as keyof typeof LocationJson
-    ]);
+    ]));
   };
 
   // 시/도 부분 수정
   const onChangeLocation = (event: SelectChangeEvent) => {
     setLocation(event.target.value as string);
     setDetailedLocationOptions(
-      LocationJson[
+      Object.keys(LocationJson[
         event.target.value as keyof typeof LocationJson
-      ].sort()
+      ]).sort()
     );
   };
   
@@ -136,9 +136,9 @@ const ChangeLocation = () => {
                   onChange={onChangeDetailedLocation}
                   className="select-custom"
                 >
-                  {detailedLocationOptions && detailedLocationOptions.map((option, index) => {
+                  {detailedLocationOptions && detailedLocationOptions.map((option) => {
                   return (
-                    <MenuItem key={index} value={option}>
+                    <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
                   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Stack, Grid } from "@mui/material";
+import { Stack, Grid, Box } from "@mui/material";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
 import "./Profile.css";
 
@@ -49,7 +49,7 @@ const ChangeNickname: React.FC = () => {
       setOpenMinAlert(true)
       setTimeout(function() { setOpenMinAlert(false); }, 2000)
     }
-    else if (nickname.length >= 11) {
+    else if (nickname.length >= 9) {
       setOpenMaxAlert(true)
       setTimeout(function() { setOpenMaxAlert(false); }, 2000)
     }
@@ -96,7 +96,7 @@ const ChangeNickname: React.FC = () => {
       <Grid>
         {isEditingNickname ? (
           <Grid container>
-            <Grid item xs={7} marginLeft="10%">
+            <Grid item xs={6}>
               <input 
                 className="input-custom" 
                 type="text"
@@ -109,26 +109,22 @@ const ChangeNickname: React.FC = () => {
                 <small className="small-custom" id="nicknameHelpBlock">1자 이상 입력해주세요</small>
               ) : null }
               {openMaxAlert ? (
-                <small className="small-custom" id="nicknameHelpBlock">10자 이하 입력해주세요</small>
+                <small className="small-custom" id="nicknameHelpBlock">8자 이하 입력해주세요</small>
               ) : null }
               {openOverlapAlert ? (
                 <small className="small-custom" id="nicknameHelpBlock">중복된 닉네임입니다.</small>
               ) : null }
             </Grid>
-            <Grid item xs={3} marginY="auto">
+            <Grid item xs={4} marginY="auto" marginLeft="10px">
               <button className="button-custom" onClick={changeNickname}>수정</button>
               <button className="button-custom" onClick={closeEditing}>취소</button>
             </Grid>
           </Grid>
         ) : (
-          <Grid container>
-            <Grid item xs={7} marginLeft="10%">
-              <h2>{nickname}</h2>
-            </Grid>
-            <Grid item xs={3} marginY="auto">
-              <Edit onClick={nicknameEditingMode} className="svg-custom" />
-            </Grid>
-          </Grid>
+          <Box>
+            <p className="p-custom">{nickname}</p>
+            <Edit onClick={nicknameEditingMode} className="svg-custom" />
+          </Box>
         )}
       </Grid>
     </Stack>
