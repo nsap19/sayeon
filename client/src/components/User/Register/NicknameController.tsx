@@ -54,8 +54,8 @@ const NicknameController: React.FC<{
           message: "닉네임을 입력해주세요.",
         },
         maxLength: {
-          value: 10,
-          message: "닉네임은 10자 이내로 입력해주세요.",
+          value: 8,
+          message: "닉네임은 8자 이내로 입력해주세요.",
         },
         validate: () => {
           if (!validatedNickname) {
