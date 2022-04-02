@@ -51,8 +51,8 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Transactional
 	@Override
-	public void deleteMember(Member member) {
-		memberProfileRepository.delete(member.getMemberProfile());
-		memberRepository.delete(member);
+	public void withdrawalMember(Member member) {
+		member.setWithdrawal("Y");
+		memberRepository.save(member);
 	}
 }

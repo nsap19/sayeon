@@ -1,6 +1,8 @@
 package com.ssafy.sayeon.api.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +18,7 @@ import com.ssafy.sayeon.api.response.BaseResponseBody;
 import com.ssafy.sayeon.api.response.StoryTalkBody;
 import com.ssafy.sayeon.api.response.StoryTalkListResponseBody;
 import com.ssafy.sayeon.api.service.JwtUserDetailsService;
+import com.ssafy.sayeon.api.service.MemberService;
 import com.ssafy.sayeon.api.service.MyInfoService;
 import com.ssafy.sayeon.api.service.StoryListService;
 import com.ssafy.sayeon.api.service.StoryTalkListService;
@@ -42,6 +45,9 @@ public class StroyTalkListController {
 
 	@Autowired
 	private MyInfoService myInfoService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@Autowired
 	private JwtUserDetailsService userDetailService;
@@ -69,10 +75,16 @@ public class StroyTalkListController {
 	public ResponseEntity<? extends BaseResponseBody> getConversation(HttpServletRequest request,
 			@RequestHeader(value = "userId") String userId) {
 		Member me = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
-
+		Member receiver = memberService.getMemberByUserId(userId);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("myNickname", me.getMemberProfile().getNickname());
+		map.put("receiverNickname",receiver.getMemberProfile().getNickname());
+		map.put("receiverWithdrawal", receiver.getWithdrawal());
 		List<ReceivedStoryView> list = storyTalkListService.getConversationList(me, userId);
+		map.put("conversation", list);
 
-		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "특정 유저와의 대화 조회 성공", list));
+		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "특정 유저와의 대화 조회 성공", map));
 	}
 
 }
