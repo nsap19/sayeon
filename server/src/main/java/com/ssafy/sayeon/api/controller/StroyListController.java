@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.sayeon.api.response.AdvancedResponseBody;
 import com.ssafy.sayeon.api.response.BaseResponseBody;
-import com.ssafy.sayeon.api.response.ReceivedStoryInfo;
+import com.ssafy.sayeon.api.response.ReceivedStoryRes;
+import com.ssafy.sayeon.api.response.SentStoryRes;
 import com.ssafy.sayeon.api.service.JwtUserDetailsService;
 import com.ssafy.sayeon.api.service.MyInfoService;
 import com.ssafy.sayeon.api.service.StoryListService;
@@ -60,7 +61,8 @@ public class StroyListController {
 
 		Page<SentStory> sentStoryList = storyListService.getSentStoryByPageRequest(member, page, size);
 
-		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", sentStoryList.getContent()));
+		return ResponseEntity.status(200).body(new AdvancedResponseBody<List<SentStoryRes>>(200, "보낸 사연함 조회 성공", SentStoryRes.of(sentStoryList.getContent())));
+
 	}
 
 	@GetMapping("/received")
@@ -73,21 +75,8 @@ public class StroyListController {
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 
 		Page<ReceivedStory> receivedStoryList = storyListService.getReceivedStoryList(member, page, size);
-		List<ReceivedStoryInfo> receivedStoryInfoList = new ArrayList<>();
 
-		for (int i = 0; i < receivedStoryList.getContent().size(); i++) {
-			String storyId = receivedStoryList.getContent().get(i).getStoryId();
-			SentStory sent = storyListService.getSentstory(storyId);
-			String senderId = sent.getSender().getUserId();
-			String receiverId = receivedStoryList.getContent().get(i).getReceiver().getUserId();
-			String dateSent = sent.getDateSent();
-			String dateReceived = receivedStoryList.getContent().get(i).getDateReceived();
-			String image = sent.getImage();
-			int waitingId = sent.getWatingId().getWaitingId();
-			String imageType = sent.getImageType().name();
-			receivedStoryInfoList.add(new ReceivedStoryInfo(storyId, senderId, receiverId, dateSent, dateReceived, image, waitingId, imageType));			
-		}
-		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "보낸 사연함 조회 성공", receivedStoryInfoList));
+		return ResponseEntity.status(200).body(new AdvancedResponseBody<List<ReceivedStoryRes>>(200, "보낸 사연함 조회 성공", ReceivedStoryRes.of(receivedStoryList.getContent())));
 	}
 
 	@GetMapping("/sent-cnt")
