@@ -40,6 +40,9 @@ const theme = createTheme({
   },
   components: {
     MuiSnackbar: {
+      defaultProps: {
+        anchorOrigin: { vertical: "bottom", horizontal: "center" },
+      },
       styleOverrides: {
         root: {
           bottom: "78px",

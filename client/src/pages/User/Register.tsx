@@ -67,12 +67,7 @@ const Register: React.FC = () => {
   return (
     <Stack sx={{ height: "calc(100% - 70px)" }}>
       <Headerbar headerName={"회원가입"} />
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           {"다시 시도해주세요."}
         </Alert>

@@ -68,12 +68,7 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
 
   return (
     <>
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           {"다시 시도해주세요."}
         </Alert>

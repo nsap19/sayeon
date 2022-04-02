@@ -75,12 +75,7 @@ export default function Login() {
     <>
       <Headerbar headerName={"로그인"} />
 
-      <Snackbar
-        open={snackbar}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
+      <Snackbar open={snackbar} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           {"회원가입이 완료되었습니다."}
         </Alert>
@@ -89,7 +84,6 @@ export default function Login() {
         open={err.hasError}
         autoHideDuration={3000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>
           {"이메일과 비밀번호를 확인해주세요."}

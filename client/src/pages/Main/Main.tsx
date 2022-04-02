@@ -47,12 +47,7 @@ const Main: React.FC = () => {
 
   return (
     <>
-      <Snackbar
-        open={snackbar}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
+      <Snackbar open={snackbar} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           {"사연이 전송되었습니다."}
         </Alert>
