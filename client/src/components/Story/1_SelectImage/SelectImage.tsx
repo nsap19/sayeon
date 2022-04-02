@@ -3,7 +3,6 @@ import { Button, Stack, Box, CircularProgress } from "@mui/material";
 import Cropper from "react-cropper";
 import { uploadFile } from "./utils/uploadFile";
 import { detectKeywords } from "./utils/detectKeywords";
-import { translate } from "./utils/translate";
 import "cropperjs/dist/cropper.css";
 import "./SelectImage.css";
 import { ReactComponent as Image } from "assets/icon/image.svg";
@@ -73,34 +72,21 @@ const SelectImage: React.FC<{
         // 2. S3 업로드
         uploadFile(file)
           .then((res) => {
-            // 3. 업로드 완료시 키워드 추출
-            console.log("upload 후 then", Date());
+            // 3. 업로드 완료시 키워드 추출 및 번역
             detectKeywords(imageName)
               .then((res) => {
-                console.log("resres", res);
-
-                // 4. 키워드 추출 후 번역
-                Promise.all(
-                  res.map((tag: any) => {
-                    console.log(translate(tag.name));
-                    return translate(tag.name);
+                console.log("결과", res.data.keywords.split(","));
+                // 4. 번역 완료시 상태 저장
+                dispatch(updateKeywords(res.data.keywords.split(",")));
+                dispatch(
+                  updateImage({
+                    name: imageName,
+                    url: `https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/${imageName}`,
+                    type: imageType,
                   })
-                ).then((res) => {
-                  console.log(res);
-                  let uniqueKeywords = Array.from(new Set(res)); // 중복 제거
+                );
 
-                  // 5. 번역 완료시 상태 저장
-                  dispatch(updateKeywords(uniqueKeywords));
-                  dispatch(
-                    updateImage({
-                      name: imageName,
-                      url: `https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/${imageName}`,
-                      type: imageType,
-                    })
-                  );
-
-                  setStep(2);
-                });
+                setStep(2);
               })
               .catch((err) => console.log(err));
           })
