@@ -2,14 +2,11 @@ import React from "react";
 import styled from "@emotion/styled";
 import { SvgIcon, Grid } from "@mui/material";
 import { ReactComponent as ArrowLeft } from "../../assets/icon/arrow-left.svg";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
-import { selectCreateStory } from "../../store/createStory";
 import { receiverState } from "./types";
 
 const DivStyle = styled.div`
   background-color: white;
-  font-size: 24px;
+  font-size: 18px;
   height: 70px;
   text-align: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
@@ -40,7 +37,7 @@ const CreateStoryHeaderbar: React.FC<{
   return (
     <DivStyle>
       <Grid container>
-        <Grid item xs={4} sx={{ textAlign: "left" }}>
+        <Grid item xs={3} sx={{ textAlign: "left" }}>
           <SvgIcon
             sx={{ margin: "5px 0 0 8px" }}
             component={ArrowLeft}
@@ -48,8 +45,17 @@ const CreateStoryHeaderbar: React.FC<{
             onClick={handleClick}
           />
         </Grid>
-        <Grid item xs={4}>
-          {headerName}
+        <Grid
+          item
+          xs={6}
+          sx={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <p style={{ fontFamily: "S-CoreDream-6Bold" }}>{headerName}</p>
         </Grid>
       </Grid>
     </DivStyle>
