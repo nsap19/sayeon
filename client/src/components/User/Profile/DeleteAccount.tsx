@@ -13,40 +13,40 @@ interface DeleteAccountInput {
 const DeleteAccount: React.FC = () => {
   const { control, handleSubmit, watch } = useForm<DeleteAccountInput>();
   const navigate = useNavigate();
-  
+
   const password = useRef({});
   password.current = watch("password", "");
 
   const onSubmit = (data: DeleteAccountInput) => {
-    const token = localStorage.getItem("token")
-    axios.delete("userInfo", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      data: {
-        password: data.password
-      }
-    })
+    const token = localStorage.getItem("token");
+    axios
+      .delete("userInfo", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          password: data.password,
+        },
+      })
 
-    // axios({
-    //   method: "delete",
-    //   url: "userInfo",
-    //   params: {
-    //     password: password
-    //   }
-    // })
-    .then((res) => {
-      console.log(res);
-      setOpen(true);
-      navigate("/");
-    })
-    .catch((err) => {
-      console.log(err);
-      setAlertState("error");
-      setOpen(true);
-    });
+      // axios({
+      //   method: "delete",
+      //   url: "userInfo",
+      //   params: {
+      //     password: password
+      //   }
+      // })
+      .then((res) => {
+        console.log(res);
+        setOpen(true);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setAlertState("error");
+        setOpen(true);
+      });
   };
-
 
   // 스낵바 관련
   const [open, setOpen] = useState(false);
@@ -73,20 +73,13 @@ const DeleteAccount: React.FC = () => {
         justifyContent="center"
         sx={{ height: "calc(100% - 56px - 70px)" }}
       >
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert
             onClose={handleClose}
             severity={alertState}
             sx={{ width: "100%" }}
           >
-            {alertState === "success"
-              ? "회원탈퇴"
-              : "다시 시도해주세요."}
+            {alertState === "success" ? "회원탈퇴" : "다시 시도해주세요."}
           </Alert>
         </Snackbar>
 
@@ -129,7 +122,7 @@ const DeleteAccount: React.FC = () => {
                   />
                 )}
               />
-              <Button 
+              <Button
                 sx={{
                   color: "white",
                   fontFamily: "S-CoreDream-4Regular",

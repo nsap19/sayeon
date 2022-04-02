@@ -57,7 +57,7 @@ public class MemberController {
 				.save(Member.createMember(memberDto.getEmail(), encode.encode(memberDto.getPassword())));
 		System.out.println(member.getUserId());
 		memberProfileRepository.save(
-				new MemberProfile(member, memberDto.getProfilePic(), memberDto.getNickname(), memberDto.getLocation()));
+				new MemberProfile(member, memberDto.getProfilePic(), memberDto.getNickname(), memberDto.getLocation(), memberDto.getLatitude(), memberDto.getLongitude()));
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "회원가입 성공"));
 	}

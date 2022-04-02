@@ -1,6 +1,7 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import {
+  Box,
+  Stack,
   BottomNavigation,
   BottomNavigationAction,
   SvgIcon,
@@ -17,57 +18,74 @@ export default function BottomNavbar() {
   const location = useLocation();
 
   return (
-    <Box sx={{ position: "sticky", bottom: 0 }}>
-      <BottomNavigation
-        showLabels
-        value={location.pathname}
-        sx={{
-          "& .MuiBottomNavigationAction-root": {
-            minWidth: "",
-          },
-          // position: "fixed",
-          // bottom: 0,
-          // left: 0,
-          // right: 0,
-        }}
-      >
-        <BottomNavigationAction
-          component={Link}
-          to="/"
-          value="/"
-          icon={<SvgIcon component={Home} inheritViewBox />}
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/story-talk-list"
-          value="/story-talk-list"
-          icon={<SvgIcon component={StoryTalkList} inheritViewBox />}
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/send"
-          value="/send"
-          icon={
-            <SvgIcon
-              sx={{ width: "35px", height: "35px" }}
-              component={Send}
-              inheritViewBox
-            />
-          }
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/story-list"
-          value="/story-list"
-          icon={<SvgIcon component={StoryList} inheritViewBox />}
-        />
-        <BottomNavigationAction
-          component={Link}
-          to="/profile"
-          value="/profile"
-          icon={<SvgIcon component={User} inheritViewBox />}
-        />
-      </BottomNavigation>
-    </Box>
+    // <Stack
+    //   justifyContent="center"
+    //   sx={{
+    //     position: "sticky",
+    //     bottom: 0,
+    //     height: "70px",
+    //     backgroundColor: "white",
+    //   }}
+    // >
+    <BottomNavigation
+      showLabels
+      value={location.pathname}
+      sx={{
+        "& .MuiBottomNavigationAction-root": {
+          minWidth: "",
+        },
+        "& .MuiSvgIcon-root": {
+          // width: "30px",
+          // height: "30px",
+        },
+        position: "sticky",
+        bottom: 0,
+        height: "70px",
+        backgroundColor: "white",
+      }}
+    >
+      <BottomNavigationAction
+        component={Link}
+        to="/"
+        value="/"
+        sx={{ color: "#D1CFCF" }}
+        icon={<SvgIcon component={Home} inheritViewBox />}
+      />
+      <BottomNavigationAction
+        component={Link}
+        to="/story-talk-list"
+        value="/story-talk-list"
+        sx={{ color: "#D1CFCF" }}
+        icon={<SvgIcon component={StoryTalkList} inheritViewBox />}
+      />
+      <BottomNavigationAction
+        component={Link}
+        to="/send"
+        value="/send"
+        sx={{ color: "#D1CFCF" }}
+        icon={
+          <SvgIcon
+            sx={{ width: "35px", height: "35px" }}
+            component={Send}
+            inheritViewBox
+          />
+        }
+      />
+      <BottomNavigationAction
+        component={Link}
+        to="/story-list"
+        value="/story-list"
+        sx={{ color: "#D1CFCF" }}
+        icon={<SvgIcon component={StoryList} inheritViewBox />}
+      />
+      <BottomNavigationAction
+        component={Link}
+        to="/profile"
+        value="/profile"
+        sx={{ color: "#D1CFCF" }}
+        icon={<SvgIcon component={User} inheritViewBox />}
+      />
+    </BottomNavigation>
+    // </Stack>
   );
 }

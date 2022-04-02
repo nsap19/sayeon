@@ -8,7 +8,9 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     borderRadius: 31.5,
     boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.05)",
     fontFamily: "S-CoreDream-4Regular",
-    width: "300px",
+    fontSize: "14px",
+    width: "250px",
+    height: "50px",
     backgroundColor: theme.palette.mode === "light" ? "#ffffff" : "#2b2b2b",
     "& fieldset": {
       borderColor: "transparent",
@@ -26,7 +28,10 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   "& label.Mui-focused": {
     color: "#241C1C",
   },
-  "& .MuiInputLabel-root": { fontFamily: "S-CoreDream-4Regular" },
+  "& .MuiInputLabel-root": {
+    fontFamily: "S-CoreDream-4Regular",
+    fontSize: "14px",
+  },
   "& .MuiFormHelperText-root": {
     fontFamily: "S-CoreDream-4Regular",
     marginTop: 0,

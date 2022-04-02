@@ -21,42 +21,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
   secondId,
 }) => {
   const navigate = useNavigate();
-  const [storyTalk, setStoryTalk] = useState<Story[]>([
-    {
-      storyId: 654,
-      image:
-        "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg",
-      imageType: "square",
-      waiting: 1,
-      senderId: "de9322ee-03bb-47e3-8f7a-9c38dc3d59bb",
-      receiverId: "e4738614-cc21-41ed-8ba0-6c1bd2501083",
-      dateSent: "2022-03-29",
-      dateReceived: "2022-03-30",
-    },
-    {
-      storyId: 655,
-      image:
-        "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542644550_image.jpg",
-      imageType: "mini",
-      waiting: 1,
-      senderId: "e4738614-cc21-41ed-8ba0-6c1bd2501083",
-      receiverId: "de9322ee-03bb-47e3-8f7a-9c38dc3d59bb",
-      dateSent: "2022-03-29",
-      dateReceived: "2022-03-30",
-    },
-    {
-      storyId: 656,
-      image:
-        "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542662844_pexels-chevanon-photography-1108099.jpg",
-      imageType: "wide",
-      waiting: 1,
-      senderId: "de9322ee-03bb-47e3-8f7a-9c38dc3d59bb",
-      receiverId: "e4738614-cc21-41ed-8ba0-6c1bd2501083",
-      dateSent: "2022-03-29",
-      dateReceived: "2022-03-30",
-    },
-  ]);
-
+  const [storyTalk, setStoryTalk] = useState<Story[]>([]);
   const [userInfo, setUserInfo] = useState<{ id: string; nickname: string }>({
     id: "",
     nickname: "",
@@ -66,6 +31,13 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
     nickname: string;
     profilePic: number;
   }>();
+
+  const imageTypes: ("square" | "mini" | "wide")[] = [
+    "mini",
+    "mini",
+    "square",
+    "wide",
+  ];
 
   const getUserId = () => {
     axios
@@ -114,14 +86,15 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
   // 대화 내용 요청
   const getStoryTalk = () => {
     axios
-      .get(`story-talk/${otherUserId}`, {
+      .get(`story-talk`, {
         headers: {
+          userId: otherUserId,
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((response: any) => {
-        console.log(response);
-        setStoryTalk(response.data);
+      .then((res: any) => {
+        console.log(res);
+        setStoryTalk(res.data.data);
       })
       .catch((err: any) => {
         console.log(err);
@@ -165,7 +138,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
           >
             <Polaroid
               imageUrl={story.image}
-              imageType={story.imageType}
+              imageType={imageTypes[parseInt(story.imageType)]}
               senderNickname={
                 otherUserId === story.senderId && otherUserInfo && userInfo
                   ? otherUserInfo.nickname

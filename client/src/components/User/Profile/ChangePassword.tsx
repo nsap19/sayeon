@@ -19,7 +19,7 @@ const ChangePassword: React.FC = () => {
 
   const navigate = useNavigate();
   const onSubmit = (data: changePasswordInput) => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     axios({
       method: "put",
       url: "userInfo/password",
@@ -32,7 +32,7 @@ const ChangePassword: React.FC = () => {
     })
       .then((res) => {
         console.log(res);
-        console.log('비밀번호 변경완료');
+        console.log("비밀번호 변경완료");
         setOpen(true);
         navigate("/profile");
       })
@@ -63,17 +63,12 @@ const ChangePassword: React.FC = () => {
   return (
     <>
       <Headerbar headerName={"비밀번호 변경"} />
-      <Stack 
+      <Stack
         direction="column"
         justifyContent="center"
         sx={{ height: "calc(100% - 56px - 70px)" }}
       >
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert
             onClose={handleClose}
             severity={alertState}
@@ -153,7 +148,7 @@ const ChangePassword: React.FC = () => {
                 )}
               />
 
-              <Button 
+              <Button
                 sx={{
                   color: "white",
                   fontFamily: "S-CoreDream-4Regular",

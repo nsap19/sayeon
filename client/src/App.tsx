@@ -38,6 +38,18 @@ const theme = createTheme({
       default: "#ffffff",
     },
   },
+  components: {
+    MuiSnackbar: {
+      defaultProps: {
+        anchorOrigin: { vertical: "bottom", horizontal: "center" },
+      },
+      styleOverrides: {
+        root: {
+          bottom: "78px",
+        },
+      },
+    },
+  },
 });
 
 function App() {

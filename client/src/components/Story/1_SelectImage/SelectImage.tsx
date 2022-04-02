@@ -1,57 +1,22 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Button, Stack, Box, CircularProgress } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import Cropper from "react-cropper";
 import { uploadFile } from "./utils/uploadFile";
 import { detectKeywords } from "./utils/detectKeywords";
-import { translate } from "./utils/translate";
 import "cropperjs/dist/cropper.css";
 import "./SelectImage.css";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectCreateStory } from "../../../store/createStory";
-import { ReactComponent as Camera } from "assets/icon/camera.svg";
+import { ReactComponent as Image } from "assets/icon/image.svg";
 import { updateImage, updateKeywords } from "../../../store/createStory";
+import { useAppDispatch } from "../../../store/hooks";
 import Loading from "./Loading";
 import { receiverState } from "../types";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
-const Input = styled("input")({
-  display: "none",
-});
-
-const StyledButton = styled(Button)({
-  color: "white",
-  fontFamily: "S-CoreDream-4Regular",
-});
-
-const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  "& .MuiToggleButtonGroup-grouped": {
-    fontFamily: "S-CoreDream-4Regular",
-    margin: theme.spacing(2),
-    border: 0,
-    "&:not(:first-of-type)": {
-      borderRadius: "30px",
-    },
-    "&:first-of-type": {
-      borderRadius: "30px",
-    },
-  },
-}));
-
-const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
-  backgroundColor: "white",
-  padding: "7px 15px",
-  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-  "&.Mui-selected, &.Mui-selected:hover": {
-    backgroundColor: "#A4CCF3",
-    color: "white",
-    borderTop: "",
-  },
-}));
+import {
+  StyledButton,
+  StyledP,
+  StyledToggleButtonGroup,
+  StyledToggleButton,
+  StyledStack,
+} from "../StyledComponent";
 
 const SelectImage: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -71,7 +36,6 @@ const SelectImage: React.FC<{
   const onChange = (e: any) => {
     e.preventDefault();
 
-    setImageReady(false);
     setImageName(Date.now() + "_" + e.target.files[0].name);
     setImageExtension(e.target.files[0].type);
 
@@ -94,7 +58,6 @@ const SelectImage: React.FC<{
     }
   };
 
-  // const { receiver } = useAppSelector(selectCreateStory);
   const dispatch = useAppDispatch();
   const handleUpload = useCallback(() => {
     setKeywordsReady(true);
@@ -109,34 +72,21 @@ const SelectImage: React.FC<{
         // 2. S3 업로드
         uploadFile(file)
           .then((res) => {
-            // 3. 업로드 완료시 키워드 추출
-            console.log("upload 후 then", Date());
+            // 3. 업로드 완료시 키워드 추출 및 번역
             detectKeywords(imageName)
               .then((res) => {
-                console.log("resres", res);
-
-                // 4. 키워드 추출 후 번역
-                Promise.all(
-                  res.map((tag: any) => {
-                    console.log(translate(tag.name));
-                    return translate(tag.name);
+                console.log("결과", res.data.keywords.split(","));
+                // 4. 번역 완료시 상태 저장
+                dispatch(updateKeywords(res.data.keywords.split(",")));
+                dispatch(
+                  updateImage({
+                    name: imageName,
+                    url: `https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/${imageName}`,
+                    type: imageType,
                   })
-                ).then((res) => {
-                  console.log(res);
-                  let uniqueKeywords = Array.from(new Set(res)); // 중복 제거
+                );
 
-                  // 5. 번역 완료시 상태 저장
-                  dispatch(updateKeywords(uniqueKeywords));
-                  dispatch(
-                    updateImage({
-                      name: imageName,
-                      url: `https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/${imageName}`,
-                      type: imageType,
-                    })
-                  );
-
-                  setStep(2);
-                });
+                setStep(2);
               })
               .catch((err) => console.log(err));
           })
@@ -165,22 +115,12 @@ const SelectImage: React.FC<{
       {keywordsReady ? (
         <Loading keywordsReady={keywordsReady} />
       ) : (
-        <Stack
-          justifyContent="space-around"
-          sx={{
-            margin: "10px",
-            overflowY: "auto",
-            overflowX: "hidden",
-            height: "100%",
-          }}
-        >
-          <Stack direction="column">
+        <StyledStack>
+          <Stack direction="column" alignItems="center">
             {receiver ? (
-              <p style={{ margin: "10px" }}>
-                {receiver.info.nickname}에게 사연보내기
-              </p>
+              <StyledP>{receiver.info.nickname}에게 사연보내기</StyledP>
             ) : (
-              <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
+              <StyledP>랜덤 사연보내기</StyledP>
             )}
 
             {/* <input type="file" onChange={onChange} /> */}
@@ -192,12 +132,13 @@ const SelectImage: React.FC<{
                 textAlign: "right",
               }}
             >
-              <Input
+              <input
                 accept="image/*"
                 id="contained-button-file"
                 multiple
                 type="file"
                 onChange={onChange}
+                style={{ display: "none" }}
               />
               <Button
                 href="/send"
@@ -221,9 +162,11 @@ const SelectImage: React.FC<{
                 margin: "0 10px",
                 minWidth: "300px",
                 height: "300px",
-                backgroundColor: imageReady ? "rgba(0, 0, 0, 50%)" : "white",
-                borderRadius: "20px",
-                boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.05)",
+                backgroundColor: imageReady ? "transparent" : "white",
+                borderRadius: imageReady ? "" : "20px",
+                boxShadow: imageReady
+                  ? ""
+                  : "0px 10px 30px rgba(0, 0, 0, 0.05)",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -239,17 +182,14 @@ const SelectImage: React.FC<{
                   position: "absolute",
                 }}
               >
-                {imageName ? (
-                  <CircularProgress />
-                ) : (
-                  <>
-                    <Camera />
-                    <p>사진 업로드</p>
-                  </>
-                )}
+                {imageName ? <CircularProgress /> : <Image />}
               </Box>
               <Cropper
-                style={{ maxHeight: "300px" }}
+                style={{
+                  maxHeight: "300px",
+                  maxWidth: "300px",
+                  boxShadow: "0px 10px 30px rgb(0 0 0 / 5%)",
+                }}
                 aspectRatio={1}
                 preview=".img-preview"
                 src={image}
@@ -268,42 +208,35 @@ const SelectImage: React.FC<{
                 ready={() => setImageReady(true)}
               />
             </Box>
+
+            <StyledToggleButtonGroup size="small" value={imageType} exclusive>
+              {imageTypeOptions.map((imageTypeOption) => (
+                <StyledToggleButton
+                  onClick={() => {
+                    cropper.setAspectRatio(imageTypeOption.ratio);
+                    setImageType(imageTypeOption.value);
+                  }}
+                  key={imageTypeOption.value}
+                  value={imageTypeOption.value}
+                >
+                  {imageTypeOption.value}
+                </StyledToggleButton>
+              ))}
+            </StyledToggleButtonGroup>
           </Stack>
 
-          <StyledToggleButtonGroup size="small" value={imageType} exclusive>
-            {imageTypeOptions.map((imageTypeOption) => (
-              <StyledToggleButton
-                onClick={() => {
-                  cropper.setAspectRatio(imageTypeOption.ratio);
-                  setImageType(imageTypeOption.value);
-                }}
-                key={imageTypeOption.value}
-                value={imageTypeOption.value}
-              >
-                {imageTypeOption.value}
-              </StyledToggleButton>
-            ))}
-          </StyledToggleButtonGroup>
-
           <Box sx={{ textAlign: "center" }}>
-            <Button
+            <StyledButton
               onClick={getCropData}
               disabled={!imageReady}
               variant="contained"
               size="large"
               disableElevation={true}
-              sx={{
-                color: "white",
-                fontFamily: "S-CoreDream-4Regular",
-                margin: "10px 0",
-                width: "300px",
-                borderRadius: 31.5,
-              }}
             >
               다음
-            </Button>
+            </StyledButton>
           </Box>
-        </Stack>
+        </StyledStack>
       )}
     </>
   );

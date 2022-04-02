@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const ComputerVisionClient =
   require("@azure/cognitiveservices-computervision").ComputerVisionClient;
 const ApiKeyCredentials = require("@azure/ms-rest-js").ApiKeyCredentials;
@@ -19,5 +21,16 @@ export const detectKeywords = async (imageName: string) => {
     })
   ).tags;
 
-  return tags;
+  const tagsArray = await tags.map((tag: any) => {
+    return tag.name;
+  });
+  console.log(tagsArray.join());
+
+  return axios.post(
+    "translation",
+    { keywords: tagsArray.join() },
+    {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    }
+  );
 };

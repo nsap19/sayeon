@@ -65,14 +65,9 @@ const Register: React.FC = () => {
   };
 
   return (
-    <Stack sx={{ height: "calc(100% - 56px)" }}>
+    <Stack sx={{ height: "calc(100% - 70px)" }}>
       <Headerbar headerName={"회원가입"} />
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           {"다시 시도해주세요."}
         </Alert>
@@ -91,7 +86,7 @@ const Register: React.FC = () => {
           <Stack
             direction="column"
             alignItems="center"
-            spacing={1}
+            spacing={0.4}
             sx={{ padding: "15px 0" }}
           >
             <SelectProfile
@@ -116,7 +111,8 @@ const Register: React.FC = () => {
                 color: "white",
                 fontFamily: "S-CoreDream-4Regular",
                 marginTop: "30px",
-                width: "300px",
+                width: "250px",
+                height: "50px",
                 borderRadius: 31.5,
               }}
               disableElevation={true}

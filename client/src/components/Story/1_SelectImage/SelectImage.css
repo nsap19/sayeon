@@ -7,3 +7,11 @@
 .img-preview {
   overflow: hidden;
 }
+
+.cropper-line {
+  background-color: #a4ccf3;
+}
+
+.cropper-point {
+  background-color: #a4ccf3;
+}

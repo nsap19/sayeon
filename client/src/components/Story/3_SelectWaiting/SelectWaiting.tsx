@@ -1,15 +1,13 @@
-import React, { useEffect } from "react";
-import {
-  Button,
-  Box,
-  ToggleButtonGroup,
-  ToggleButton,
-  Stack,
-} from "@mui/material";
+import React from "react";
+import { Box, ToggleButtonGroup, ToggleButton, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { selectCreateStory, updateWaiting } from "store/createStory";
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { updateWaiting } from "store/createStory";
+import { useAppDispatch } from "store/hooks";
 import { receiverState } from "../types";
+import { StyledButton, StyledP, StyledStack } from "../StyledComponent";
+import Dove from "assets/images/waiting/dove.png";
+import Bike from "assets/images/waiting/bike.png";
+import Postbox from "assets/images/waiting/postbox.png";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -19,18 +17,21 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       border: 0,
     },
     "&:not(:first-of-type)": {
-      borderRadius: 30,
+      borderRadius: 20,
     },
     "&:first-of-type": {
-      borderRadius: 30,
+      borderRadius: 20,
     },
   },
 }));
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   height: "130px",
+  width: "290px",
   backgroundColor: "white",
+  color: "black",
   "&.Mui-selected, &.Mui-selected:hover": {
+    color: "black",
     backgroundColor: "white",
     outline: "solid 3px #A4CCF3",
     borderTop: "",
@@ -41,7 +42,7 @@ const SelectWaiting: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
   receiver: receiverState;
 }> = ({ setStep, receiver }) => {
-  const [waiting, setWaiting] = React.useState(0);
+  const [waiting, setWaiting] = React.useState(1);
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -55,24 +56,24 @@ const SelectWaiting: React.FC<{
   const waitingOptions = [
     {
       value: "1",
-      image: "🦅",
-      title: "비둘기 1일",
+      image: Dove,
+      title: "비둘기",
       content: "비둘기가 날아가고 있어요.",
-      description: "편지가 도착하는데 하루가 소요됩니다.",
+      description: "사연이 천천히 전달됩니다.",
     },
     {
       value: "2",
-      image: "🏤",
-      title: "우체통 3시간",
+      image: Postbox,
+      title: "우체통",
       content: "우체부가 배달하고 있어요.",
-      description: "편지가 도착하는데 세 시간이 소요됩니다.",
+      description: "사연이 성실히 전달됩니다.",
     },
     {
       value: "3",
-      image: "🚲",
-      title: "자전거 1시간",
+      image: Bike,
+      title: "자전거",
       content: "자전거를 타고 가고 있어요.",
-      description: "편지가 도착하는데 한 시간이 소요됩니다.",
+      description: "사연이 빠르게 전달됩니다.",
     },
   ];
 
@@ -83,14 +84,12 @@ const SelectWaiting: React.FC<{
   };
 
   return (
-    <>
-      <Box sx={{ margin: "10px", width: "100%", height: "100%" }}>
+    <StyledStack>
+      <Stack direction="column" alignItems="center" sx={{ width: "320px" }}>
         {receiver ? (
-          <p style={{ margin: "10px" }}>
-            {receiver.info.nickname}에게 사연보내기
-          </p>
+          <StyledP>{receiver.info.nickname}에게 사연보내기</StyledP>
         ) : (
-          <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
+          <StyledP>랜덤 사연보내기</StyledP>
         )}
         <StyledToggleButtonGroup
           size="large"
@@ -102,25 +101,31 @@ const SelectWaiting: React.FC<{
         >
           {waitingOptions.map((waitingOption) => (
             <StyledToggleButton
-              value={waitingOption.value}
+              value={parseInt(waitingOption.value)}
               aria-label={waitingOption.value}
               key={waitingOption.value}
             >
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <Box>
-                  <p style={{ fontSize: "36px" }}>{waitingOption.image}</p>
-                </Box>
-                <Stack direction="column" sx={{ textAlign: "left" }}>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <img
+                  style={{ width: "50px" }}
+                  src={waitingOption.image}
+                  alt={waitingOption.value}
+                />
+
+                <Stack
+                  direction="column"
+                  sx={{ textAlign: "left", width: "150px" }}
+                >
                   <p
                     style={{
-                      fontSize: "18px",
+                      fontSize: "16px",
                       fontFamily: "S-CoreDream-6Bold",
                     }}
                   >
                     {waitingOption.title}
                   </p>
-                  <p style={{ fontSize: "14px" }}>{waitingOption.content}</p>
-                  <p style={{ fontSize: "14px" }}>
+                  <p style={{ fontSize: "12px" }}>{waitingOption.content}</p>
+                  <p style={{ fontSize: "12px" }}>
                     {waitingOption.description}
                   </p>
                 </Stack>
@@ -128,26 +133,19 @@ const SelectWaiting: React.FC<{
             </StyledToggleButton>
           ))}
         </StyledToggleButtonGroup>
-      </Box>
+      </Stack>
 
       <Box>
-        <Button
+        <StyledButton
           variant="contained"
           size="large"
           disableElevation={true}
-          sx={{
-            color: "white",
-            fontFamily: "S-CoreDream-4Regular",
-            margin: "10px 0",
-            width: "300px",
-            borderRadius: 31.5,
-          }}
           onClick={() => goToNextStep()}
         >
           다음
-        </Button>
+        </StyledButton>
       </Box>
-    </>
+    </StyledStack>
   );
 };
 

@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { selectCreateStory } from "../../../store/createStory";
 import { useAppSelector } from "../../../store/hooks";
 import Polaroid from "../Polaroid";
-import { Box, Button, Stack, Chip, Snackbar, Alert } from "@mui/material";
+import { Box, Stack, Chip, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
 import { receiverState } from "../types";
 import { useNavigate } from "react-router-dom";
+import { StyledButton, StyledP, StyledStack } from "../StyledComponent";
+import Dove from "assets/images/waiting/dove.png";
+import Bike from "assets/images/waiting/bike.png";
+import Postbox from "assets/images/waiting/postbox.png";
 
 const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
   const { image, selectedKeywords, waiting } =
@@ -48,7 +52,7 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
       });
   };
 
-  const waitingName = ["", "비둘기", "우체국", "자전거"];
+  const waitingImage = [null, Dove, Postbox, Bike];
 
   // 스낵바 관련
   const [open, setOpen] = useState(false);
@@ -64,28 +68,21 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
 
   return (
     <>
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
           {"다시 시도해주세요."}
         </Alert>
       </Snackbar>
 
-      <Box sx={{ margin: "10px", width: "100%" }}>
-        {receiver ? (
-          <p style={{ margin: "10px" }}>
-            {receiver.info.nickname}에게 사연보내기
-          </p>
-        ) : (
-          <p style={{ margin: "10px" }}>랜덤 사연보내기</p>
-        )}
-        <Stack direction="column" alignItems="center">
-          <Box sx={{ height: "60%", width: "90%", margin: "10px auto 20px" }}>
-            <Box sx={{ height: "100%" }}>
+      <StyledStack>
+        <Stack direction="column" alignItems="center" sx={{ width: "320px" }}>
+          {receiver ? (
+            <StyledP>{receiver.info.nickname}에게 사연보내기</StyledP>
+          ) : (
+            <StyledP>랜덤 사연보내기</StyledP>
+          )}
+          <Box sx={{ maxHeight: "250px", margin: "10px" }}>
+            <Box sx={{ height: "100%", width: "100%" }}>
               <Polaroid
                 imageUrl={image.url}
                 imageType={image.type}
@@ -93,42 +90,65 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
               />
             </Box>
           </Box>
-          {waiting > 0 && (
-            <Box>
-              <p>선택한 시간 | {waitingName[waiting]}</p>
-            </Box>
-          )}
 
-          <Stack direction="row" justifyContent="center" spacing={1}>
-            {selectedKeywords.map((keyword) => (
-              <Chip
-                key={keyword}
-                label={keyword}
-                color="primary"
-                sx={{ color: "white" }}
-              />
-            ))}
-          </Stack>
+          <Box
+            sx={{
+              borderRadius: "20px",
+              backgroundColor: "white",
+              width: "290px",
+              boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.05)",
+              margin: "20px",
+              padding: "20px",
+            }}
+          >
+            {waiting > 0 && (
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                spacing={2}
+                sx={{ margin: "10px" }}
+              >
+                <img
+                  style={{ width: "50px" }}
+                  src={waitingImage[waiting]}
+                  alt="#"
+                />
+
+                <Stack
+                  direction="column"
+                  sx={{ textAlign: "left", width: "150px" }}
+                >
+                  <p style={{ fontSize: "12px" }}>사연이 도착하는데</p>
+                  <p style={{ fontSize: "12px" }}>XX시간이 걸립니다.</p>
+                </Stack>
+              </Stack>
+            )}
+
+            <Stack direction="row" sx={{ margin: "10px", flexWrap: "wrap" }}>
+              {selectedKeywords.map((keyword) => (
+                <Chip
+                  key={keyword}
+                  label={keyword}
+                  color="primary"
+                  sx={{ margin: "5px", color: "white" }}
+                />
+              ))}
+            </Stack>
+          </Box>
         </Stack>
-      </Box>
 
-      <Box>
-        <Button
-          variant="contained"
-          size="large"
-          disableElevation={true}
-          sx={{
-            color: "white",
-            fontFamily: "S-CoreDream-4Regular",
-            margin: "10px 0",
-            width: "300px",
-            borderRadius: 31.5,
-          }}
-          onClick={onClick}
-        >
-          보내기
-        </Button>
-      </Box>
+        <Box>
+          <StyledButton
+            variant="contained"
+            size="large"
+            disableElevation={true}
+            onClick={onClick}
+          >
+            보내기
+          </StyledButton>
+        </Box>
+      </StyledStack>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 import ChangeProfile from "../../components/User/Profile/ChangeProfile";
@@ -6,7 +6,6 @@ import { Stack, Button, Box, Snackbar, Alert, Grid } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
 import ChangeNickname from "components/User/Profile/ChangeNickname";
 import ChangeLocation from "components/User/Profile/ChangeLocation";
-
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -21,7 +20,9 @@ const Profile = () => {
     localStorage.removeItem("token");
     setAlertState("success");
     setOpen(true);
-    setTimeout(function(){window.location.reload()}, 1000)
+    setTimeout(function () {
+      window.location.reload();
+    }, 1000);
   };
 
   // 회원탈퇴 페이지로 이동
@@ -45,24 +46,16 @@ const Profile = () => {
     setOpen(false);
   };
 
-
   return (
     <Stack sx={{ height: "calc(100% - 56px)" }}>
       <Headerbar headerName={"내 정보"} />
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert 
-          onClose={handleClose} 
-          severity={alertState} 
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity={alertState}
           sx={{ width: "100%" }}
         >
-          {alertState === "success"
-            ? "로그아웃 되었습니다."
-            : null}
+          {alertState === "success" ? "로그아웃 되었습니다." : null}
         </Alert>
       </Snackbar>
 
