@@ -71,6 +71,9 @@ public class MemberController {
 				authenticationRequest.getPassword());
 		if (member == null)
 			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "로그인 실패"));
+		if(member.getWithdrawal().equals("Y"))
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "탈퇴한 회원"));
+
 		final String token = jwtTokenUtil.generateToken(member.getEmail());
 		return ResponseEntity.ok(new JWTResponseBody(token));
 	}

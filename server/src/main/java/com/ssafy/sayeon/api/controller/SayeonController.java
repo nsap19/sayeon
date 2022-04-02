@@ -82,7 +82,7 @@ public class SayeonController {
 	@ApiOperation(value = "사연 확정")
 	@ApiResponses({ @ApiResponse(code = 200, message = "사연 업로드 성공"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> saveSentStory(HttpServletRequest request,
-			@RequestBody SayeonReq sayeon) {
+			@RequestBody SayeonReq sayeon) throws ParseException {
 		if (sayeon.getImageUrl() == null || sayeon.getImageUrl().equals("")) {
 			return ResponseEntity.status(400).body(BaseResponseBody.of(400, "이미지 업로드 실패"));
 		}

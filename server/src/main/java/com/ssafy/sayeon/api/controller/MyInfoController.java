@@ -119,7 +119,7 @@ public class MyInfoController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "위치정보 수정 성공"));
 	}
 
-	@DeleteMapping("")
+	@PutMapping("")
 	@ApiOperation(value = "회원 탈퇴")
 	@ApiResponses({ @ApiResponse(code = 200, message = "회원 탈퇴 성공"),
 			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
@@ -129,7 +129,7 @@ public class MyInfoController {
 		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
 		userDetailService.authenticateByEmailAndPassword(member.getEmail(), password); // 패스워드 체크
 
-		memberService.deleteMember(member);
+		memberService.withdrawalMember(member);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "회원 탈퇴 성공"));
 	}
 

@@ -17,13 +17,13 @@ public interface SentStroryRepository extends JpaRepository<SentStory, String> {
 	List<SentStory> findAllBySender(Member sender);
 	SentStory findByStoryId(String storyId);
 
-	@Query(nativeQuery=true, value="select s.storyId, senderId, receiverId, dateSent, dateReceived, image, waitingId, imageType from sentstory s\r\n" + 
+	@Query(nativeQuery=true, value="select s.storyId, senderId, receiverId, dateSent, dateReceived, image, imageType from sentstory s\r\n" + 
 			"join receivedstory r\r\n" + 
 			"on s.storyId=r.storyId\r\n" + 
 			"where receiverId=:myId\r\n" + 
 			"and senderId = :friendId\r\n" + 
 			"union\r\n" + 
-			"select s.storyId, senderId, receiverId, dateSent, dateReceived, image, waitingId, imageType from receivedstory r\r\n" + 
+			"select s.storyId, senderId, receiverId, dateSent, dateReceived, image, imageType from receivedstory r\r\n" + 
 			"join sentstory s\r\n" + 
 			"on s.storyId=r.storyId\r\n" + 
 			"where senderId=:myId\r\n" + 
