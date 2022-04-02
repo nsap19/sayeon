@@ -7,6 +7,5 @@ public interface ReceivedStoryView {
 	String getDateSent();
 	String getDateReceived();
 	String getImage();
-	int getWaitingId();
 	String getImageType();
 }

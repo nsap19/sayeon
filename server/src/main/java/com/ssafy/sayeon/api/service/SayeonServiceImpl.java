@@ -120,7 +120,7 @@ public class SayeonServiceImpl implements SayeonService {
 		String[] myKeywords = myKeywordStr.replaceAll("[\\[|\\]|\\\"]", "").split(",");
 
 		List<SelectedKeyword> keywordList = selectedKeywordRepository
-				.findAllKeywordWithNotMachingUser(story.getStoryId());
+				.findAllKeywordWithNotMachingUser(story.getStoryId(), story.getSender().getUserId());
 
 		double maxSimilarity = 0;
 		String maxStoryId = "";
