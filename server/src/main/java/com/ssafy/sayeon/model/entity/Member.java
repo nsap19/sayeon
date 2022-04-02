@@ -47,6 +47,9 @@ public class Member {
 	@OneToOne(mappedBy="member")
 	MemberProfile memberProfile; //읽기 전용 필드
 	
+	@Column(name="withdrawal",length = 1)
+	String withdrawal;
+	
     public Member(String email, String password) {
         this.email = email;
         this.password = password;

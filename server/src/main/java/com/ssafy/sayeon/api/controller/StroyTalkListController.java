@@ -75,10 +75,12 @@ public class StroyTalkListController {
 	public ResponseEntity<? extends BaseResponseBody> getConversation(HttpServletRequest request,
 			@RequestHeader(value = "userId") String userId) {
 		Member me = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
-
+		Member receiver = memberService.getMemberByUserId(userId);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("myNickname", me.getMemberProfile().getNickname());
-		map.put("receiverNickname", memberService.getMemberByUserId(userId).getMemberProfile().getNickname());
+		map.put("receiverNickname",receiver.getMemberProfile().getNickname());
+		map.put("receiverWithdrawal", receiver.getWithdrawal());
 		List<ReceivedStoryView> list = storyTalkListService.getConversationList(me, userId);
 		map.put("conversation", list);
 
