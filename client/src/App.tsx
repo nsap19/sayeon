@@ -38,6 +38,15 @@ const theme = createTheme({
       default: "#ffffff",
     },
   },
+  components: {
+    MuiSnackbar: {
+      styleOverrides: {
+        root: {
+          bottom: "78px",
+        },
+      },
+    },
+  },
 });
 
 function App() {
