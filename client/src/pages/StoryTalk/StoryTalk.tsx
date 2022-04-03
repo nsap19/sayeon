@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StoryTalkHeaderbar from "components/StoryTalk/StoryTalkHeaderbar";
-import { Button, Box } from "@mui/material";
+import { Button, Box, CircularProgress, Stack } from "@mui/material";
 import Polaroid from "components/Story/Polaroid";
 import { useNavigate } from "react-router-dom";
 
@@ -73,9 +73,9 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
       .catch((err) => console.log(err));
   };
 
-  const content = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => {
-    content.current?.scrollIntoView({ behavior: "auto" });
+    document.getElementById("story-talk")!.scrollTop =
+      document.getElementById("story-talk")!.scrollHeight;
   };
 
   const getStoryTalk = () => {
@@ -93,6 +93,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
         );
 
         setStoryTalk(res.data.data.conversation);
+        scrollToBottom();
       })
       .catch((err: any) => {
         console.log(err);
@@ -107,7 +108,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
       getOtherUserInfo();
       getStoryTalk();
     }
-  }, [content, otherUserId]);
+  }, [otherUserId]);
 
   return (
     <>
@@ -121,54 +122,72 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
           height: "calc(100% - 70px - 70px)",
           overflowY: "auto",
         }}
+        id="story-talk"
       >
-        {storyTalk.map((story) => (
-          <Box
-            key={story.storyId}
-            sx={{
-              width: "70%",
-              margin:
-                otherUserId === story.senderId
-                  ? "10px auto 10px 10px"
-                  : "10px 10px 10px auto",
-            }}
+        {storyTalk.length ? (
+          <>
+            {storyTalk.map((story) => (
+              <Box
+                key={story.storyId}
+                sx={{
+                  width: "70%",
+                  margin:
+                    otherUserId === story.senderId
+                      ? "10px auto 10px 10px"
+                      : "10px 10px 10px auto",
+                }}
+              >
+                <Polaroid
+                  imageUrl={story.image}
+                  imageType={imageTypes[parseInt(story.imageType)]}
+                  senderNickname={
+                    otherUserId === story.senderId && otherUserInfo && userInfo
+                      ? otherUserInfo.nickname
+                      : userInfo.nickname
+                  }
+                  // hidden={new Date().getTime() < new Date(story.dateReceived).getTime()}
+                />
+              </Box>
+            ))}
+          </>
+        ) : (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ height: "calc(100% - 60px )" }}
           >
-            <Polaroid
-              imageUrl={story.image}
-              imageType={imageTypes[parseInt(story.imageType)]}
-              senderNickname={
-                otherUserId === story.senderId && otherUserInfo && userInfo
-                  ? otherUserInfo.nickname
-                  : userInfo.nickname
-              }
-            />
-          </Box>
-        ))}
+            <CircularProgress />
+          </Stack>
+        )}
 
         <Box sx={{ textAlign: "center", margin: "10px" }}>
-          <Button
-            href="/send"
-            sx={{
-              color: "white",
-              fontFamily: "S-CoreDream-4Regular",
-              margin: "5px 0 5px",
-              width: "100%",
-              height: "50px",
-              borderRadius: "15px",
-            }}
-            disableElevation={true}
-            size="large"
-            variant="contained"
-            onClick={() =>
-              navigate("/send", {
-                state: { id: otherUserId, info: otherUserInfo },
-              })
-            }
-          >
-            답장하기
-          </Button>
+          {storyTalk.length && (
+            <Button
+              href="/send"
+              sx={{
+                color: "white",
+                fontFamily: "S-CoreDream-4Regular",
+                margin: "5px 0 5px",
+                width: "100%",
+                height: "50px",
+                borderRadius: "15px",
+              }}
+              disableElevation={true}
+              size="large"
+              variant="contained"
+              onClick={() =>
+                navigate("/send", {
+                  state: { id: otherUserId, info: otherUserInfo },
+                })
+              }
+              disabled={
+                storyTalk.slice(-1)[0].senderId === userInfo.id ? true : false
+              }
+            >
+              답장하기
+            </Button>
+          )}
         </Box>
-        <div ref={content} />
       </Box>
     </>
   );
