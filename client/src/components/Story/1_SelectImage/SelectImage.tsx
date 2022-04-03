@@ -26,7 +26,7 @@ const SelectImage: React.FC<{
   const [cropData, setCropData] = useState("");
   const [cropper, setCropper] = useState<any>();
   const [imageType, setImageType] = useState<"MINI" | "SQUARE" | "WIDE">(
-    "MINI"
+    "SQUARE"
   );
   const [imageExtension, setImageExtension] = useState<string>("");
   const [imageName, setImageName] = useState<string>("");
