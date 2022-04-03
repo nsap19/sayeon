@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import { Dialog, IconButton } from "@mui/material";
-import { ReactComponent as Close } from "../../assets/icon/close-circle.svg";
+import { ReactComponent as Close } from "../../assets/icon/close.svg";
 
 const defaultPolaroidRatios = {
   mini: 54 / 86,
@@ -33,6 +33,7 @@ const Polaroid: React.FC<{
     max-height: 100%;
     transform: translateY(12.32%);
     width: 100%;
+    border: solid rgba(140, 136, 136, 0.3) 1px;
   `;
 
   const PolaroidFrame = styled.div`
@@ -46,8 +47,8 @@ const Polaroid: React.FC<{
 
   const Nickname = styled.p`
     position: absolute;
-    bottom: 5px;
-    right: 5px;
+    bottom: 5%;
+    right: 5%;
     font-size: ${height / 20}px;
   `;
 
@@ -69,18 +70,19 @@ const Polaroid: React.FC<{
         open={open}
         disableScrollLock={true}
       >
-        <IconButton
-          sx={{
-            position: "absolute",
-            left: "90%",
-            top: "-40px",
-            zIndex: "1",
-          }}
-          onClick={handleClose}
-        >
-          <Close style={{ fill: "white" }} />
-        </IconButton>
         <PolaroidFrame>
+          <IconButton
+            sx={{
+              position: "absolute",
+              zIndex: "1",
+              right: "-5%",
+              top: "-20%",
+              padding: 0,
+            }}
+            onClick={handleClose}
+          >
+            <Close style={{ fill: "white" }} />
+          </IconButton>
           <StyledImage
             // src={require(`../../assets/images/test/${imageUrl}`)}
             src={imageUrl}
