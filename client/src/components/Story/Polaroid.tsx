@@ -22,9 +22,15 @@ const Polaroid: React.FC<{
 }> = ({ imageUrl, imageType, senderNickname }) => {
   const [open, setOpen] = React.useState(false);
   const [height, setHeight] = useState(0);
+  const [dialogHeight, setDialogHeight] = useState(0);
   const div = useCallback((node) => {
     if (node !== null) {
       setHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
+  const dialogDiv = useCallback((node) => {
+    if (node !== null) {
+      setDialogHeight(node.getBoundingClientRect().height);
     }
   }, []);
 
@@ -47,9 +53,16 @@ const Polaroid: React.FC<{
 
   const Nickname = styled.p`
     position: absolute;
-    bottom: 5%;
-    right: 5%;
-    font-size: ${height / 20}px;
+    bottom: ${height / 20}px;
+    right: ${height / 20}px;
+    font-size: min(16px, ${height / 20}px);
+  `;
+
+  const DialogNickname = styled.p`
+    position: absolute;
+    bottom: ${dialogHeight / 20}px;
+    right: ${dialogHeight / 20}px;
+    font-size: min(16px, ${dialogHeight / 20}px);
   `;
 
   const handleClickOpen = () => {
@@ -70,13 +83,13 @@ const Polaroid: React.FC<{
         open={open}
         disableScrollLock={true}
       >
-        <PolaroidFrame>
+        <PolaroidFrame ref={dialogDiv}>
           <IconButton
             sx={{
               position: "absolute",
               zIndex: "1",
-              right: "-5%",
-              top: "-20%",
+              right: "-7px",
+              top: "-24px",
               padding: 0,
             }}
             onClick={handleClose}
@@ -89,7 +102,7 @@ const Polaroid: React.FC<{
             alt="img"
             onClick={handleClickOpen}
           />
-          <Nickname>{senderNickname}</Nickname>
+          <DialogNickname>{senderNickname}</DialogNickname>
         </PolaroidFrame>
       </Dialog>
 
