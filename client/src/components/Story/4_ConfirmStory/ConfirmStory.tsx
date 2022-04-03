@@ -30,7 +30,7 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
             imageType: image.type,
             imageUrl: image.url,
             keyword: selectedKeywords.join(),
-            receiverId: null,
+            receiverId: "null",
           };
     axios
       .post("story", data, {
