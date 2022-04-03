@@ -25,8 +25,8 @@ const SelectImage: React.FC<{
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
   const [cropper, setCropper] = useState<any>();
-  const [imageType, setImageType] = useState<"mini" | "square" | "wide">(
-    "square"
+  const [imageType, setImageType] = useState<"MINI" | "SQUARE" | "WIDE">(
+    "MINI"
   );
   const [imageExtension, setImageExtension] = useState<string>("");
   const [imageName, setImageName] = useState<string>("");
@@ -102,12 +102,12 @@ const SelectImage: React.FC<{
   }, [cropData, handleUpload]);
 
   const imageTypeOptions: {
-    value: "mini" | "square" | "wide";
+    value: "MINI" | "SQUARE" | "WIDE";
     ratio: number;
   }[] = [
-    { value: "mini", ratio: 42 / 62 },
-    { value: "square", ratio: 1 / 1 },
-    { value: "wide", ratio: 99 / 62 },
+    { value: "MINI", ratio: 42 / 62 },
+    { value: "SQUARE", ratio: 1 / 1 },
+    { value: "WIDE", ratio: 99 / 62 },
   ];
 
   return (

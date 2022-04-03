@@ -3,7 +3,7 @@ import { RootState } from ".";
 
 export type CreateStoryType = {
   receiver: string;
-  image: { name: string; url: string; type: "mini" | "square" | "wide" };
+  image: { name: string; url: string; type: "MINI" | "SQUARE" | "WIDE" };
   keywords: string[];
   selectedKeywords: string[];
   waiting: number;
@@ -11,7 +11,7 @@ export type CreateStoryType = {
 
 const initialState: CreateStoryType = {
   receiver: "",
-  image: { name: "", url: "", type: "square" },
+  image: { name: "", url: "", type: "MINI" },
   keywords: [],
   selectedKeywords: [],
   waiting: 0,
@@ -29,7 +29,7 @@ export const CreateStorySlice = createSlice({
       action: PayloadAction<{
         name: string;
         url: string;
-        type: "mini" | "square" | "wide";
+        type: "MINI" | "SQUARE" | "WIDE";
       }>
     ) => {
       state.image = action.payload;

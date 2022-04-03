@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 interface Story {
   storyId: number;
   image: string;
-  imageType: "square" | "mini" | "wide";
+  imageType: "MINI" | "SQUARE" | "WIDE";
   waiting: number;
   senderId: string;
   receiverId: string;
@@ -32,7 +32,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
     profilePic: number;
   }>();
 
-  const imageTypes: ("square" | "mini" | "wide")[] = ["mini", "wide", "square"];
+  const imageTypes: ("MINI" | "SQUARE" | "WIDE")[] = ["MINI", "WIDE", "SQUARE"];
 
   const getUserId = () => {
     axios

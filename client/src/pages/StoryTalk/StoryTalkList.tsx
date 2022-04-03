@@ -71,14 +71,14 @@ export default function StoryTalkList() {
                 imageUrl={
                   "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
                 }
-                imageType={"square"}
+                imageType={"SQUARE"}
                 senderNickname={"일이삼사오육칠팔구십"}
               />
               <Polaroid
                 imageUrl={
                   "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542644550_image.jpg"
                 }
-                imageType={"mini"}
+                imageType={"MINI"}
                 senderNickname={"일이삼사"}
               />
             </Stack>
@@ -109,14 +109,14 @@ export default function StoryTalkList() {
                 imageUrl={
                   "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542644550_image.jpg"
                 }
-                imageType={"mini"}
+                imageType={"MINI"}
                 senderNickname={"일이삼사"}
               />
               <Polaroid
                 imageUrl={
                   "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542662844_pexels-chevanon-photography-1108099.jpg"
                 }
-                imageType={"wide"}
+                imageType={"WIDE"}
                 senderNickname={"일이삼사오육칠"}
               />
             </Stack>
@@ -147,14 +147,14 @@ export default function StoryTalkList() {
                 imageUrl={
                   "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648542662844_pexels-chevanon-photography-1108099.jpg"
                 }
-                imageType={"wide"}
+                imageType={"WIDE"}
                 senderNickname={"일이삼사오육칠"}
               />
               <Polaroid
                 imageUrl={
                   "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
                 }
-                imageType={"square"}
+                imageType={"SQUARE"}
                 senderNickname={"일이삼사오육칠팔구십"}
               />
             </Stack>

@@ -5,19 +5,19 @@ import { ReactComponent as Close } from "../../assets/icon/close-circle.svg";
 
 const StoryListPolaroid: React.FC<{
   imageUrl: string;
-  imageType: "mini" | "square" | "wide";
+  imageType: "MINI" | "SQUARE" | "WIDE";
   senderNickname: string;
 }> = ({ imageUrl, imageType, senderNickname }) => {
   const defaultPolaroidRatios = {
-    mini: 54 / 86,
-    square: 72 / 86,
-    wide: 108 / 86,
+    MINI: 54 / 86,
+    SQUARE: 72 / 86,
+    WIDE: 108 / 86,
   };
 
   const defaultImageAndFrameRatios = {
-    mini: 42 / 54,
-    square: 62 / 72,
-    wide: 99 / 108,
+    MINI: 42 / 54,
+    SQUARE: 62 / 72,
+    WIDE: 99 / 108,
   };
 
   const StyledImage = styled.img`
