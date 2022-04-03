@@ -159,7 +159,11 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
             disableElevation={true}
             size="large"
             variant="contained"
-            onClick={() => console.log("어쩌구")}
+            onClick={() =>
+              navigate("/send", {
+                state: { id: otherUserId, info: otherUserInfo },
+              })
+            }
           >
             답장하기
           </Button>
