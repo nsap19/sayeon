@@ -19,7 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @ApiModel("StoryTalkListResponseBody")
 public class StoryTalkBody {
-	List<ReceivedStoryInfo> storyTalk = null;
+	List<ReceivedStoryRes> storyTalk = null;
 
 //	public BaseResponseBody(Integer statusCode) {
 //		this.statusCode = statusCode;
@@ -28,7 +28,7 @@ public class StoryTalkBody {
 
 
 
-	public static StoryTalkBody of(List<ReceivedStoryInfo> storyTalk) {
+	public static StoryTalkBody of(List<ReceivedStoryRes> storyTalk) {
 		StoryTalkBody body = new StoryTalkBody();
 		body.storyTalk = storyTalk;
 		return body;
