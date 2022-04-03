@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Polaroid from "./StoryListPolaroid";
-import { Box, ImageList, ImageListItem } from "@mui/material";
+import { Box, ImageList, ImageListItem, Pagination, Stack } from "@mui/material";
 import axios from "axios";
 
 
 interface sentStory {
   storyId: number;
   image: string;
-  imageType: "square" | "mini" | "wide";
+  imageType: "MINI" | "SQUARE" | "WIDE";
   senderId: string;
   senderNickname: string;
 }
@@ -32,7 +32,7 @@ const StoryListSent: React.FC = () => {
       },
       params: {
         page: 0,
-        size: 10
+        size: 8
       }
     })
     .then((res) => {
@@ -63,12 +63,12 @@ const StoryListSent: React.FC = () => {
   }
 
   return (
-    <div>
+    <>
       <Box sx={{ display: "flex", justifyContent: "space-between", mx: 3 }}>
         <p>보낸 사연</p>
         <p>{countSentImages}</p>
       </Box>
-      <Box sx={{ px: 2, height: 520, overflowY: "scroll", mt: 2 }}>
+      <Box sx={{ px: 2, height: 480, overflowY: "scroll", mt: 2 }}>
         <ImageList variant="masonry" cols={2} gap={10}>
           {sentImageList.map((item) => (
             <ImageListItem key={item.image}>
@@ -81,7 +81,10 @@ const StoryListSent: React.FC = () => {
           ))}
         </ImageList>
       </Box>
-    </div>
+      <Stack spacing={2} direction="row" justifyContent="center">
+        <Pagination count={5} size="small" />
+      </Stack>
+    </>
   );
 };
 

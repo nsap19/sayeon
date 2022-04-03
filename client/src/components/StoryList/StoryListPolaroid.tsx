@@ -46,8 +46,8 @@ const StoryListPolaroid: React.FC<{
 
   const Nickname = styled.p`
     position: absolute;
-    bottom: 10px;
-    right: 5px;
+    bottom: 15px;
+    right: 10px;
     font-size: ${width / 20}px;
   `;
 

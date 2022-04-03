@@ -6,7 +6,7 @@ import { Box, ImageList, ImageListItem } from "@mui/material";
 interface receivedStory {
   storyId: number;
   image: string;
-  imageType: "square" | "mini" | "wide";
+  imageType: "MINI" | "SQUARE" | "WIDE";
   waiting: number;
   senderId: string;
   receiverId: string;
@@ -35,7 +35,7 @@ const StoryListReceived: React.FC = () => {
       },
       params: {
         page: 0,
-        size: 10
+        size: 8
       }
     })
     .then((res) => {
@@ -85,6 +85,9 @@ const StoryListReceived: React.FC = () => {
           ))}
         </ImageList>
       </Box>
+      {/* <Stack spacing={2} direction="row" justifyContent="center">
+        <Pagination count={5} size="small" />
+      </Stack> */}
     </div>
   );
 };
