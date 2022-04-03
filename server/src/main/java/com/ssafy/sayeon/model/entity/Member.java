@@ -53,6 +53,7 @@ public class Member {
     public Member(String email, String password) {
         this.email = email;
         this.password = password;
+        this.withdrawal = "N";
     }
 
     public static Member createMember(String email, String password) {
