@@ -19,33 +19,26 @@ const DeleteAccount: React.FC = () => {
 
   const onSubmit = (data: DeleteAccountInput) => {
     const token = localStorage.getItem("token");
-    axios
-      .delete("userInfo", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: {
-          password: data.password,
-        },
-      })
-
-      // axios({
-      //   method: "delete",
-      //   url: "userInfo",
-      //   params: {
-      //     password: password
-      //   }
-      // })
-      .then((res) => {
-        console.log(res);
-        setOpen(true);
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        setAlertState("error");
-        setOpen(true);
-      });
+    axios({
+      method: "put",
+      url: "userInfo",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        password: data.password,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      setOpen(true);
+      navigate("/");
+    })
+    .catch((err) => {
+      console.log(err);
+      setAlertState("error");
+      setOpen(true);
+    });
   };
 
   // 스낵바 관련
@@ -79,14 +72,14 @@ const DeleteAccount: React.FC = () => {
             severity={alertState}
             sx={{ width: "100%" }}
           >
-            {alertState === "success" ? "회원탈퇴" : "다시 시도해주세요."}
+            {alertState === "success" ? "탈퇴가 완료되었습니다." : null}
           </Alert>
         </Snackbar>
 
         <Stack direction="column">
-          <Stack margin="0 10% 10%">
-            <p>정말 탈퇴하시겠습니까?</p>
-            <p>삭제된 계정 정보는 복구되지 않습니다.</p>
+          <Stack margin="0 18% 10%">
+            <p className="p-custom">정말 탈퇴하시겠습니까?</p>
+            <p className="p-custom">삭제된 계정은 복구되지 않습니다.</p>
           </Stack>
           <Stack alignItems="center">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -102,7 +95,7 @@ const DeleteAccount: React.FC = () => {
                   pattern: {
                     value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
                     message:
-                      "영소문자, 숫자, 특수문자를 포함해 8자 이상으로 입력해주세요.",
+                      "비밀번호가 일치하지 않습니다.",
                   },
                 }}
                 render={({ field, fieldState }) => (
@@ -126,7 +119,9 @@ const DeleteAccount: React.FC = () => {
                 sx={{
                   color: "white",
                   fontFamily: "S-CoreDream-4Regular",
-                  width: "300px",
+                  marginTop: "20px",
+                  width: "250px",
+                  height: "50px",
                   borderRadius: 31.5,
                 }}
                 size="large"
