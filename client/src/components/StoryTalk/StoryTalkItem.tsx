@@ -36,7 +36,7 @@ export default function StoryTalkItem({ storyTalk }: any) {
       <More onClick={DeleteStoryTalk}>사연 대화 삭제</More>
       <Polaroid
         imageUrl={storyTalk.image}
-        imageType="mini"
+        imageType="MINI"
         senderNickname="storyTalk.senderId"
       />
     </>

@@ -64,11 +64,11 @@ const StoryListSent: React.FC = () => {
 
   return (
     <div>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mx: 3 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mx: 3 }}>
         <p>보낸 사연</p>
         <p>{countSentImages}</p>
       </Box>
-      <Box sx={{ px: 2, height: 520, overflowY: 'scroll', mt: 2 }}>
+      <Box sx={{ px: 2, height: 520, overflowY: "scroll", mt: 2 }}>
         <ImageList variant="masonry" cols={2} gap={10}>
           {sentImageList.map((item) => (
             <ImageListItem key={item.image}>
@@ -82,7 +82,7 @@ const StoryListSent: React.FC = () => {
         </ImageList>
       </Box>
     </div>
-  )
-}
+  );
+};
 
 export default StoryListSent;

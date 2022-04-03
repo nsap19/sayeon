@@ -1,30 +1,36 @@
 import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import { Dialog, IconButton } from "@mui/material";
-import { ReactComponent as Close } from "../../assets/icon/close-circle.svg";
+import { ReactComponent as Close } from "../../assets/icon/close.svg";
 
 const defaultPolaroidRatios = {
-  mini: 54 / 86,
-  square: 72 / 86,
-  wide: 108 / 86,
+  MINI: 54 / 86,
+  SQUARE: 72 / 86,
+  WIDE: 108 / 86,
 };
 
 const defaultImageAndFrameRatios = {
-  mini: 42 / 54,
-  square: 62 / 72,
-  wide: 99 / 108,
+  MINI: 42 / 54,
+  SQUARE: 62 / 72,
+  WIDE: 99 / 108,
 };
 
 const Polaroid: React.FC<{
   imageUrl: string;
-  imageType: "mini" | "square" | "wide";
+  imageType: "MINI" | "SQUARE" | "WIDE";
   senderNickname: string;
 }> = ({ imageUrl, imageType, senderNickname }) => {
   const [open, setOpen] = React.useState(false);
   const [height, setHeight] = useState(0);
+  const [dialogHeight, setDialogHeight] = useState(0);
   const div = useCallback((node) => {
     if (node !== null) {
       setHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
+  const dialogDiv = useCallback((node) => {
+    if (node !== null) {
+      setDialogHeight(node.getBoundingClientRect().height);
     }
   }, []);
 
@@ -33,6 +39,7 @@ const Polaroid: React.FC<{
     max-height: 100%;
     transform: translateY(12.32%);
     width: 100%;
+    border: solid rgba(140, 136, 136, 0.3) 1px;
   `;
 
   const PolaroidFrame = styled.div`
@@ -46,9 +53,16 @@ const Polaroid: React.FC<{
 
   const Nickname = styled.p`
     position: absolute;
-    bottom: 5px;
-    right: 5px;
-    font-size: ${height / 20}px;
+    bottom: ${height / 20}px;
+    right: ${height / 20}px;
+    font-size: min(16px, ${height / 20}px);
+  `;
+
+  const DialogNickname = styled.p`
+    position: absolute;
+    bottom: ${dialogHeight / 20}px;
+    right: ${dialogHeight / 20}px;
+    font-size: min(16px, ${dialogHeight / 20}px);
   `;
 
   const handleClickOpen = () => {
@@ -69,25 +83,26 @@ const Polaroid: React.FC<{
         open={open}
         disableScrollLock={true}
       >
-        <IconButton
-          sx={{
-            position: "absolute",
-            left: "90%",
-            top: "-40px",
-            zIndex: "1",
-          }}
-          onClick={handleClose}
-        >
-          <Close style={{ fill: "white" }} />
-        </IconButton>
-        <PolaroidFrame>
+        <PolaroidFrame ref={dialogDiv}>
+          <IconButton
+            sx={{
+              position: "absolute",
+              zIndex: "1",
+              right: "-7px",
+              top: "-24px",
+              padding: 0,
+            }}
+            onClick={handleClose}
+          >
+            <Close style={{ fill: "white" }} />
+          </IconButton>
           <StyledImage
             // src={require(`../../assets/images/test/${imageUrl}`)}
             src={imageUrl}
             alt="img"
             onClick={handleClickOpen}
           />
-          <Nickname>{senderNickname}</Nickname>
+          <DialogNickname>{senderNickname}</DialogNickname>
         </PolaroidFrame>
       </Dialog>
 
