@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import {
   Stack,
-  Grid,
-  Box,
   FormControl,
   InputLabel,
   MenuItem,
 } from "@mui/material";
 import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
-// import { ReactComponent as Location } from "../../../assets/icon/location.svg";
+import { ReactComponent as Location } from "../../../assets/icon/location.svg";
 import LocationJson from "../../../assets/json/location.json";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import "./Profile.css";
@@ -28,11 +26,25 @@ const ChangeLocation = () => {
   // 상세주소용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
     string[]
-  >(Object.keys(LocationJson[
-    location as keyof typeof LocationJson
-  ]));
+  >([]);
 
+  const valueRef = useRef(defaultLocation);
+  let isMount = useRef(false);
+    
   useEffect(() => {
+    isMount.current = true;
+    getMyLocation();
+    return () => {
+      if (Object.keys(defaultLocation).length) {
+      setDetailedLocationOptions(Object.keys(null || LocationJson[
+        valueRef.current as keyof typeof LocationJson
+      ]))};
+      isMount.current = false;
+    };
+  }, []);
+  
+
+  const getMyLocation = () => {
     const token = localStorage.getItem("token");
     axios({
       method: "get",
@@ -41,22 +53,29 @@ const ChangeLocation = () => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => {
-        console.log(res);
-        setLocations(res.data.data.memberProfile.location);
-        setLocation(res.data.data.memberProfile.location.split(" ")[0]);
-        setDefaultLocation(res.data.data.memberProfile.location.split(" ")[0]);
+    .then((res) => {
+      // console.log(res);
+      setLocations(res.data.data.memberProfile.location);
+      setLocation(res.data.data.memberProfile.location.split(" ")[0]);
+      if (res.data.data.memberProfile.location.split(" ")[2]) {
+        setDetailedLocation(
+          res.data.data.memberProfile.location.split(" ")[1] + ' ' + res.data.data.memberProfile.location.split(" ")[2]
+        );
+        setDefaultDetailedLocation(
+          res.data.data.memberProfile.location.split(" ")[1] + ' ' + res.data.data.memberProfile.location.split(" ")[2]
+        );
+      }
+      else {
         setDetailedLocation(res.data.data.memberProfile.location.split(" ")[1]);
         setDefaultDetailedLocation(
           res.data.data.memberProfile.location.split(" ")[1]
         );
-
-      setDetailedLocationOptions(Object.keys(LocationJson[
-        defaultLocation as keyof typeof LocationJson
-      ]));
+      }
+      setDefaultLocation(res.data.data.memberProfile.location.split(" ")[0]);
     })
     .catch((err) => console.log(err));
-  }, []);
+  }
+
 
   const closeEditing = () => {
     setIsEditingLocation(false);
@@ -69,9 +88,6 @@ const ChangeLocation = () => {
     if (!isEditingLocation) {
       return setIsEditingLocation(true);
     }
-    setDetailedLocationOptions(Object.keys(LocationJson[
-      defaultLocation as keyof typeof LocationJson
-    ]));
   };
 
   // 시/도 부분 수정
@@ -104,18 +120,18 @@ const ChangeLocation = () => {
       .then(() => {
         console.log("위치 정보 수정 완료");
         setIsEditingLocation(false);
-        window.location.reload();
+        getMyLocation();
       })
       .catch((err) => console.log(err));
   };
 
   return (
-    <Stack>
-      <Grid container item xs={12} sx={{ alignItems: "center" }}>
-        <Grid item xs={7} marginLeft="10%">
-          {isEditingLocation ? (
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
+    <>
+      <Stack>
+        {isEditingLocation ? (
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Stack>
+              <FormControl>
                 <InputLabel id="demo-simple-select-label">시/도</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -128,7 +144,11 @@ const ChangeLocation = () => {
                   {locationOptions &&
                     locationOptions.map((option, index) => {
                       return (
-                        <MenuItem key={index} value={option}>
+                        <MenuItem 
+                          key={index} 
+                          value={option}
+                          sx={{ fontFamily: "S-CoreDream-4Regular" }}
+                        >
                           {option}
                         </MenuItem>
                       );
@@ -140,40 +160,41 @@ const ChangeLocation = () => {
                 <Select
                   id="demo-simple-select"
                   label="시/군/구"
+                  // defaultValue={defaultDetailedLocation}
                   value={detailedLocation}
                   onChange={onChangeDetailedLocation}
                   className="select-custom"
                 >
                   {detailedLocationOptions && detailedLocationOptions.map((option) => {
                   return (
-                    <MenuItem key={option} value={option}>
+                    <MenuItem 
+                      key={option} 
+                      value={option}
+                      sx={{ fontFamily: "S-CoreDream-4Regular" }}  
+                    >
                       {option}
                     </MenuItem>
                   );
                 })}
                 </Select>
               </FormControl>
-            </Box>
-          ) : (
-            <h3>{locations}</h3>
-          )}
-        </Grid>
-        <Grid item xs={3}>
-          {isEditingLocation ? (
-            <Grid marginY="auto">
-              <button className="button-custom" onClick={changeLocation}>
-                수정
-              </button>
-              <button className="button-custom" onClick={closeEditing}>
-                취소
-              </button>
-            </Grid>
-          ) : (
+            </Stack>
+            <button className="button-custom" onClick={changeLocation}>
+              수정
+            </button>
+            <button className="button-custom" onClick={closeEditing}>
+              취소
+            </button>
+          </Stack>
+        ) : (
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Location className="location-custom"/>
+            <p>{locations}</p>
             <Edit onClick={locationEditingMode} className="svg-custom" />
-          )}
-        </Grid>
-      </Grid>
-    </Stack>
+          </Stack>
+        )}
+      </Stack>
+    </>
   );
 };
 
