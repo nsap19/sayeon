@@ -1,60 +1,88 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Polaroid from "./StoryListPolaroid";
+import axios from "axios";
 import { Box, ImageList, ImageListItem } from "@mui/material";
 
+interface receivedStory {
+  storyId: number;
+  image: string;
+  imageType: "square" | "mini" | "wide";
+  waiting: number;
+  senderId: string;
+  receiverId: string;
+  dateSent: string;
+  dateReceived: string;
+  senderNickname: string;
+}
 
 const StoryListReceived: React.FC = () => {
+  const [receivedImageList, setReceivedImageList] = useState<receivedStory[]>([]);
+  const [countReceivedImages, setCountReceivedImages] = useState(0);
+
+  useEffect(() => {
+    getReceivedImageList();
+    getReceivedCnt();
+  }, []);
+
+  const getReceivedImageList = () => {
+    // 페이지네이션 처리해야-
+    const token = localStorage.getItem("token");
+    axios({
+      method: "get",
+      url: 'story-list/received',
+      headers: {
+        Authorization : `Bearer ${token}`
+      },
+      params: {
+        page: 0,
+        size: 10
+      }
+    })
+    .then((res) => {
+      // console.log(res.data.data);
+      if (res.data.data) {
+        setReceivedImageList(res.data.data)
+      }
+    })
+    .catch((err) => console.log(err));
+  };
+
+  const getReceivedCnt = () => {
+    const token = localStorage.getItem("token");
+    axios({
+      method: "get",
+      url: 'story-list/received-cnt',
+      headers: {
+        Authorization : `Bearer ${token}`
+      },
+    })
+    .then((res) => {
+      // console.log(res.data.data);
+      if (res.data.data) {
+        setCountReceivedImages(res.data.data)
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+
+
   return (
     <div>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mx: 3 }}>
         <p>받은 사연</p>
-        {/* 받은 사연 수 */}
-        <p>24</p>
+        <p>{countReceivedImages}</p>
       </Box>
       <Box sx={{ px: 2, height: 520, overflowY: 'scroll', mt: 2 }}>
-        <ImageList variant="masonry" cols={2} gap={10}>
-          <ImageListItem>
-            <Polaroid
-              imageUrl={require("../../assets/images/test/square_default.png")}
-              imageType={"square"}
-              senderNickname={"발신자 닉네임 1"}
-            />
-          </ImageListItem>
-          <ImageListItem>
-            <Polaroid
-              imageUrl={require("../../assets/images/test/mini_default.png")}
-              imageType={"mini"}
-              senderNickname={"발신자 닉네임 2"}
-            />
-          </ImageListItem>
-          <ImageListItem>
-            <Polaroid
-              imageUrl={require("../../assets/images/test/wide_default.png")}
-              imageType={"wide"}
-              senderNickname={"발신자 닉네임 3"}
-            />
-          </ImageListItem>
-          <ImageListItem>
-            <Polaroid
-              imageUrl={require("../../assets/images/test/square_default.png")}
-              imageType={"square"}
-              senderNickname={"발신자 닉네임 4"}
-            />
-          </ImageListItem>
-          <ImageListItem>
-            <Polaroid
-              imageUrl={require("../../assets/images/test/wide_default.png")}
-              imageType={"wide"}
-              senderNickname={"발신자 닉네임 5"}
-            />
-          </ImageListItem>
-          <ImageListItem>
-            <Polaroid
-              imageUrl={require("../../assets/images/test/square_default.png")}
-              imageType={"square"}
-              senderNickname={"발신자 닉네임 6"}
-            />
-          </ImageListItem>
+      <ImageList variant="masonry" cols={2} gap={10}>
+          {receivedImageList.map((item) => (
+            <ImageListItem key={item.image}>
+              <Polaroid
+                imageUrl={`${item.image}`}
+                imageType={item.imageType}
+                senderNickname={item.senderNickname}
+              />
+            </ImageListItem>
+          ))}
         </ImageList>
       </Box>
     </div>

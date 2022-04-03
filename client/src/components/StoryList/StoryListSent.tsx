@@ -3,22 +3,22 @@ import Polaroid from "./StoryListPolaroid";
 import { Box, ImageList, ImageListItem } from "@mui/material";
 import axios from "axios";
 
+
 interface sentStory {
   storyId: number;
   image: string;
   imageType: "square" | "mini" | "wide";
-  waiting: number;
   senderId: string;
-  receiverId: string;
-  dateSent: string;
-  dateReceived: string;
+  senderNickname: string;
 }
 
 const StoryListSent: React.FC = () => {
-  const [sentImageList, setSentImageList] = useState<sentStory[]>([])
+  const [sentImageList, setSentImageList] = useState<sentStory[]>([]);
+  const [countSentImages, setCountSentImages] = useState(0);
 
   useEffect(() => {
     getSentImageList();
+    getSentCnt();
   }, []);
 
   const getSentImageList = () => {
@@ -37,18 +37,36 @@ const StoryListSent: React.FC = () => {
     })
     .then((res) => {
       console.log(res.data.data);
-      setSentImageList(res.data.data)
+      if (res.data.data) {
+        setSentImageList(res.data.data)
+      }
     })
     .catch((err) => console.log(err));
   };
 
+  const getSentCnt = () => {
+    const token = localStorage.getItem("token");
+    axios({
+      method: "get",
+      url: 'story-list/sent-cnt',
+      headers: {
+        Authorization : `Bearer ${token}`
+      },
+    })
+    .then((res) => {
+      // console.log(res.data.data);
+      if (res.data.data) {
+        setCountSentImages(res.data.data)
+      }
+    })
+    .catch((err) => console.log(err));
+  }
 
   return (
     <div>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mx: 3 }}>
         <p>보낸 사연</p>
-        {/* 보낸 사연 수 */}
-        <p>24</p>
+        <p>{countSentImages}</p>
       </Box>
       <Box sx={{ px: 2, height: 520, overflowY: 'scroll', mt: 2 }}>
         <ImageList variant="masonry" cols={2} gap={10}>
@@ -57,7 +75,7 @@ const StoryListSent: React.FC = () => {
               <Polaroid
                 imageUrl={`${item.image}`}
                 imageType={item.imageType}
-                senderNickname={"발신자 닉네임 6"}
+                senderNickname={item.senderNickname}
               />
             </ImageListItem>
           ))}
