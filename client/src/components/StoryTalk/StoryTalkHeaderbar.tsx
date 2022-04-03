@@ -4,6 +4,7 @@ import { SvgIcon, Grid } from "@mui/material";
 import { ReactComponent as ArrowLeft } from "assets/icon/arrow-left.svg";
 import { ReactComponent as Send } from "assets/icon/send.svg";
 import { useNavigate } from "react-router-dom";
+import RequestDialog from "./RequestDialog";
 
 const DivStyle = styled.div`
   background-color: white;
@@ -26,43 +27,61 @@ const StoryTalkHeaderbar: React.FC<{
 }> = ({ headerName, otherUserInfo, otherUserId }) => {
   const navigate = useNavigate();
 
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <DivStyle>
-      <Grid container alignItems="center">
-        <Grid item xs={4} sx={{ textAlign: "left" }}>
-          <SvgIcon
-            sx={{ margin: "5px 0 0 8px" }}
-            component={ArrowLeft}
-            inheritViewBox
-            onClick={() => navigate(-1)}
-          />
-        </Grid>
-
-        <Grid item xs={4} container alignItems="center" justifyContent="center">
-          {otherUserInfo !== undefined && (
-            <img
-              src={require(`../../assets/images/profile/Avatars-${otherUserInfo.profilePic}.png`)}
-              alt="profile pic"
-              style={{ width: "30px", marginRight: "10px" }}
+    <>
+      <RequestDialog
+        open={open}
+        onClose={handleClose}
+        otherUserId={otherUserId}
+      />
+      <DivStyle>
+        <Grid container alignItems="center">
+          <Grid item xs={4} sx={{ textAlign: "left" }}>
+            <SvgIcon
+              sx={{ margin: "5px 0 0 8px" }}
+              component={ArrowLeft}
+              inheritViewBox
+              onClick={() => navigate(-1)}
             />
-          )}
-          <span>{headerName}</span>
-        </Grid>
+          </Grid>
 
-        <Grid item xs={4} sx={{ textAlign: "right" }}>
-          <SvgIcon
-            sx={{ margin: "5px 12px 0 0" }}
-            component={Send}
-            inheritViewBox
-            onClick={() =>
-              navigate("/send", {
-                state: { receiverId: otherUserId, receiverInfo: otherUserInfo },
-              })
-            }
-          />
+          <Grid
+            item
+            xs={4}
+            container
+            alignItems="center"
+            justifyContent="center"
+          >
+            {otherUserInfo !== undefined && (
+              <img
+                src={require(`../../assets/images/profile/Avatars-${otherUserInfo.profilePic}.png`)}
+                alt="profile pic"
+                style={{ width: "30px", marginRight: "10px" }}
+              />
+            )}
+            <span>{headerName}</span>
+          </Grid>
+
+          <Grid item xs={4} sx={{ textAlign: "right" }}>
+            <SvgIcon
+              sx={{ margin: "5px 12px 0 0" }}
+              component={Send}
+              inheritViewBox
+              onClick={handleClickOpen}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-    </DivStyle>
+      </DivStyle>
+    </>
   );
 };
 
