@@ -42,12 +42,12 @@ public class TranslationServiceImpl implements TranslationService {
 		// TODO Auto-generated method stub
 		String[] Keywords = keywords.replaceAll("[\\[|\\]|\\\"]", "").split(",");
 		String[] result = new String[Keywords.length];
+		
 		StringBuilder sb= new StringBuilder();
+		
 		for(int i=0;i<Keywords.length;i++) {
-			System.out.println(Keywords[i]);
 			sb.append(translate(Keywords[i]+","));
  		}
-		System.out.println(Arrays.toString(result));
 
 		return sb.toString().substring(0, sb.length()-1);
 	}
