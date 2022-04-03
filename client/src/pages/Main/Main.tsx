@@ -14,7 +14,7 @@ const Main: React.FC = () => {
   const location = useLocation();
   const state = location.state as CustomizedState;
   const [snackbar, setSnackbar] = useState(state ? state.openSnackbar : false);
-  const [recentStories, setRecentStories] = useState([]);
+  const [recentStories, setRecentStories] = useState<any[]>([]);
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -29,7 +29,7 @@ const Main: React.FC = () => {
   const getRecentStories = () => {
     axios
       .get("story-list/received", {
-        params: { page: 1, size: 3 },
+        params: { page: 0, size: 3 },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -131,13 +131,14 @@ const Main: React.FC = () => {
               sx={{ width: "92%", overflowX: "auto", height: "100%" }}
             >
               {recentStories.map((recentStory) => (
-                <Box sx={{ width: "auto", height: "90%" }}>
+                <Box
+                  sx={{ width: "auto", height: "90%" }}
+                  key={recentStory.storyId}
+                >
                   <Polaroid
-                    imageUrl={
-                      "https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/1648541597464_1648521785936_1648520566143_pexels-lisa-fotios-11334018.jpg"
-                    }
-                    imageType={"square"}
-                    senderNickname={"일이삼사오육칠팔구십"}
+                    imageUrl={recentStory.image}
+                    imageType={recentStory.imageType}
+                    senderNickname={recentStory.senderNickname}
                   />
                 </Box>
               ))}
