@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const DivStyle = styled.div`
   background-color: white;
-  font-size: 24px;
+  font-size: 18px;
   height: 70px;
   text-align: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
@@ -38,12 +38,12 @@ const StoryTalkHeaderbar: React.FC<{
           />
         </Grid>
 
-        <Grid item xs={4} container alignItems="center">
+        <Grid item xs={4} container alignItems="center" justifyContent="center">
           {otherUserInfo !== undefined && (
             <img
               src={require(`../../assets/images/profile/Avatars-${otherUserInfo.profilePic}.png`)}
               alt="profile pic"
-              style={{ width: "40px", marginRight: "10px" }}
+              style={{ width: "30px", marginRight: "10px" }}
             />
           )}
           <span>{headerName}</span>

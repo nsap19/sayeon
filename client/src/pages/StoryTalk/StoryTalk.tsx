@@ -32,12 +32,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
     profilePic: number;
   }>();
 
-  const imageTypes: ("square" | "mini" | "wide")[] = [
-    "mini",
-    "mini",
-    "square",
-    "wide",
-  ];
+  const imageTypes: ("square" | "mini" | "wide")[] = ["mini", "wide", "square"];
 
   const getUserId = () => {
     axios
@@ -83,7 +78,6 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
     content.current?.scrollIntoView({ behavior: "auto" });
   };
 
-  // 대화 내용 요청
   const getStoryTalk = () => {
     axios
       .get(`story-talk`, {
@@ -93,8 +87,12 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
         },
       })
       .then((res: any) => {
-        console.log(res);
-        setStoryTalk(res.data.data);
+        res.data.data.conversation.sort(
+          (a: { dateReceived: string }, b: { dateReceived: string }) =>
+            a.dateReceived.localeCompare(b.dateReceived)
+        );
+
+        setStoryTalk(res.data.data.conversation);
       })
       .catch((err: any) => {
         console.log(err);
@@ -120,9 +118,8 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
       />
       <Box
         sx={{
-          height: "calc(100% - 56px - 70px)",
+          height: "calc(100% - 70px - 70px)",
           overflowY: "auto",
-          padding: "10px 0",
         }}
       >
         {storyTalk.map((story) => (
@@ -154,17 +151,15 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
             sx={{
               color: "white",
               fontFamily: "S-CoreDream-4Regular",
+              margin: "5px 0 5px",
               width: "100%",
-              marginTop: "10px",
+              height: "50px",
+              borderRadius: "15px",
             }}
             disableElevation={true}
             size="large"
             variant="contained"
-            onClick={() =>
-              navigate("/send", {
-                state: { id: otherUserId, info: otherUserInfo },
-              })
-            }
+            onClick={() => console.log("어쩌구")}
           >
             답장하기
           </Button>
