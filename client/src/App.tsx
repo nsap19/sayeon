@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
 import Register from "./pages/User/Register";
-import ChangePassword from "./components/User/Profile/ChangePassword";
+// import ChangePassword from "./components/User/Profile/ChangePassword";
 import DeleteAccount from "components/User/Profile/DeleteAccount";
 import BottomNavbar from "./components/BottomNavbar";
 import Main from "./pages/Main/Main";
@@ -62,7 +62,7 @@ function App() {
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/story-list" element={<StoryList />}></Route>
           <Route path="/story-talk-list" element={<StoryTalkList />} />
-          <Route path="/change-password" element={<ChangePassword />} />
+          {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route
             path="/story-talk/:userNickname"

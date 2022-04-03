@@ -6,14 +6,20 @@ import { Stack, Button, Box, Snackbar, Alert, Grid } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
 import ChangeNickname from "components/User/Profile/ChangeNickname";
 import ChangeLocation from "components/User/Profile/ChangeLocation";
+import ChangePassword from "components/User/Profile/ChangePassword";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-  // 비밀번호 변경 페이지로 이동
-  const goChangePassword = () => {
-    navigate("/change-password");
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
   };
+
+  // 비밀번호 변경 모달
+  // const goChangePassword = () => {
+  //   navigate("/change-password");
+  // };
 
   // 로그아웃
   const logout = () => {
@@ -22,7 +28,7 @@ const Profile = () => {
     setOpen(true);
     setTimeout(function () {
       window.location.reload();
-    }, 1000);
+    }, 500);
   };
 
   // 회원탈퇴 페이지로 이동
@@ -76,28 +82,33 @@ const Profile = () => {
         </Box>
       </Stack>
       <Stack alignItems="center" spacing={2}>
+        <Box>
+          <Button
+            sx={{
+              color: "white",
+              fontFamily: "S-CoreDream-4Regular",
+              marginTop: "10px",
+              width: "250px",
+              height: "50px",
+              backgroundColor: "#B6B6B6",
+              borderRadius: 31.5,
+            }}
+            disableElevation={true}
+            size="large"
+            variant="contained"
+            onClick={handleOpenDialog}
+            >
+            비밀번호 수정
+          </Button>
+          <ChangePassword openDialog={openDialog} setOpenDialog={setOpenDialog}/>
+        </Box>
         <Button
           sx={{
             color: "white",
             fontFamily: "S-CoreDream-4Regular",
-            marginTop: "30px",
-            width: "300px",
-            backgroundColor: "#B6B6B6",
-            borderRadius: 31.5,
-          }}
-          disableElevation={true}
-          size="large"
-          variant="contained"
-          onClick={goChangePassword}
-        >
-          비밀번호 수정
-        </Button>
-        <Button
-          sx={{
-            color: "white",
-            fontFamily: "S-CoreDream-4Regular",
-            marginTop: "30px",
-            width: "300px",
+            marginTop: "10px",
+            width: "250px",
+            height: "50px",
             backgroundColor: "#B6B6B6",
             borderRadius: 31.5,
           }}
@@ -112,8 +123,9 @@ const Profile = () => {
           sx={{
             color: "white",
             fontFamily: "S-CoreDream-4Regular",
-            marginTop: "30px",
-            width: "300px",
+            marginTop: "10px",
+            width: "250px",
+            height: "50px",
             backgroundColor: "#B6B6B6",
             borderRadius: 31.5,
           }}

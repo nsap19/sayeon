@@ -150,7 +150,7 @@ const ChangeLocation = () => {
                       {option}
                     </MenuItem>
                   );
-                })} */}
+                })}
                 </Select>
               </FormControl>
             </Box>
