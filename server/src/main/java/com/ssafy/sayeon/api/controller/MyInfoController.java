@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.sayeon.api.request.UserProfileUpdateReq;
+import com.ssafy.sayeon.api.request.UserPwFindReq;
 import com.ssafy.sayeon.api.request.UserPwUpdateReq;
 import com.ssafy.sayeon.api.response.AdvancedResponseBody;
 import com.ssafy.sayeon.api.response.BaseResponseBody;
@@ -51,18 +52,18 @@ public class MyInfoController {
 	@ApiOperation(value = "특정 유저 정보 조회", response = Member.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "유저 정보 조회 성공"),
 			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
-	public ResponseEntity<? extends BaseResponseBody> readUserInfo(@RequestHeader(value="userId") String userId) {
+	public ResponseEntity<? extends BaseResponseBody> readUserInfo(@RequestHeader(value = "userId") String userId) {
 		return ResponseEntity.status(200)
 				.body(AdvancedResponseBody.of(200, "유저 정보 조회 성공", memberService.getMemberByUserId(userId)));
 	}
-	
+
 	@GetMapping("/myinfo")
 	@ApiOperation(value = "내 정보 조회", response = Member.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "내 정보 조회 성공"),
 			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> readUserInfo(HttpServletRequest request) {
-		return ResponseEntity.status(200)
-				.body(AdvancedResponseBody.of(200, "유저 정보 조회 성공", jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"))));
+		return ResponseEntity.status(200).body(AdvancedResponseBody.of(200, "유저 정보 조회 성공",
+				jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"))));
 	}
 
 	@PutMapping("/nickname")
@@ -131,6 +132,19 @@ public class MyInfoController {
 
 		memberService.withdrawalMember(member);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "회원 탈퇴 성공"));
+	}
+
+	@PutMapping("/find-password")
+	@ApiOperation(value = "비밀번호 찾기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "비밀번호 찾기 메일 발송"),
+			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> findPassword(HttpServletRequest request,
+			@RequestBody UserPwFindReq findPw) {
+		if (myInfoService.findUserPw(findPw.getEmail())) {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "비밀번호 찾기 메일 발송"));
+		} else
+			return ResponseEntity.status(200).body(BaseResponseBody.of(400, "존재하지 않는 유저입니다."));
+
 	}
 
 }
