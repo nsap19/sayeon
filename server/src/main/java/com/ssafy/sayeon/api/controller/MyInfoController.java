@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -134,7 +135,7 @@ public class MyInfoController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "회원 탈퇴 성공"));
 	}
 
-	@PutMapping("/find-password")
+	@PostMapping("/find-password")
 	@ApiOperation(value = "비밀번호 찾기")
 	@ApiResponses({ @ApiResponse(code = 200, message = "비밀번호 찾기 메일 발송"),
 			@ApiResponse(code = 400, message = "존재하지 않는 유저입니다."), @ApiResponse(code = 500, message = "서버 오류") })
