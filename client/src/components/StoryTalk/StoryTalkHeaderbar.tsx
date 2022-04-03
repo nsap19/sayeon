@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { SvgIcon, Grid } from "@mui/material";
 import { ReactComponent as ArrowLeft } from "assets/icon/arrow-left.svg";
-import { ReactComponent as Send } from "assets/icon/send.svg";
+import { ReactComponent as Send } from "assets/icon/setting.svg";
 import { useNavigate } from "react-router-dom";
 import RequestDialog from "./RequestDialog";
 
