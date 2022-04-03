@@ -219,6 +219,9 @@ public class SayeonServiceImpl implements SayeonService {
 
 		// 2022-03-31 14:58:23
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		System.out.println(sentdate);
+		sentdate = sentdate.replaceAll("[T]", " ").substring(0, 19);
+		System.out.println(sentdate);
 		Date date = format.parse(sentdate);
 
 		Calendar cal = Calendar.getInstance();
