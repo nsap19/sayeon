@@ -14,42 +14,42 @@ const StoryListSent: React.FC = () => {
         <ImageList variant="masonry" cols={2} gap={10}>
           <ImageListItem>
             <Polaroid
-              imageUrl={require("../../assets/images/test/square_default.png")}
+              imageUrl={require("../../assets/images/default/SQUARE_default.png")}
               imageType={"SQUARE"}
               senderNickname={"발신자 닉네임 1"}
             />
           </ImageListItem>
           <ImageListItem>
             <Polaroid
-              imageUrl={require("../../assets/images/test/mini_default.png")}
+              imageUrl={require("../../assets/images/default/MINI_default.png")}
               imageType={"MINI"}
               senderNickname={"발신자 닉네임 2"}
             />
           </ImageListItem>
           <ImageListItem>
             <Polaroid
-              imageUrl={require("../../assets/images/test/wide_default.png")}
+              imageUrl={require("../../assets/images/default/WIDE_default.png")}
               imageType={"WIDE"}
               senderNickname={"발신자 닉네임 3"}
             />
           </ImageListItem>
           <ImageListItem>
             <Polaroid
-              imageUrl={require("../../assets/images/test/square_default.png")}
+              imageUrl={require("../../assets/images/default/SQUARE_default.png")}
               imageType={"SQUARE"}
               senderNickname={"발신자 닉네임 4"}
             />
           </ImageListItem>
           <ImageListItem>
             <Polaroid
-              imageUrl={require("../../assets/images/test/wide_default.png")}
+              imageUrl={require("../../assets/images/default/WIDE_default.png")}
               imageType={"WIDE"}
               senderNickname={"발신자 닉네임 5"}
             />
           </ImageListItem>
           <ImageListItem>
             <Polaroid
-              imageUrl={require("../../assets/images/test/wide_default.png")}
+              imageUrl={require("../../assets/images/default/WIDE_default.png")}
               imageType={"WIDE"}
               senderNickname={"발신자 닉네임 6"}
             />
