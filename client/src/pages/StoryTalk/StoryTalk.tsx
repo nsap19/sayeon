@@ -41,7 +41,8 @@ const StoryTalk: React.FC<{
   myInfo: MyInfoType;
   otherUserInfo: OtherUserInfoType;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ myInfo, otherUserInfo, setOpen }) => {
+  setStoryTalkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ myInfo, otherUserInfo, setOpen, setStoryTalkOpen }) => {
   const navigate = useNavigate();
   const [storyTalk, setStoryTalk] = useState<Story[]>([]);
 
@@ -91,10 +92,11 @@ const StoryTalk: React.FC<{
         otherUserInfo={otherUserInfo}
         otherUserId={otherUserInfo.id}
         setOpen={setOpen}
+        setStoryTalkOpen={setStoryTalkOpen}
       />
       <Box
         sx={{
-          height: "calc(100% - 70px - 70px)",
+          height: "calc(100% - 70px)",
           overflowY: "auto",
         }}
         id="story-talk"
@@ -124,48 +126,47 @@ const StoryTalk: React.FC<{
                 />
               </Box>
             ))}
+            <Box sx={{ textAlign: "center", margin: "10px" }}>
+              {storyTalk.length && (
+                <Button
+                  href="/send"
+                  sx={{
+                    color: "white",
+                    fontFamily: "S-CoreDream-4Regular",
+                    margin: "5px 0 5px",
+                    width: "100%",
+                    height: "50px",
+                    borderRadius: "15px",
+                  }}
+                  disableElevation={true}
+                  size="large"
+                  variant="contained"
+                  onClick={() =>
+                    navigate("/send", {
+                      state: { id: otherUserInfo.id, info: otherUserInfo },
+                    })
+                  }
+                  disabled={
+                    otherUserInfo?.withdrawal === "Y" ||
+                    storyTalk.slice(-1)[0].senderId === myInfo.userId
+                      ? true
+                      : false
+                  }
+                >
+                  답장하기
+                </Button>
+              )}
+            </Box>
           </>
         ) : (
           <Stack
             justifyContent="center"
             alignItems="center"
-            sx={{ height: "calc(100% - 60px )" }}
+            sx={{ height: "calc(100% - 70px)" }}
           >
             <CircularProgress />
           </Stack>
         )}
-
-        <Box sx={{ textAlign: "center", margin: "10px" }}>
-          {storyTalk.length && (
-            <Button
-              href="/send"
-              sx={{
-                color: "white",
-                fontFamily: "S-CoreDream-4Regular",
-                margin: "5px 0 5px",
-                width: "100%",
-                height: "50px",
-                borderRadius: "15px",
-              }}
-              disableElevation={true}
-              size="large"
-              variant="contained"
-              onClick={() =>
-                navigate("/send", {
-                  state: { id: otherUserInfo.id, info: otherUserInfo },
-                })
-              }
-              disabled={
-                otherUserInfo?.withdrawal === "Y" ||
-                storyTalk.slice(-1)[0].senderId === myInfo.userId
-                  ? true
-                  : false
-              }
-            >
-              답장하기
-            </Button>
-          )}
-        </Box>
       </Box>
     </>
   );

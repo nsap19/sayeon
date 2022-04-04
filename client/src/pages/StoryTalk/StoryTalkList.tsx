@@ -8,6 +8,7 @@ export default function StoryTalkList() {
   // STATE
   const [storyTalkList, setStoryTalkList] = useState<any>();
   const [myInfo, setMyInfo] = useState<any>();
+  const [storyTalkOpen, setStoryTalkOpen] = useState(false);
 
   // GET 요청
   const getStoryTalkList = () => {
@@ -53,6 +54,8 @@ export default function StoryTalkList() {
           key={idx}
           storyTalk={storyTalk.storyTalk}
           myInfo={myInfo}
+          storyTalkOpen={storyTalkOpen}
+          setStoryTalkOpen={setStoryTalkOpen}
         />
       );
     }
@@ -60,11 +63,16 @@ export default function StoryTalkList() {
 
   return (
     <>
-      <Headerbar headerName={"사연 대화 목록"} />
+      {!storyTalkOpen && <Headerbar headerName={"사연 대화 목록"} />}
+
       <Stack
         direction="column"
-        sx={{ height: "calc(100% - 56px - 70px)", padding: "5%" }}
-        spacing={17}
+        sx={{
+          height: storyTalkOpen
+            ? "calc(100% - 70px)"
+            : "calc(100% - 70px - 70px)",
+        }}
+        spacing={storyTalkOpen ? 0 : 17}
       >
         {storyTalkList ? (
           showStoryTalkItems

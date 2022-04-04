@@ -25,7 +25,14 @@ const StoryTalkHeaderbar: React.FC<{
   otherUserInfo: { profilePic: number; nickname: string } | undefined;
   otherUserId: string | undefined;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ headerName, otherUserInfo, otherUserId, setOpen }) => {
+  setStoryTalkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({
+  headerName,
+  otherUserInfo,
+  otherUserId,
+  setOpen,
+  setStoryTalkOpen,
+}) => {
   const navigate = useNavigate();
 
   const [openRequestDialog, setOpenRequestDialog] = useState(false);
@@ -52,7 +59,7 @@ const StoryTalkHeaderbar: React.FC<{
               component={ArrowLeft}
               inheritViewBox
               onClick={() => {
-                setOpen(false);
+                setStoryTalkOpen(false);
                 console.log("what");
               }}
             />
