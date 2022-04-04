@@ -26,11 +26,11 @@ const ChangeLocation = () => {
     useState<string>("");
 
   // 상세주소용
-  // const [detailedLocationOptions, setDetailedLocationOptions] = useState<
-  //   string[]
-  // >(LocationJson[
-  //   location as keyof typeof LocationJson
-  // ]);
+  const [detailedLocationOptions, setDetailedLocationOptions] = useState<
+    string[]
+  >(Object.keys(LocationJson[
+    location as keyof typeof LocationJson
+  ]));
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -51,11 +51,11 @@ const ChangeLocation = () => {
           res.data.data.memberProfile.location.split(" ")[1]
         );
 
-        // setDetailedLocationOptions(LocationJson[
-        //   defaultLocation as keyof typeof LocationJson
-        // ]);
-      })
-      .catch((err) => console.log(err));
+      setDetailedLocationOptions(Object.keys(LocationJson[
+        defaultLocation as keyof typeof LocationJson
+      ]));
+    })
+    .catch((err) => console.log(err));
   }, []);
 
   const closeEditing = () => {
@@ -69,19 +69,19 @@ const ChangeLocation = () => {
     if (!isEditingLocation) {
       return setIsEditingLocation(true);
     }
-    // setDetailedLocationOptions(LocationJson[
-    //   defaultLocation as keyof typeof LocationJson
-    // ]);
+    setDetailedLocationOptions(Object.keys(LocationJson[
+      defaultLocation as keyof typeof LocationJson
+    ]));
   };
 
   // 시/도 부분 수정
   const onChangeLocation = (event: SelectChangeEvent) => {
     setLocation(event.target.value as string);
-    // setDetailedLocationOptions(
-    //   LocationJson[
-    //     event.target.value as keyof typeof LocationJson
-    //   ].sort()
-    // );
+    setDetailedLocationOptions(
+      Object.keys(LocationJson[
+        event.target.value as keyof typeof LocationJson
+      ]).sort()
+    );
   };
 
   // 시/군/구 부분 수정
@@ -144,13 +144,13 @@ const ChangeLocation = () => {
                   onChange={onChangeDetailedLocation}
                   className="select-custom"
                 >
-                  {/* {detailedLocationOptions && detailedLocationOptions.map((option, index) => {
+                  {detailedLocationOptions && detailedLocationOptions.map((option) => {
                   return (
-                    <MenuItem key={index} value={option}>
+                    <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
                   );
-                })} */}
+                })}
                 </Select>
               </FormControl>
             </Box>

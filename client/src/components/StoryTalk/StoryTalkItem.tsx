@@ -1,45 +1,98 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Route } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Route, useNavigate } from "react-router-dom";
+import { Button, Box, Stack } from "@mui/material";
 import StoryTalk from "pages/StoryTalk/StoryTalk";
 import Polaroid from "components/Story/Polaroid";
 import { ReactComponent as More } from "../../assets/icon/more.svg";
 
-export default function StoryTalkItem({ storyTalk }: any) {
-  // STATE
-  const senderId = storyTalk.senderId;
-  const nickname = "";
+interface Story {
+  storyId: number;
+  image: string;
+  imageType: "square" | "mini" | "wide";
+  waiting: number;
+  senderId: string;
+  receiverId: string;
+  dateSent: string;
+  dateReceived: string;
+}
 
-  // 삭제 요청
-  const DeleteStoryTalk = async () => {
-    await axios
-      .post("/request", { requestType: "delete" })
-      .then((response: any) => {
-        console.log("response: ", response);
-        // const senderId = response.data.senderId
+export default function StoryTalkItem({ storyTalk, myInfo }: any) {
+  console.log(storyTalk, myInfo);
+  // STATE
+  const navigate = useNavigate();
+  const firstId = myInfo.userId;
+  const secondId = () => {
+    if (firstId === storyTalk[0].senderId) {
+      return storyTalk[0].senderId;
+    }
+    return storyTalk[0].receiverId;
+  };
+  const [otherUserInfo, setOtherUserInfo] = useState<{
+    nickname: string;
+    profilePic: number;
+  }>();
+
+  // 정보 요청
+
+  const getOtherUserInfo = () => {
+    axios
+      .get("userInfo", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          userId: secondId(),
+        },
       })
-      .catch((err: any) => {
-        console.log(err);
-      });
+      .then((res) => {
+        setOtherUserInfo({
+          nickname: res.data.data.memberProfile.nickname,
+          profilePic: res.data.data.memberProfile.profilePic,
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getOtherUserInfo();
+  }, []);
+
+  const openStoryTalk = () => {
+    navigate("/story-talk/:nickname");
   };
 
   return (
-    <>
-      <Button
-        variant="text"
-        sx={{ color: "black" }}
-        href="/story-talk/:nickname"
-      >
-        storyTalk name
-      </Button>
-      <More onClick={DeleteStoryTalk}>사연 대화 삭제</More>
-      <Polaroid
-        imageUrl={storyTalk.image}
-        imageType="MINI"
-        senderNickname="storyTalk.senderId"
-        dateReceived={"2022-03-31 08:36:55"}
-      />
-    </>
+    <Box>
+      <Stack direction="column" alignItems="start">
+        <Button
+          variant="text"
+          sx={{ color: "black" }}
+          href="/story-talk/:nickname"
+        >
+          {otherUserInfo?.profilePic} {otherUserInfo?.nickname}
+        </Button>
+        <Box
+          sx={{
+            width: "40%",
+            height: "40%",
+            display: "flex",
+            justifyContent: "start",
+          }}
+        >
+          <Stack direction="row" justifyContent="start" spacing={2}>
+            {storyTalk.map((story: any) => (
+              <div key={story.storyId} onClick={openStoryTalk}>
+                <Polaroid
+                  imageUrl={story.image}
+                  imageType={story.imageType}
+                  senderNickname={story.receiverId}
+                  dateReceived={story.dateReceived}
+                />
+              </div>
+            ))}
+          </Stack>
+        </Box>
+      </Stack>
+      <hr style={{ margin: "10% 5% 10%" }} />
+    </Box>
   );
 }

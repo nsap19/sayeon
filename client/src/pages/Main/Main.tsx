@@ -57,7 +57,7 @@ const Main: React.FC = () => {
         direction="column"
         justifyContent="flex-end"
         alignItems="center"
-        spacing={2}
+        spacing={1.5}
         sx={{ height: "calc(100% - 56px)", padding: "20px 0 10px" }}
       >
         <Logo style={{ width: "60%", height: "auto" }} />

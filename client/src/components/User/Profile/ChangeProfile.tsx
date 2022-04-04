@@ -144,7 +144,7 @@ const ChangeProfile = () => {
       <img
         src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
         alt="profile pic"
-        style={{ width: "100px" }}
+        style={{ width: "60px" }}
       />
       <IconButton
         style={{
@@ -153,9 +153,9 @@ const ChangeProfile = () => {
           borderRadius: "20px",
           backgroundColor: "white",
           bottom: 0,
-          left: "70px",
-          width: "35px",
-          height: "35px",
+          left: "45px",
+          width: "25px",
+          height: "25px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
