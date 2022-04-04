@@ -3,6 +3,7 @@ import { Button, Stack, Box, CircularProgress } from "@mui/material";
 import Cropper from "react-cropper";
 import { uploadFile } from "./utils/uploadFile";
 import { detectKeywords } from "./utils/detectKeywords";
+import { detectAdultKeywords } from "./utils/detectAdultKeywords";
 import "cropperjs/dist/cropper.css";
 import "./SelectImage.css";
 import { ReactComponent as Image } from "assets/icon/image.svg";
@@ -87,6 +88,13 @@ const SelectImage: React.FC<{
                 );
 
                 setStep(2);
+              })
+              .then((res) => {
+                if (detectAdultKeywords(imageName)) {
+                  console.log("adultimage");
+                } else {
+                  console.log("not adultimage");
+                }
               })
               .catch((err) => console.log(err));
           })
