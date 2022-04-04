@@ -26,10 +26,11 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
     return storyTalk[0].receiverId;
   };
   const [otherUserInfo, setOtherUserInfo] = useState<{
+    id: string;
     nickname: string;
     profilePic: number;
-    withdrawal: boolean;
-  }>();
+    withdrawal: string;
+  }>({ id: "", nickname: "", profilePic: 0, withdrawal: "" });
   const [open, setOpen] = useState(false);
 
   // 정보 요청
@@ -44,6 +45,7 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
       })
       .then((res) => {
         setOtherUserInfo({
+          id: secondId(),
           nickname: res.data.data.memberProfile.nickname,
           profilePic: res.data.data.memberProfile.profilePic,
           withdrawal: res.data.data.memberProfile.withdrawal,

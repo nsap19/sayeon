@@ -16,64 +16,36 @@ interface Story {
   dateReceived: string;
 }
 
-const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
-  firstId,
-  secondId,
-}) => {
-  const navigate = useNavigate();
-  const [storyTalk, setStoryTalk] = useState<Story[]>([]);
-  const [userInfo, setUserInfo] = useState<{ id: string; nickname: string }>({
-    id: "",
-    nickname: "",
-  });
-  const [otherUserId, setotherUserId] = useState<string>("");
-  const [otherUserInfo, setOtherUserInfo] = useState<{
+interface MyInfoType {
+  email: string;
+  memberProfile: {
+    latitude: number;
+    location: string;
+    longitude: number;
     nickname: string;
     profilePic: number;
-    withdrawal: string;
-  }>();
+  };
+  password: string;
+  userId: string;
+  withdrawal: string;
+}
+
+interface OtherUserInfoType {
+  id: string;
+  nickname: string;
+  profilePic: number;
+  withdrawal: string;
+}
+
+const StoryTalk: React.FC<{
+  myInfo: MyInfoType;
+  otherUserInfo: OtherUserInfoType;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ myInfo, otherUserInfo, setOpen }) => {
+  const navigate = useNavigate();
+  const [storyTalk, setStoryTalk] = useState<Story[]>([]);
 
   const imageTypes: ("MINI" | "SQUARE" | "WIDE")[] = ["MINI", "WIDE", "SQUARE"];
-
-  const getUserId = () => {
-    axios
-      .get("userInfo/myinfo", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setUserInfo({
-          id: res.data.data.userId,
-          nickname: res.data.data.memberProfile.nickname,
-        });
-        const otherUserId =
-          res.data.data.userId === firstId ? secondId : firstId;
-        setotherUserId(otherUserId);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getOtherUserInfo = () => {
-    console.log(otherUserId);
-    axios
-      .get("userInfo", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          userId: otherUserId,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setOtherUserInfo({
-          nickname: res.data.data.memberProfile.nickname,
-          profilePic: res.data.data.memberProfile.profilePic,
-          withdrawal: res.data.data.memberProfile.withdrawal,
-        });
-      })
-      .catch((err) => console.log(err));
-  };
 
   const scrollToBottom = () => {
     document.getElementById("story-talk")!.scrollTop =
@@ -84,7 +56,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
     axios
       .get(`story-talk`, {
         headers: {
-          userId: otherUserId,
+          userId: otherUserInfo.id,
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
@@ -108,21 +80,17 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
   };
 
   useEffect(() => {
-    getUserId();
+    getStoryTalk();
     scrollToBottom();
-
-    if (otherUserId) {
-      getOtherUserInfo();
-      getStoryTalk();
-    }
-  }, [otherUserId]);
+  }, [otherUserInfo]);
 
   return (
     <>
       <StoryTalkHeaderbar
         headerName={otherUserInfo?.nickname}
         otherUserInfo={otherUserInfo}
-        otherUserId={otherUserId}
+        otherUserId={otherUserInfo.id}
+        setOpen={setOpen}
       />
       <Box
         sx={{
@@ -139,7 +107,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
                 sx={{
                   width: "70%",
                   margin:
-                    otherUserId === story.senderId
+                    otherUserInfo.id === story.senderId
                       ? "10px auto 10px 10px"
                       : "10px 10px 10px auto",
                 }}
@@ -148,9 +116,9 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
                   imageUrl={story.image}
                   imageType={imageTypes[parseInt(story.imageType)]}
                   senderNickname={
-                    otherUserId === story.senderId && otherUserInfo && userInfo
+                    otherUserInfo.id === story.senderId
                       ? otherUserInfo.nickname
-                      : userInfo.nickname
+                      : myInfo.memberProfile.nickname
                   }
                   dateReceived={story.dateReceived}
                 />
@@ -184,12 +152,12 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
               variant="contained"
               onClick={() =>
                 navigate("/send", {
-                  state: { id: otherUserId, info: otherUserInfo },
+                  state: { id: otherUserInfo.id, info: otherUserInfo },
                 })
               }
               disabled={
                 otherUserInfo?.withdrawal === "Y" ||
-                storyTalk.slice(-1)[0].senderId === userInfo.id
+                storyTalk.slice(-1)[0].senderId === myInfo.userId
                   ? true
                   : false
               }
