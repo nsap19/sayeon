@@ -41,7 +41,7 @@ export default function Login() {
         // get User date & dispatch
         localStorage.setItem("token", token);
         // dispatch(setLoggedUser(response.data));
-        navigate(-1);
+        navigate("/");
       })
       .catch((err) => {
         // console.log("axios err: ", err);
@@ -97,7 +97,7 @@ export default function Login() {
         sx={{ height: "calc(100% - 56px - 70px)", textAlign: "center" }}
       >
         <Stack direction="column" alignItems="center">
-          <Logo style={{ width: "60%", height: "60%", margin: "0 auto 10%" }} />
+          <Logo style={{ width: "55%", height: "55%", margin: "0 auto 10%" }} />
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={0.1}>
               <EmailController control={control} />
@@ -108,7 +108,9 @@ export default function Login() {
                     color: "white",
                     fontFamily: "S-CoreDream-4Regular",
                     width: "300px",
+                    minHeight: "56px",
                     borderRadius: 31.5,
+                    marginTop: "10px",
                   }}
                   disableElevation={true}
                   size="large"
@@ -123,10 +125,11 @@ export default function Login() {
           <Button
             sx={{
               color: "white",
-              backgroundColor: "gray",
+              backgroundColor: "#B6B6B6",
               fontFamily: "S-CoreDream-4Regular",
-              marginTop: "30px",
+              marginTop: "10px",
               width: "300px",
+              minHeight: "56px",
               borderRadius: 31.5,
             }}
             disableElevation={true}
@@ -140,8 +143,8 @@ export default function Login() {
           <Button
             variant="text"
             sx={{
-              color: "black",
-              fontSize: "5",
+              color: "#B6B6B6",
+              fontSize: "13px",
               fontFamily: "S-CoreDream-4Regular",
             }}
             href="/password"

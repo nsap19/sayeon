@@ -13,6 +13,7 @@ import StoryTalkList from "./pages/StoryTalk/StoryTalkList";
 import StoryTalk from "pages/StoryTalk/StoryTalk";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AuthRoute from "AuthRoute";
+import IsAuthRoute from "IsAuthRoute";
 import NotFound from "pages/Main/NotFound";
 
 const theme = createTheme({
@@ -61,7 +62,6 @@ function App() {
           <Route path="/send" element={<CreateStory />} />
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/story-list" element={<StoryList />}></Route>
-          <Route path="/story-talk-list" element={<StoryTalkList />} />
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route
@@ -74,13 +74,12 @@ function App() {
             }
           />
         </Route>
-        <Route path="/register" element={<Register />} />
-        <Route path="/send" element={<CreateStory />} />
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/story-list" element={<StoryList />}></Route>
-        <Route path="/story-talk-list" element={<StoryTalkList />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/*" element={<NotFound />} />
+        <Route path="/" element={<IsAuthRoute />}>
+          <Route path="/story-talk-list" element={<StoryTalkList />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/*" element={<NotFound />} />
+        </Route>
       </Routes>
       <BottomNavbar />
     </ThemeProvider>
