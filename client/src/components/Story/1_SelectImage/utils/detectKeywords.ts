@@ -22,9 +22,7 @@ export const detectKeywords = async (imageName: string) => {
     })
   ).adult;
   if (adult.adultScore.toFixed(4) >= 0.5 && adult.racyScore.toFixed(4) >= 0.5) {
-    console.log("adult image");
-  } else {
-    console.log("not adult image");
+    throw new Error("유해 이미지");
   }
 
   // Analyze URL image
