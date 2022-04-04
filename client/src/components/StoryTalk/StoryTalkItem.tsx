@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Route } from "react-router-dom";
+import { Route, useNavigate } from "react-router-dom";
 import { Button, Box, Stack } from "@mui/material";
 import StoryTalk from "pages/StoryTalk/StoryTalk";
 import Polaroid from "components/Story/Polaroid";
@@ -20,6 +20,7 @@ interface Story {
 export default function StoryTalkItem({ storyTalk, myInfo }: any) {
   console.log(storyTalk, myInfo);
   // STATE
+  const navigate = useNavigate();
   const firstId = myInfo.userId;
   const secondId = () => {
     if (firstId === storyTalk[0].senderId) {
@@ -55,6 +56,10 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
     getOtherUserInfo();
   }, []);
 
+  const openStoryTalk = () => {
+    navigate("/story-talk/:nickname");
+  };
+
   return (
     <Box>
       <Stack direction="column" alignItems="start">
@@ -75,14 +80,15 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
         >
           <Stack direction="row" justifyContent="start" spacing={2}>
             {storyTalk.map((story: any) => (
-              <Button key={story.storyId} href="/story-talk/:nickname">
+              <div key={story.storyId} onClick={openStoryTalk}>
                 <Polaroid
                   imageUrl={story.image}
                   imageType={story.imageType}
                   senderNickname={story.receiverId}
                   // dateReceived={story.dateReceived}
+                  //
                 />
-              </Button>
+              </div>
             ))}
           </Stack>
         </Box>
