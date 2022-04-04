@@ -145,7 +145,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
                       ? otherUserInfo.nickname
                       : userInfo.nickname
                   }
-                  // hidden={new Date().getTime() < new Date(story.dateReceived).getTime()}
+                  dateReceived={story.dateReceived}
                 />
               </Box>
             ))}

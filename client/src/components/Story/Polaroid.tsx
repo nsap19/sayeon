@@ -19,7 +19,8 @@ const Polaroid: React.FC<{
   imageUrl: string;
   imageType: "MINI" | "SQUARE" | "WIDE";
   senderNickname: string;
-}> = ({ imageUrl, imageType, senderNickname }) => {
+  dateReceived: string;
+}> = ({ imageUrl, imageType, senderNickname, dateReceived }) => {
   const [open, setOpen] = React.useState(false);
   const [height, setHeight] = useState(0);
   const [dialogHeight, setDialogHeight] = useState(0);
@@ -65,6 +66,26 @@ const Polaroid: React.FC<{
     font-size: min(16px, ${dialogHeight / 20}px);
   `;
 
+  const HiddenAlert = styled.p`
+    position: absolute;
+    top: 37.68%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: min(16px, ${height / 20}px);
+    color: white;
+  `;
+
+  const DialogHiddenAlert = styled.p`
+    position: absolute;
+    top: 37.68%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: min(16px, ${dialogHeight / 20}px);
+    color: white;
+  `;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -72,6 +93,12 @@ const Polaroid: React.FC<{
   const handleClose = () => {
     setOpen(false);
   };
+
+  const hidden = new Date().getTime() < new Date(dateReceived).getTime();
+
+  const hourDifference = Math.round(
+    (new Date(dateReceived).getTime() - new Date().getTime()) / 36e5
+  );
 
   return (
     <>
@@ -97,17 +124,40 @@ const Polaroid: React.FC<{
             <Close style={{ fill: "white" }} />
           </IconButton>
           <StyledImage
-            // src={require(`../../assets/images/test/${imageUrl}`)}
-            src={imageUrl}
+            src={
+              hidden
+                ? require(`../../assets/images/default/${imageType}_default.png`)
+                : imageUrl
+            }
             alt="img"
             onClick={handleClickOpen}
           />
+          {hidden && (
+            <DialogHiddenAlert>
+              <p>{hourDifference}시간 뒤에</p>
+              <p>사연이 열립니다.</p>
+            </DialogHiddenAlert>
+          )}
           <DialogNickname>{senderNickname}</DialogNickname>
         </PolaroidFrame>
       </Dialog>
 
       <PolaroidFrame ref={div}>
-        <StyledImage src={imageUrl} alt="img" onClick={handleClickOpen} />
+        <StyledImage
+          src={
+            hidden
+              ? require(`../../assets/images/default/${imageType}_default.png`)
+              : imageUrl
+          }
+          alt="img"
+          onClick={handleClickOpen}
+        />
+        {hidden && (
+          <HiddenAlert>
+            <p>{hourDifference}시간 뒤에</p>
+            <p>사연이 열립니다.</p>
+          </HiddenAlert>
+        )}
         <Nickname>{senderNickname}</Nickname>
       </PolaroidFrame>
     </>

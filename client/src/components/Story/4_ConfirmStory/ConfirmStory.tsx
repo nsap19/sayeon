@@ -87,6 +87,7 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
                 imageUrl={image.url}
                 imageType={image.type}
                 senderNickname={""}
+                dateReceived={new Date().toString()}
               />
             </Box>
           </Box>

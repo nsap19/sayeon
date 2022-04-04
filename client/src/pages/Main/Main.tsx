@@ -139,6 +139,7 @@ const Main: React.FC = () => {
                     imageUrl={recentStory.image}
                     imageType={recentStory.imageType}
                     senderNickname={recentStory.senderNickname}
+                    dateReceived={recentStory.dateReceived}
                   />
                 </Box>
               ))}

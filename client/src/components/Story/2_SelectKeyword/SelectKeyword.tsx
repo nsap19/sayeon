@@ -50,6 +50,7 @@ const SelectKeyword: React.FC<{
               imageUrl={image.url}
               imageType={image.type}
               senderNickname={""}
+              dateReceived={new Date().toString()}
             />
           </Box>
         </Box>

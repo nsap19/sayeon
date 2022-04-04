@@ -73,6 +73,7 @@ export default function StoryTalkList() {
                 }
                 imageType={"SQUARE"}
                 senderNickname={"일이삼사오육칠팔구십"}
+                dateReceived={"2022-03-31 08:36:55"}
               />
               <Polaroid
                 imageUrl={
@@ -80,6 +81,7 @@ export default function StoryTalkList() {
                 }
                 imageType={"MINI"}
                 senderNickname={"일이삼사"}
+                dateReceived={"2022-03-31 08:36:55"}
               />
             </Stack>
           </Box>
@@ -111,6 +113,7 @@ export default function StoryTalkList() {
                 }
                 imageType={"MINI"}
                 senderNickname={"일이삼사"}
+                dateReceived={"2022-03-31 08:36:55"}
               />
               <Polaroid
                 imageUrl={
@@ -118,6 +121,7 @@ export default function StoryTalkList() {
                 }
                 imageType={"WIDE"}
                 senderNickname={"일이삼사오육칠"}
+                dateReceived={"2022-03-31 08:36:55"}
               />
             </Stack>
           </Box>
@@ -149,6 +153,7 @@ export default function StoryTalkList() {
                 }
                 imageType={"WIDE"}
                 senderNickname={"일이삼사오육칠"}
+                dateReceived={"2022-03-31 08:36:55"}
               />
               <Polaroid
                 imageUrl={
@@ -156,6 +161,7 @@ export default function StoryTalkList() {
                 }
                 imageType={"SQUARE"}
                 senderNickname={"일이삼사오육칠팔구십"}
+                dateReceived={"2022-03-31 08:36:55"}
               />
             </Stack>
           </Box>

@@ -38,6 +38,7 @@ export default function StoryTalkItem({ storyTalk }: any) {
         imageUrl={storyTalk.image}
         imageType="MINI"
         senderNickname="storyTalk.senderId"
+        dateReceived={"2022-03-31 08:36:55"}
       />
     </>
   );
