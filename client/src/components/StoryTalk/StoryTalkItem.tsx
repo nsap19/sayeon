@@ -16,14 +16,19 @@ interface Story {
   dateReceived: string;
 }
 
-export default function StoryTalkItem({ storyTalk, myInfo }: any) {
+export default function StoryTalkItem({
+  storyTalk,
+  myInfo,
+  storyTalkOpen,
+  setStoryTalkOpen,
+}: any) {
   // STATE
   const firstId = myInfo.userId;
   const secondId = () => {
     if (firstId === storyTalk[0].senderId) {
-      return storyTalk[0].senderId;
+      return storyTalk[0].receiverId;
     }
-    return storyTalk[0].receiverId;
+    return storyTalk[0].senderId;
   };
   const [otherUserInfo, setOtherUserInfo] = useState<{
     id: string;
@@ -59,13 +64,13 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
   }, []);
 
   const openStoryTalk = () => {
-    setOpen(true);
+    setStoryTalkOpen(true);
   };
 
   return (
     <>
-      {open ? (
-        <Box>
+      {!storyTalkOpen ? (
+        <Box sx={{ padding: "20px" }}>
           <Stack direction="column" alignItems="start" spacing={2}>
             <div onClick={openStoryTalk}>
               {otherUserInfo && (
@@ -109,6 +114,7 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
           myInfo={myInfo}
           otherUserInfo={otherUserInfo}
           setOpen={setOpen}
+          setStoryTalkOpen={setStoryTalkOpen}
         />
       )}
     </>
