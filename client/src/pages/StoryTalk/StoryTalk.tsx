@@ -91,8 +91,12 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
       .then((res: any) => {
         console.log(res);
         res.data.data.conversation.sort(
-          (a: { dateReceived: string }, b: { dateReceived: string }) =>
-            a.dateReceived.localeCompare(b.dateReceived)
+          (
+            a: { dateReceived: string; dateSent: string },
+            b: { dateReceived: string; dateSent: string }
+          ) =>
+            a.dateReceived.localeCompare(b.dateReceived) ||
+            a.dateSent.localeCompare(b.dateSent)
         );
 
         setStoryTalk(res.data.data.conversation);
