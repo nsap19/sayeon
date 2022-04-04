@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Polaroid from "./StoryListPolaroid";
-import { Box, ImageList, ImageListItem, Pagination, Stack } from "@mui/material";
+import {
+  Box,
+  ImageList,
+  ImageListItem,
+  Pagination,
+  Stack,
+} from "@mui/material";
 import axios from "axios";
-
 
 interface sentStory {
   storyId: number;
@@ -17,7 +22,6 @@ const StoryListSent: React.FC = () => {
   const [countSentImages, setCountSentImages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(7);
-
 
   useEffect(() => {
     getSentImageList();
@@ -35,20 +39,20 @@ const StoryListSent: React.FC = () => {
       },
       params: {
         page: 0,
-        size: 7
-      }
-    })
-    .then((res) => {
-      console.log(res)
-      console.log(res.data);
-      if (res.data.data) {
-        var reverseSentImageList = res.data.data.reverse()
-        setSentImageList(reverseSentImageList)
-      }
+        size: 7,
+      },
     })
       .then((res) => {
-        console.log(res.data.data);
-        setSentImageList(res.data.data);
+        console.log(res);
+        console.log(res.data);
+        if (res.data.data) {
+          var reverseSentImageList = res.data.data.reverse();
+          setSentImageList(reverseSentImageList);
+        }
+      })
+      .then((res) => {
+        // console.log(res.data.data);
+        // setSentImageList(res.data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -57,20 +61,19 @@ const StoryListSent: React.FC = () => {
     const token = localStorage.getItem("token");
     axios({
       method: "get",
-      url: 'story-list/sent-cnt',
+      url: "story-list/sent-cnt",
       headers: {
-        Authorization : `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => {
-      // console.log(res.data.data);
-      if (res.data.data) {
-        setCountSentImages(res.data.data)
-      }
-    })
-    .catch((err) => console.log(err));
-  }
-
+      .then((res) => {
+        // console.log(res.data.data);
+        if (res.data.data) {
+          setCountSentImages(res.data.data);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -90,8 +93,13 @@ const StoryListSent: React.FC = () => {
             </ImageListItem>
           ))}
         </ImageList>
-        <Stack spacing={2} direction="row" justifyContent="center" marginTop="10px">
-          <Pagination count={Math.ceil(countSentImages/7)} size="small" />
+        <Stack
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          marginTop="10px"
+        >
+          <Pagination count={Math.ceil(countSentImages / 7)} size="small" />
         </Stack>
       </Box>
     </>

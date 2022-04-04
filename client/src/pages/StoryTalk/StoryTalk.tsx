@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StoryTalkHeaderbar from "components/StoryTalk/StoryTalkHeaderbar";
-import { Button, Box, CircularProgress, Stack } from "@mui/material";
+import {
+  Button,
+  Box,
+  CircularProgress,
+  Stack,
+  Fab,
+  SvgIcon,
+} from "@mui/material";
 import Polaroid from "components/Story/Polaroid";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as Send } from "assets/icon/send.svg";
 
 interface Story {
   storyId: number;
@@ -126,37 +134,6 @@ const StoryTalk: React.FC<{
                 />
               </Box>
             ))}
-            <Box sx={{ textAlign: "center", margin: "10px" }}>
-              {storyTalk.length && (
-                <Button
-                  href="/send"
-                  sx={{
-                    color: "white",
-                    fontFamily: "S-CoreDream-4Regular",
-                    margin: "5px 0 5px",
-                    width: "100%",
-                    height: "50px",
-                    borderRadius: "15px",
-                  }}
-                  disableElevation={true}
-                  size="large"
-                  variant="contained"
-                  onClick={() =>
-                    navigate("/send", {
-                      state: { id: otherUserInfo.id, info: otherUserInfo },
-                    })
-                  }
-                  disabled={
-                    otherUserInfo?.withdrawal === "Y" ||
-                    storyTalk.slice(-1)[0].senderId === myInfo.userId
-                      ? true
-                      : false
-                  }
-                >
-                  답장하기
-                </Button>
-              )}
-            </Box>
           </>
         ) : (
           <Stack
@@ -168,6 +145,33 @@ const StoryTalk: React.FC<{
           </Stack>
         )}
       </Box>
+
+      {storyTalk.length && (
+        <Fab
+          sx={{
+            color: "white",
+            position: "fixed",
+            bottom: "78px",
+            right: "8px",
+            boxShadow: "0px 5px 10px rgb(0 0 0 / 10%)",
+          }}
+          color="primary"
+          href="/send"
+          onClick={() =>
+            navigate("/send", {
+              state: { id: otherUserInfo.id, info: otherUserInfo },
+            })
+          }
+          disabled={
+            otherUserInfo?.withdrawal === "Y" ||
+            storyTalk.slice(-1)[0].senderId === myInfo.userId
+              ? true
+              : false
+          }
+        >
+          <SvgIcon component={Send} inheritViewBox />
+        </Fab>
+      )}
     </>
   );
 };
