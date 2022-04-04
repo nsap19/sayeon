@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 import ChangeProfile from "../../components/User/Profile/ChangeProfile";
-import { Stack, Button, Box, Snackbar, Alert, Grid } from "@mui/material";
+import { Stack, Button, Box, Snackbar, Alert } from "@mui/material";
 import Headerbar from "../../components/Headerbar";
 import ChangeNickname from "components/User/Profile/ChangeNickname";
 import ChangeLocation from "components/User/Profile/ChangeLocation";
@@ -15,11 +15,6 @@ const Profile = () => {
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
-
-  // 비밀번호 변경 모달
-  // const goChangePassword = () => {
-  //   navigate("/change-password");
-  // };
 
   // 로그아웃
   const logout = () => {
@@ -65,20 +60,13 @@ const Profile = () => {
         </Alert>
       </Snackbar>
 
-      <Grid container spacing={1} justifyContent="center" alignItems="center" margin="10% 5%">
-        {/* <Grid spacing={3} my={5} marginLeft="10%"> */}
-        <Grid item xs={3} marginLeft="10px">
-          <ChangeProfile />
-        </Grid>
-        <Grid item xs={7}>
-          {/* <Box sx={{ height: 25}}> */}
-          <ChangeNickname />
-          {/* </Box> */}
-        </Grid>
-      </Grid>
-      <Stack>
-        <Box sx={{ height: 150}}>
-          {/* <ChangeLocation /> */}
+      <Stack direction="row" spacing={3} justifyContent="center" alignItems="center" margin="20% 5% 5%">
+        <ChangeProfile />
+        <ChangeNickname />
+      </Stack>
+      <Stack justifyContent="center" alignItems="center">
+        <Box sx={{ height: 140}}>
+          <ChangeLocation />
         </Box>
       </Stack>
       <Stack alignItems="center" spacing={2}>
