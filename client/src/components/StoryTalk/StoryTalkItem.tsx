@@ -22,7 +22,6 @@ export default function StoryTalkItem({
   setStoryTalkOpen,
 }: any) {
   // STATE
-  console.log(myInfo);
   const firstId = myInfo.userId;
   const secondId = () => {
     if (firstId === storyTalk[0].senderId) {
