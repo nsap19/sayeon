@@ -9,10 +9,10 @@ const StoryListPolaroid: React.FC<{
   senderNickname: string;
 }> = ({ imageUrl, imageType, senderNickname }) => {
   const [open, setOpen] = React.useState(false);
-  const [width, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
   const div = useCallback((node) => {
     if (node !== null) {
-      setHeight(node.getBoundingClientRect().width);
+      setWidth(node.getBoundingClientRect().width);
     }
   }, []);
 
@@ -46,8 +46,8 @@ const StoryListPolaroid: React.FC<{
 
   const Nickname = styled.p`
     position: absolute;
-    bottom: 10px;
-    right: 5px;
+    bottom: 15px;
+    right: 10px;
     font-size: ${width / 20}px;
   `;
 

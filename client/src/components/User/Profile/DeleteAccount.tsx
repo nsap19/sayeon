@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Stack, Button, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Headerbar from "../../Headerbar";
 import { StyledTextField } from "../Register/StyledComponent";
 
@@ -12,7 +11,6 @@ interface DeleteAccountInput {
 
 const DeleteAccount: React.FC = () => {
   const { control, handleSubmit, watch } = useForm<DeleteAccountInput>();
-  const navigate = useNavigate();
 
   const password = useRef({});
   password.current = watch("password", "");
@@ -25,14 +23,19 @@ const DeleteAccount: React.FC = () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: {
+      params: {
         password: data.password,
       },
     })
     .then((res) => {
       console.log(res);
+      console.log('탈퇴완료')
+      localStorage.removeItem("token");
+      setAlertState("success");
       setOpen(true);
-      navigate("/");
+      setTimeout(function () {
+        window.location.reload();
+      }, 500);
     })
     .catch((err) => {
       console.log(err);
@@ -72,7 +75,7 @@ const DeleteAccount: React.FC = () => {
             severity={alertState}
             sx={{ width: "100%" }}
           >
-            {alertState === "success" ? "탈퇴가 완료되었습니다." : null}
+            {alertState === "success" ? "탈퇴가 완료되었습니다." : "비밀번호가 맞지 않습니다."}
           </Alert>
         </Snackbar>
 
