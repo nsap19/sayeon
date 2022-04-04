@@ -4,8 +4,6 @@ import {
   Box,
   ImageList,
   ImageListItem,
-  Pagination,
-  Stack,
 } from "@mui/material";
 import axios from "axios";
 
@@ -20,8 +18,6 @@ interface sentStory {
 const StoryListSent: React.FC = () => {
   const [sentImageList, setSentImageList] = useState<sentStory[]>([]);
   const [countSentImages, setCountSentImages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(7);
 
   useEffect(() => {
     getSentImageList();
@@ -29,7 +25,6 @@ const StoryListSent: React.FC = () => {
   }, []);
 
   const getSentImageList = () => {
-    // 페이지네이션 처리해야-
     const token = localStorage.getItem("token");
     axios({
       method: "get",
@@ -39,20 +34,14 @@ const StoryListSent: React.FC = () => {
       },
       params: {
         page: 0,
-        size: 7,
+        size: 32,
       },
     })
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
         if (res.data.data) {
           var reverseSentImageList = res.data.data.reverse();
           setSentImageList(reverseSentImageList);
         }
-      })
-      .then((res) => {
-        // console.log(res.data.data);
-        // setSentImageList(res.data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -82,7 +71,7 @@ const StoryListSent: React.FC = () => {
         <p>{countSentImages}</p>
       </Box>
       <Box sx={{ px: 2, height: 520, overflowY: "scroll", mt: 2 }}>
-        <ImageList variant="masonry" cols={2} gap={10}>
+        <ImageList gap={10}>
           {sentImageList.map((item) => (
             <ImageListItem key={item.image}>
               <Polaroid
@@ -93,14 +82,6 @@ const StoryListSent: React.FC = () => {
             </ImageListItem>
           ))}
         </ImageList>
-        <Stack
-          spacing={2}
-          direction="row"
-          justifyContent="center"
-          marginTop="10px"
-        >
-          <Pagination count={Math.ceil(countSentImages / 7)} size="small" />
-        </Stack>
       </Box>
     </>
   );

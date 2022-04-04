@@ -79,12 +79,12 @@ const DeleteAccount: React.FC = () => {
           </Alert>
         </Snackbar>
 
-        <Stack direction="column">
-          <Stack margin="0 18% 10%">
+        <Stack direction="column" alignItems="center" justifyContent="center">
+          <Stack marginBottom="10%" textAlign="center">
             <p className="p-custom">정말 탈퇴하시겠습니까?</p>
             <p className="p-custom">삭제된 계정은 복구되지 않습니다.</p>
           </Stack>
-          <Stack alignItems="center">
+          <Stack>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 name="password"
@@ -126,6 +126,7 @@ const DeleteAccount: React.FC = () => {
                   width: "250px",
                   height: "50px",
                   borderRadius: 31.5,
+                  boxShadow: "none"
                 }}
                 size="large"
                 variant="contained"

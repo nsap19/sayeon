@@ -25,7 +25,6 @@ const StoryListReceived: React.FC = () => {
   }, []);
 
   const getReceivedImageList = () => {
-    // 페이지네이션 처리해야-
     const token = localStorage.getItem("token");
     axios({
       method: "get",
@@ -35,13 +34,14 @@ const StoryListReceived: React.FC = () => {
       },
       params: {
         page: 0,
-        size: 8
+        size: 32
       }
     })
     .then((res) => {
       // console.log(res.data.data);
       if (res.data.data) {
-        setReceivedImageList(res.data.data)
+        var reverseReceivedImageList = res.data.data.reverse();
+        setReceivedImageList(reverseReceivedImageList)
       }
     })
     .catch((err) => console.log(err));
@@ -85,9 +85,6 @@ const StoryListReceived: React.FC = () => {
           ))}
         </ImageList>
       </Box>
-      {/* <Stack spacing={2} direction="row" justifyContent="center">
-        <Pagination count={5} size="small" />
-      </Stack> */}
     </div>
   );
 };
