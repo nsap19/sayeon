@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -82,10 +83,8 @@ public class SayeonServiceImpl implements SayeonService {
 			Member receiver = memberRepository.findById(sayeon.getReceiverId())
 					.orElseThrow(() -> new NotExistUserException());
 
-			double distance = getDistance(
-					member.getMemberProfile().getLatitude(),
-					member.getMemberProfile().getLongitude(), 
-					receiver.getMemberProfile().getLatitude(),
+			double distance = getDistance(member.getMemberProfile().getLatitude(),
+					member.getMemberProfile().getLongitude(), receiver.getMemberProfile().getLatitude(),
 					receiver.getMemberProfile().getLongitude(), "kilometer");
 
 			String receivedDate = getTime(story.getDateSent(), distance, story.getWatingId().getWaitingTime());
@@ -140,6 +139,7 @@ public class SayeonServiceImpl implements SayeonService {
 			for (String s : keywords) {
 				System.out.println(s);
 			}
+
 			for (int i = 0; i < myKeywords.length; i++) {
 				if (keywords.contains(myKeywords[i])) {
 					count++;
@@ -219,9 +219,7 @@ public class SayeonServiceImpl implements SayeonService {
 
 		// 2022-03-31 14:58:23
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		System.out.println(sentdate);
 		sentdate = sentdate.replaceAll("[T]", " ").substring(0, 19);
-		System.out.println(sentdate);
 		Date date = format.parse(sentdate);
 
 		Calendar cal = Calendar.getInstance();
@@ -238,6 +236,29 @@ public class SayeonServiceImpl implements SayeonService {
 		System.out.println(receivedDate);
 
 		// 100km당 한시간
+		return receivedDate;
+	}
+
+	@Override
+	public String getReceivedTime(Member member, String receiverId, Integer waitingId) throws ParseException {
+		// TODO Auto-generated method stub
+		Member receiver = memberRepository.findById(receiverId).orElseThrow(() -> new NotExistUserException());
+
+		double distance = getDistance(member.getMemberProfile().getLatitude(), member.getMemberProfile().getLongitude(),
+				receiver.getMemberProfile().getLatitude(), receiver.getMemberProfile().getLongitude(), "kilometer");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		float waitingTime = waitingTimeRepository.getById(waitingId).getWaitingTime();
+		Date now = new Date();
+		String currentTime = format.format(now);
+
+		int distToSecond = (int) (distance / 100 * 600);
+		int hour = distToSecond / 3600;
+		int min = distToSecond % 3600 / 60;
+		int sec = distToSecond % 3600 % 60;
+
+		String receivedDate = hour + ":" + min + ":" + sec;
+		System.out.println(currentTime + " " + receivedDate);
+
 		return receivedDate;
 	}
 

@@ -12,4 +12,5 @@ public interface SayeonService {
 	SentStory saveStory(Member member, SayeonReq sayeon) throws ParseException;
 	List<WaitingTime> getWaitingTime();
 	void storyMatching(SentStory story);
+	String getReceivedTime(Member member, String receiverId, Integer waitingId) throws ParseException;
 }

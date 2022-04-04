@@ -41,11 +41,12 @@ public class MyInfoServiceImpl implements MyInfoService {
 		if (profileUpdateInfo.getProfilePic() != 0)
 			userProfile.setProfilePic(profileUpdateInfo.getProfilePic());
 
-		if (profileUpdateInfo.getLocation() != null)
+		if (profileUpdateInfo.getLocation() != null) {
 			userProfile.setLocation(profileUpdateInfo.getLocation());
+			userProfile.setLatitude(profileUpdateInfo.getLatitude());
+			userProfile.setLongitude(profileUpdateInfo.getLongitude());
+		}
 
-		System.out.println(userProfile.getLocation());
-		System.out.println(userProfile.getNickname());
 		userProfileRepository.save(userProfile);
 	}
 

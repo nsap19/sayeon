@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.sayeon.api.request.ReceivedTimeReq;
 import com.ssafy.sayeon.api.request.SayeonReq;
 import com.ssafy.sayeon.api.response.AdvancedResponseBody;
 import com.ssafy.sayeon.api.response.BaseResponseBody;
@@ -106,6 +107,20 @@ public class SayeonController {
 	public ResponseEntity<? extends BaseResponseBody> getWaitingTime() {
 		return ResponseEntity.status(200)
 				.body(AdvancedResponseBody.of(200, "대기시간 조회 성공", sayeonService.getWaitingTime()));
+	}
+	
+	@PostMapping(value = "/story-time")
+	@ApiOperation(value = "사연 전송까지 남은 시간 반환")
+	@ApiResponses({ @ApiResponse(code = 200, message = "사연 전송까지 남은 시간 반환 성공"), @ApiResponse(code = 500, message = "서버 오류") })
+	public ResponseEntity<? extends BaseResponseBody> getReceivedTime(HttpServletRequest request,
+			@RequestBody ReceivedTimeReq receivedTimeReq) throws ParseException {
+		Member member = jwtTokenUtil.getMemberFromToken(request.getHeader("Authorization"));
+		
+		return ResponseEntity.status(200)
+				.body(AdvancedResponseBody.of(200, "사연 전송까지 남은 시간 반환 성공", sayeonService.getReceivedTime(member, receivedTimeReq.getReceiverId(), receivedTimeReq.getWaitingId())));
+
+
+
 	}
 
 }
