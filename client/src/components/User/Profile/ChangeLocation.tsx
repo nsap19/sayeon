@@ -12,6 +12,7 @@ import LocationJson from "../../../assets/json/location.json";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import "./Profile.css";
 
+
 const locationOptions = Object.keys(LocationJson).sort();
 
 const ChangeLocation = () => {
@@ -22,6 +23,7 @@ const ChangeLocation = () => {
   const [defaultLocation, setDefaultLocation] = useState<string>("");
   const [defaultDetailedLocation, setDefaultDetailedLocation] =
     useState<string>("");
+
 
   // 상세주소용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
@@ -115,6 +117,12 @@ const ChangeLocation = () => {
       },
       data: {
         location: location + " " + detailedLocation,
+        longitude:
+          // @ts-ignore
+          LocationJson[location][detailedLocation].longitude,
+        latitude:
+          // @ts-ignore
+          LocationJson[location][detailedLocation].latitude,
       },
     })
       .then(() => {

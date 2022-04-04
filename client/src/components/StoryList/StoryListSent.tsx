@@ -15,6 +15,9 @@ interface sentStory {
 const StoryListSent: React.FC = () => {
   const [sentImageList, setSentImageList] = useState<sentStory[]>([]);
   const [countSentImages, setCountSentImages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(7);
+
 
   useEffect(() => {
     getSentImageList();
@@ -32,13 +35,15 @@ const StoryListSent: React.FC = () => {
       },
       params: {
         page: 0,
-        size: 8
+        size: 7
       }
     })
     .then((res) => {
-      console.log(res.data.data);
+      console.log(res)
+      console.log(res.data);
       if (res.data.data) {
-        setSentImageList(res.data.data)
+        var reverseSentImageList = res.data.data.reverse()
+        setSentImageList(reverseSentImageList)
       }
     })
     .catch((err) => console.log(err));
@@ -62,13 +67,14 @@ const StoryListSent: React.FC = () => {
     .catch((err) => console.log(err));
   }
 
+
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between", mx: 3 }}>
         <p>보낸 사연</p>
         <p>{countSentImages}</p>
       </Box>
-      <Box sx={{ px: 2, height: 480, overflowY: "scroll", mt: 2 }}>
+      <Box sx={{ px: 2, height: 520, overflowY: "scroll", mt: 2 }}>
         <ImageList variant="masonry" cols={2} gap={10}>
           {sentImageList.map((item) => (
             <ImageListItem key={item.image}>
@@ -80,10 +86,10 @@ const StoryListSent: React.FC = () => {
             </ImageListItem>
           ))}
         </ImageList>
+        <Stack spacing={2} direction="row" justifyContent="center" marginTop="10px">
+          <Pagination count={Math.ceil(countSentImages/7)} size="small" />
+        </Stack>
       </Box>
-      <Stack spacing={2} direction="row" justifyContent="center">
-        <Pagination count={5} size="small" />
-      </Stack>
     </>
   );
 };
