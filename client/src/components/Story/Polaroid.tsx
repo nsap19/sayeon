@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
-import { Dialog, IconButton } from "@mui/material";
-import { ReactComponent as Close } from "../../assets/icon/close.svg";
+import PolaroidDialog from "./PolaroidDialog";
 
 const defaultPolaroidRatios = {
   MINI: 54 / 86,
@@ -21,17 +20,11 @@ const Polaroid: React.FC<{
   senderNickname: string;
   dateReceived: string;
 }> = ({ imageUrl, imageType, senderNickname, dateReceived }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [height, setHeight] = useState(0);
-  const [dialogHeight, setDialogHeight] = useState(0);
   const div = useCallback((node) => {
     if (node !== null) {
       setHeight(node.getBoundingClientRect().height);
-    }
-  }, []);
-  const dialogDiv = useCallback((node) => {
-    if (node !== null) {
-      setDialogHeight(node.getBoundingClientRect().height);
     }
   }, []);
 
@@ -59,13 +52,6 @@ const Polaroid: React.FC<{
     font-size: min(16px, ${height / 20}px);
   `;
 
-  const DialogNickname = styled.p`
-    position: absolute;
-    bottom: ${dialogHeight / 20}px;
-    right: ${dialogHeight / 20}px;
-    font-size: min(16px, ${dialogHeight / 20}px);
-  `;
-
   const HiddenAlert = styled.p`
     position: absolute;
     top: 37.68%;
@@ -73,16 +59,6 @@ const Polaroid: React.FC<{
     left: 0;
     right: 0;
     font-size: min(16px, ${height / 20}px);
-    color: white;
-  `;
-
-  const DialogHiddenAlert = styled.p`
-    position: absolute;
-    top: 37.68%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: min(16px, ${dialogHeight / 20}px);
     color: white;
   `;
 
@@ -102,47 +78,18 @@ const Polaroid: React.FC<{
 
   return (
     <>
-      <Dialog
-        PaperProps={{
-          style: { borderRadius: 0, overflowY: "unset" },
-        }}
-        onClose={handleClose}
+      <PolaroidDialog
+        handleClose={handleClose}
         open={open}
-        disableScrollLock={true}
-      >
-        <PolaroidFrame ref={dialogDiv}>
-          <IconButton
-            sx={{
-              position: "absolute",
-              zIndex: "1",
-              right: "-7px",
-              top: "-24px",
-              padding: 0,
-            }}
-            onClick={handleClose}
-          >
-            <Close style={{ fill: "white" }} />
-          </IconButton>
-          <StyledImage
-            src={
-              hidden
-                ? require(`../../assets/images/default/${imageType}_default.png`)
-                : imageUrl
-            }
-            alt="img"
-            onClick={handleClickOpen}
-          />
-          {hidden && (
-            <DialogHiddenAlert>
-              <p>{hourDifference}시간 뒤에</p>
-              <p>사연이 열립니다.</p>
-            </DialogHiddenAlert>
-          )}
-          <DialogNickname>{senderNickname}</DialogNickname>
-        </PolaroidFrame>
-      </Dialog>
+        imageType={imageType}
+        hidden={hidden}
+        imageUrl={imageUrl}
+        handleClickOpen={handleClickOpen}
+        hourDifference={hourDifference}
+        senderNickname={senderNickname}
+      />
 
-      <PolaroidFrame ref={div}>
+      <PolaroidFrame ref={div} onClick={handleClickOpen}>
         <StyledImage
           src={
             hidden
@@ -150,7 +97,6 @@ const Polaroid: React.FC<{
               : imageUrl
           }
           alt="img"
-          onClick={handleClickOpen}
         />
         {hidden && (
           <HiddenAlert>
