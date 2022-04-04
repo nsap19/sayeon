@@ -74,7 +74,7 @@ const StoryTalkHeaderbar: React.FC<{
           >
             {otherUserInfo !== undefined && (
               <img
-                src={require(`../../assets/images/profile/Avatars-${otherUserInfo.profilePic}.png`)}
+                src={require(`../../assets/images/profile/Avatar-${otherUserInfo.profilePic}.svg`)}
                 alt="profile pic"
                 style={{ width: "30px", marginRight: "10px" }}
               />

@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Stack, Box, CircularProgress } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Box,
+  CircularProgress,
+  Alert,
+  Snackbar,
+} from "@mui/material";
 import Cropper from "react-cropper";
 import { uploadFile } from "./utils/uploadFile";
 import { detectKeywords } from "./utils/detectKeywords";
@@ -59,6 +66,7 @@ const SelectImage: React.FC<{
   };
 
   const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
   const handleUpload = useCallback(() => {
     setKeywordsReady(true);
 
@@ -66,32 +74,32 @@ const SelectImage: React.FC<{
     cropper.getCroppedCanvas().toBlob((blob: any) => {
       const formData = new FormData();
       formData.append("croppedImage", blob, imageName);
-      formData.forEach((file) => {
-        console.log("blob object", file);
-
-        // 2. S3 업로드
-        uploadFile(file)
-          .then((res) => {
-            // 3. 업로드 완료시 키워드 추출 및 번역
-            detectKeywords(imageName)
-              .then((res) => {
-                console.log("결과", res.data.keywords.split(","));
-                // 4. 번역 완료시 상태 저장
-                dispatch(updateKeywords(res.data.keywords.split(",")));
-                dispatch(
-                  updateImage({
-                    name: imageName,
-                    url: `https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/${imageName}`,
-                    type: imageType,
-                  })
-                );
-
-                setStep(2);
-              })
-              .catch((err) => console.log(err));
-          })
-          .catch((err) => console.log(err));
-      });
+      // 2. S3 업로드
+      uploadFile(formData.get("croppedImage"))
+        .then((res) => {
+          // 3. 업로드 완료시 키워드 추출 및 번역
+          detectKeywords(imageName)
+            .then((res) => {
+              console.log("결과", res.data.keywords.split(","));
+              // 4. 번역 완료시 상태 저장
+              dispatch(updateKeywords(res.data.keywords.split(",")));
+              dispatch(
+                updateImage({
+                  name: imageName,
+                  url: `https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/${imageName}`,
+                  type: imageType,
+                })
+              );
+              setStep(2);
+            })
+            .catch((err) => {
+              // 유해 사진 처리
+              setCropData("");
+              setOpen(true);
+              setKeywordsReady(false);
+            });
+        })
+        .catch((err) => console.log(err));
     }, imageExtension);
   }, [cropper, dispatch, imageExtension, imageName, imageType, setStep]);
 
@@ -110,8 +118,24 @@ const SelectImage: React.FC<{
     { value: "WIDE", ratio: 99 / 62 },
   ];
 
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   return (
     <>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {"다른 사진을 선택해주세요."}
+        </Alert>
+      </Snackbar>
+
       {keywordsReady ? (
         <Loading keywordsReady={keywordsReady} />
       ) : (

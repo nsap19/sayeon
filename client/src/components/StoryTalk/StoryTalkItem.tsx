@@ -73,7 +73,7 @@ export default function StoryTalkItem({
             <div onClick={openStoryTalk}>
               {otherUserInfo && (
                 <img
-                  src={require(`../../assets/images/profile/Avatars-${otherUserInfo?.profilePic}.png`)}
+                  src={require(`../../assets/images/profile/Avatar-${otherUserInfo?.profilePic}.svg`)}
                   alt="profile pic"
                   style={{ width: "30px", margin: "10px 10px -10px" }}
                 />
