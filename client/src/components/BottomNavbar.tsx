@@ -53,8 +53,8 @@ export default function BottomNavbar() {
       />
       <BottomNavigationAction
         component={Link}
-        to="/story-talk/list"
-        value="/story-talk/list"
+        to="/story-talk"
+        value="/story-talk"
         sx={{ color: "#D1CFCF" }}
         icon={<SvgIcon component={StoryTalkList} inheritViewBox />}
       />

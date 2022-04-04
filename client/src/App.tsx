@@ -63,7 +63,7 @@ function App() {
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/story-list" element={<StoryList />}></Route>
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
-          <Route path="/story-talk/list" element={<StoryTalkList />} />
+          <Route path="/story-talk" element={<StoryTalkList />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
           {/* <Route
             path="/story-talk/:userNickname"

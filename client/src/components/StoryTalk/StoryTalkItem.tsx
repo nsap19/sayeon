@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Route } from "react-router-dom";
-import { Button, Box, Stack } from "@mui/material";
+import { Divider, Box, Stack } from "@mui/material";
 import StoryTalk from "pages/StoryTalk/StoryTalk";
 import Polaroid from "components/Story/Polaroid";
 
@@ -23,6 +22,7 @@ export default function StoryTalkItem({
   setStoryTalkOpen,
 }: any) {
   // STATE
+  console.log(myInfo);
   const firstId = myInfo.userId;
   const secondId = () => {
     if (firstId === storyTalk[0].senderId) {
@@ -39,7 +39,6 @@ export default function StoryTalkItem({
   const [open, setOpen] = useState(false);
 
   // 정보 요청
-
   const getOtherUserInfo = () => {
     axios
       .get("userInfo", {
@@ -70,14 +69,14 @@ export default function StoryTalkItem({
   return (
     <>
       {!storyTalkOpen ? (
-        <Box sx={{ padding: "20px" }}>
+        <Box sx={{ padding: "25px 30px" }}>
           <Stack direction="column" alignItems="start" spacing={2}>
             <div onClick={openStoryTalk}>
               {otherUserInfo && (
                 <img
                   src={require(`../../assets/images/profile/Avatars-${otherUserInfo?.profilePic}.png`)}
                   alt="profile pic"
-                  style={{ width: "30px", marginRight: "10px" }}
+                  style={{ width: "30px", margin: "10px 10px -10px" }}
                 />
               )}
               {otherUserInfo?.nickname}
@@ -98,7 +97,11 @@ export default function StoryTalkItem({
                         <Polaroid
                           imageUrl={story.image}
                           imageType={story.imageType}
-                          senderNickname={otherUserInfo.nickname}
+                          senderNickname={
+                            story.senderId === firstId
+                              ? myInfo.memberProfile.nickname
+                              : otherUserInfo.nickname
+                          }
                           dateReceived={story.dateReceived}
                         />
                       </div>
@@ -107,7 +110,12 @@ export default function StoryTalkItem({
               </Stack>
             </Box>
           </Stack>
-          <hr style={{ margin: "7% 5% 7%" }} />
+          <Divider
+            variant="fullWidth"
+            flexItem
+            light
+            sx={{ margin: "12px auto" }}
+          />
         </Box>
       ) : (
         <StoryTalk
