@@ -22,8 +22,8 @@ const StoryList: React.FC = () => {
         <StoryListHeaderbar headerName={"내 사연함"} />
       </header>
       <Box sx={{ display: 'flex', justifyContent: 'space-around', p: .5, bgcolor: 'white', color: '#8c8888' }}>
-        <p onClick={handleActive}>보낸 사연함</p>
-        <p onClick={handleDisabled}>받은 사연함</p>
+        <p onClick={handleActive}>받은 사연함</p>
+        <p onClick={handleDisabled}>보낸 사연함</p>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         {isActive ? (
@@ -40,9 +40,9 @@ const StoryList: React.FC = () => {
       </Box>
       <Box sx={{ my: 2 }}>
         {isActive ? (
-          <StoryListSent />
-        ) : (
           <StoryListReceived />
+          ) : (
+          <StoryListSent />
         )}
       </Box>
     </Stack>

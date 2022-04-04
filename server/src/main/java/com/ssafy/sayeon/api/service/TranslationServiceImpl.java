@@ -14,7 +14,7 @@ import com.ssafy.sayeon.api.request.UserPwUpdateReq;
 import com.ssafy.sayeon.model.entity.Member;
 import com.ssafy.sayeon.model.entity.MemberProfile;
 import com.ssafy.sayeon.model.repository.MemberProfileRepository;
-import com.ssafy.sayeon.model.repository.MemberRepository;import java.awt.RenderingHints.Key;
+import com.ssafy.sayeon.model.repository.MemberRepository;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -44,14 +44,21 @@ public class TranslationServiceImpl implements TranslationService {
 		String[] result = new String[Keywords.length];
 		
 		StringBuilder sb= new StringBuilder();
-		
+		HashSet<String> set = new HashSet<>();
 		for(int i=0;i<Keywords.length;i++) {
-			sb.append(translate(Keywords[i]+","));
+			String word= translate(Keywords[i]+",").replaceAll("[,.]", "");
+			System.out.println(word);
+			set.add(word);
  		}
-
+		
+		for(String str : set) {
+			sb.append(str+",");
+		}
+		
 		return sb.toString().substring(0, sb.length()-1);
 	}
 	
+
 	private static String translate(String originalText)  {
 		
 		String clientId = "ZjydFG6UPMdIlMVdX7xQ";// 애플리케이션 클라이언트 아이디값";
