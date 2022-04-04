@@ -63,6 +63,7 @@ function App() {
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/story-list" element={<StoryList />}></Route>
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
+          <Route path="/story-talk/list" element={<StoryTalkList />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route
             path="/story-talk/:userNickname"
@@ -75,11 +76,10 @@ function App() {
           />
         </Route>
         <Route path="/" element={<IsAuthRoute />}>
-          <Route path="/story-talk-list" element={<StoryTalkList />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/*" element={<NotFound />} />
         </Route>
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <BottomNavbar />
     </ThemeProvider>

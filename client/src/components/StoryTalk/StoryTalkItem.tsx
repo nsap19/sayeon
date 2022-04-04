@@ -17,24 +17,29 @@ interface Story {
   dateReceived: string;
 }
 
-export default function StoryTalkItem({ storyTalk }: any) {
+export default function StoryTalkItem({ storyTalk, myInfo }: any) {
+  console.log(storyTalk, myInfo);
   // STATE
-  const firstId = storyTalk.senderId;
-  const secondId = storyTalk.receiverId;
+  const firstId = myInfo.userId;
+  const secondId = () => {
+    if (firstId === storyTalk[0].senderId) {
+      return storyTalk[0].senderId;
+    }
+    return storyTalk[0].receiverId;
+  };
   const [otherUserInfo, setOtherUserInfo] = useState<{
     nickname: string;
     profilePic: number;
   }>();
-  const [myStoryTalk, setMyStoryTalk] = useState<Story[]>([]);
-  const imageTypes: ("square" | "mini" | "wide")[] = ["mini", "wide", "square"];
 
   // 정보 요청
+
   const getOtherUserInfo = () => {
     axios
       .get("userInfo", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
-          userId: secondId,
+          userId: secondId(),
         },
       })
       .then((res) => {
@@ -46,62 +51,42 @@ export default function StoryTalkItem({ storyTalk }: any) {
       .catch((err) => console.log(err));
   };
 
-  const getStoryTalk = () => {
-    axios
-      .get(`story-talk`, {
-        headers: {
-          userId: secondId,
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res: any) => {
-        res.data.data.conversation.sort(
-          (a: { dateReceived: string }, b: { dateReceived: string }) =>
-            a.dateReceived.localeCompare(b.dateReceived)
-        );
-
-        setMyStoryTalk(res.data.data.conversation);
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  };
-
   useEffect(() => {
     getOtherUserInfo();
-    getStoryTalk();
   }, []);
 
   return (
     <Box>
-      <Button
-        variant="text"
-        sx={{ color: "black" }}
-        href="/story-talk/:nickname"
-      >
-        {otherUserInfo?.profilePic}
-        {otherUserInfo?.nickname}
+      <Stack direction="column" alignItems="start">
+        <Button
+          variant="text"
+          sx={{ color: "black" }}
+          href="/story-talk/:nickname"
+        >
+          {otherUserInfo?.profilePic} {otherUserInfo?.nickname}
+        </Button>
         <Box
           sx={{
-            width: "230%",
-            height: "230%",
+            width: "50%",
+            height: "50%",
             display: "flex",
             justifyContent: "start",
           }}
         >
           <Stack direction="row" justifyContent="start" spacing={2}>
-            {myStoryTalk.map((story) => (
-              <Box key={story.storyId}>
+            {storyTalk.map((story: any) => (
+              <Button key={story.storyId} href="/story-talk/:nickname">
                 <Polaroid
                   imageUrl={story.image}
-                  imageType={imageTypes[parseInt(story.imageType)]}
-                  senderNickname={secondId}
+                  imageType={story.imageType}
+                  senderNickname={story.receiverId}
+                  // dateReceived={story.dateReceived}
                 />
-              </Box>
+              </Button>
             ))}
           </Stack>
         </Box>
-      </Button>
+      </Stack>
       <hr style={{ margin: "10% 5% 10%" }} />
     </Box>
   );
