@@ -11,6 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface AlertType {
   requestType: string;
@@ -37,6 +38,7 @@ const RequestDialog: React.FC<{
     }, 100);
   };
 
+  const navigate = useNavigate();
   const handleClick = (requestType: string) => {
     switch (requestType) {
       case "BLOCK":
@@ -75,6 +77,9 @@ const RequestDialog: React.FC<{
       .then((res) => {
         console.log(res);
         handleClose();
+        navigate("/story-talk-list", {
+          state: { openSnackbar: true },
+        });
       })
       .catch((err) => console.log(err));
   };
