@@ -72,8 +72,8 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
         </Button>
         <Box
           sx={{
-            width: "50%",
-            height: "50%",
+            width: "40%",
+            height: "40%",
             display: "flex",
             justifyContent: "start",
           }}
