@@ -10,7 +10,7 @@ import {
   Box,
 } from "@mui/material";
 
-const profilePics = [0, 1, 2, 3, 4, 5, 6, 7];
+const profilePics = Array.from({ length: 36 }, (x, i) => i);
 
 export interface SelectProfilePIcDialogProps {
   open: boolean;
@@ -46,33 +46,27 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
               aria-label="close"
               sx={{
                 position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
+                right: "8px",
+                top: "10px",
               }}
               onClick={handleClose}
             >
-              <Close />
+              <Close fill="#8c8888" />
             </IconButton>
           </Box>
         </Box>
       </DialogTitle>
-      <Box sx={{ padding: "24px" }}>
+      <Box sx={{ padding: "12px 24px 24px", overflowY: "auto" }}>
         <ImageList cols={4} gap={15}>
           {profilePics.map((profilePic) => (
             <ImageListItem
               onClick={() => handleListItemClick(profilePic)}
               key={profilePic}
             >
-              {/* <img
-              src={`/images/profile/Avatars-${profilePic}.png`}
-              alt="profile pic"
-              style={{ width: "50px" }}
-            /> */}
               <img
-                src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
+                src={require(`../../../assets/images/profile/Avatar-${profilePic}.svg`)}
                 alt="profile pic"
-                style={{ width: "50px", margin: "auto" }}
+                style={{ width: "100%", margin: "auto" }}
               />
             </ImageListItem>
           ))}
@@ -99,7 +93,7 @@ const SelectProfile: React.FC<{
   return (
     <div style={{ position: "relative" }}>
       <img
-        src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
+        src={require(`../../../assets/images/profile/Avatar-${profilePic}.svg`)}
         alt="profile pic"
         style={{ width: "80px", margin: "20px" }}
       />
