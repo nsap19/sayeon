@@ -15,6 +15,19 @@ const computerVisionClient = new ComputerVisionClient(
 export const detectKeywords = async (imageName: string) => {
   const tagsURL = `https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/${imageName}`;
 
+  // is adult image
+  const adult = (
+    await computerVisionClient.analyzeImage(tagsURL, {
+      visualFeatures: ["Adult"],
+    })
+  ).adult;
+  if (adult.adultScore.toFixed(4) >= 0.5 && adult.racyScore.toFixed(4) >= 0.5) {
+    console.log("adult image");
+  } else {
+    console.log("not adult image");
+  }
+
+  // Analyze URL image
   const tags = (
     await computerVisionClient.analyzeImage(tagsURL, {
       visualFeatures: ["Tags"],

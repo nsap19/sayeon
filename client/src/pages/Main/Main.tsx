@@ -74,10 +74,10 @@ const Main: React.FC = () => {
             margin: "30px 20px 20px",
           }}
         >
-          <p style={{ padding: "40px 40px 15px", textAlign: "center" }}>
+          <div style={{ padding: "40px 40px 15px", textAlign: "center" }}>
             <p>사진으로 전하는 당신의 사연,</p>
             <p>지금 보내보세요.</p>
-          </p>
+          </div>
           <Button
             href="/send"
             sx={{
