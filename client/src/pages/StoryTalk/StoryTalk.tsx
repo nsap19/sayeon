@@ -30,6 +30,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
   const [otherUserInfo, setOtherUserInfo] = useState<{
     nickname: string;
     profilePic: number;
+    withdrawal: string;
   }>();
 
   const imageTypes: ("MINI" | "SQUARE" | "WIDE")[] = ["MINI", "WIDE", "SQUARE"];
@@ -68,6 +69,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
         setOtherUserInfo({
           nickname: res.data.data.memberProfile.nickname,
           profilePic: res.data.data.memberProfile.profilePic,
+          withdrawal: res.data.data.memberProfile.withdrawal,
         });
       })
       .catch((err) => console.log(err));
@@ -87,6 +89,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
         },
       })
       .then((res: any) => {
+        console.log(res);
         res.data.data.conversation.sort(
           (a: { dateReceived: string }, b: { dateReceived: string }) =>
             a.dateReceived.localeCompare(b.dateReceived)
@@ -181,7 +184,10 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
                 })
               }
               disabled={
-                storyTalk.slice(-1)[0].senderId === userInfo.id ? true : false
+                otherUserInfo?.withdrawal === "Y" ||
+                storyTalk.slice(-1)[0].senderId === userInfo.id
+                  ? true
+                  : false
               }
             >
               답장하기
