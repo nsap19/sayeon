@@ -46,9 +46,17 @@ export default function StoryTalkList() {
     getStoryTalkList();
   }, []);
 
-  const showStoryTalkItems = storyTalkList?.map((storyTalk: any) => {
-    return <StoryTalkItem storyTalk={storyTalk.storyTalk} myInfo={myInfo} />;
-  });
+  const showStoryTalkItems = storyTalkList?.map(
+    (storyTalk: any, idx: number) => {
+      return (
+        <StoryTalkItem
+          key={idx}
+          storyTalk={storyTalk.storyTalk}
+          myInfo={myInfo}
+        />
+      );
+    }
+  );
 
   return (
     <>

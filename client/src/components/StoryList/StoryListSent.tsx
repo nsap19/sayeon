@@ -6,7 +6,7 @@ import axios from "axios";
 interface sentStory {
   storyId: number;
   image: string;
-  imageType: "square" | "mini" | "wide";
+  imageType: "SQUARE" | "MINI" | "WIDE";
   waiting: number;
   senderId: string;
   receiverId: string;
@@ -15,7 +15,7 @@ interface sentStory {
 }
 
 const StoryListSent: React.FC = () => {
-  const [sentImageList, setSentImageList] = useState<sentStory[]>([])
+  const [sentImageList, setSentImageList] = useState<sentStory[]>([]);
 
   useEffect(() => {
     getSentImageList();
@@ -26,22 +26,21 @@ const StoryListSent: React.FC = () => {
     const token = localStorage.getItem("token");
     axios({
       method: "get",
-      url: 'story-list/sent',
+      url: "story-list/sent",
       headers: {
-        Authorization : `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       params: {
         page: 0,
-        size: 10
-      }
+        size: 10,
+      },
     })
-    .then((res) => {
-      console.log(res.data.data);
-      setSentImageList(res.data.data)
-    })
-    .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res.data.data);
+        setSentImageList(res.data.data);
+      })
+      .catch((err) => console.log(err));
   };
-
 
   return (
     <div>

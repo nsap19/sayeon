@@ -18,7 +18,6 @@ interface Story {
 }
 
 export default function StoryTalkItem({ storyTalk, myInfo }: any) {
-  console.log(storyTalk, myInfo);
   // STATE
   const navigate = useNavigate();
   const firstId = myInfo.userId;
@@ -62,13 +61,20 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
 
   return (
     <Box>
-      <Stack direction="column" alignItems="start">
+      <Stack direction="column" alignItems="start" spacing={2}>
         <Button
           variant="text"
           sx={{ color: "black" }}
           href="/story-talk/:nickname"
         >
-          {otherUserInfo?.profilePic} {otherUserInfo?.nickname}
+          {otherUserInfo && (
+            <img
+              src={require(`../../assets/images/profile/Avatars-${otherUserInfo?.profilePic}.png`)}
+              alt="profile pic"
+              style={{ width: "30px", marginRight: "10px" }}
+            />
+          )}
+          {otherUserInfo?.nickname}
         </Button>
         <Box
           sx={{
@@ -79,20 +85,23 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
           }}
         >
           <Stack direction="row" justifyContent="start" spacing={2}>
-            {storyTalk.map((story: any) => (
-              <div key={story.storyId} onClick={openStoryTalk}>
-                <Polaroid
-                  imageUrl={story.image}
-                  imageType={story.imageType}
-                  senderNickname={story.receiverId}
-                  dateReceived={story.dateReceived}
-                />
-              </div>
-            ))}
+            {storyTalk.map(
+              (story: any) =>
+                otherUserInfo && (
+                  <div key={story.storyId} onClick={openStoryTalk}>
+                    <Polaroid
+                      imageUrl={story.image}
+                      imageType={story.imageType}
+                      senderNickname={otherUserInfo.nickname}
+                      dateReceived={story.dateReceived}
+                    />
+                  </div>
+                )
+            )}
           </Stack>
         </Box>
       </Stack>
-      <hr style={{ margin: "10% 5% 10%" }} />
+      <hr style={{ margin: "7% 5% 7%" }} />
     </Box>
   );
 }
