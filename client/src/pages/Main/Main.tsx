@@ -134,8 +134,8 @@ const Main: React.FC = () => {
                 ))}
               </Stack>
             ) : (
-              <p
-                style={{
+              <Box
+                sx={{
                   alignSelf: "center",
                   margin: "0 auto",
                   textAlign: "center",
@@ -145,7 +145,7 @@ const Main: React.FC = () => {
               >
                 <p>아직 주고 받은 사연이 없습니다.</p>
                 <p>지금 바로 사연을 보내보세요!</p>
-              </p>
+              </Box>
             )}
           </Box>
         </Box>
