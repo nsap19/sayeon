@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Polaroid from "./StoryListPolaroid";
+import Polaroid from "../Polaroid/StoryListPolaroid";
 import {
   Box,
   ImageList,
@@ -41,7 +41,7 @@ const StoryListSent: React.FC = () => {
 
     axios.get('story-list/sent', config)
     .then((res) => {
-      console.log(res.data.data)
+      // console.log(res.data.data)
       if (res.data.data) {
         setSentImageList([...sentImageList, ...res.data.data]);
       }
@@ -104,12 +104,14 @@ const StoryListSent: React.FC = () => {
                   imageUrl={`${item.image}`}
                   imageType={item.imageType}
                   senderNickname={item.senderNickname}
+                  dateReceived=''
                 />
               ) : (
                 <Polaroid
                   imageUrl={`${item.image}`}
                   imageType={item.imageType}
                   senderNickname={item.senderNickname}
+                  dateReceived=''
                 />
               )}
             </ImageListItem>

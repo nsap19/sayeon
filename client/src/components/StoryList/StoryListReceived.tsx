@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Polaroid from "./StoryListPolaroid";
+import Polaroid from "../Polaroid/StoryListPolaroid";
 import axios from "axios";
 import { Box, ImageList, ImageListItem, Stack, Button } from "@mui/material";
 import { useInView } from "react-intersection-observer"
@@ -114,12 +114,14 @@ const StoryListReceived: React.FC = () => {
                       imageUrl={`${item.image}`}
                       imageType={item.imageType}
                       senderNickname={item.senderNickname}
+                      dateReceived={item.dateReceived}
                     />
                   ) : (
                     <Polaroid
                       imageUrl={`${item.image}`}
                       imageType={item.imageType}
                       senderNickname={item.senderNickname}
+                      dateReceived={item.dateReceived}
                     />
                   )}
                 </ImageListItem>
