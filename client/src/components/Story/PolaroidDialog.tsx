@@ -138,7 +138,7 @@ const PolaroidDialog: React.FC<{
         <PolaroidFrame onClick={() => setFlip(!flip)}>
           <Keywords>
             {keywords.map((keyword) => (
-              <p>{keyword}</p>
+              <p key={keyword}>{keyword}</p>
             ))}
           </Keywords>
         </PolaroidFrame>
