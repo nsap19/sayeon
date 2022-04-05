@@ -10,21 +10,7 @@ interface CustomizedState {
 }
 
 const Main: React.FC = () => {
-  // 사연 전송 성공시 스낵바
-  const location = useLocation();
-  const state = location.state as CustomizedState;
-  const [snackbar, setSnackbar] = useState(state ? state.openSnackbar : false);
   const [recentStories, setRecentStories] = useState<any[]>([]);
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackbar(false);
-  };
 
   const getRecentStories = () => {
     axios
@@ -47,12 +33,6 @@ const Main: React.FC = () => {
 
   return (
     <>
-      <Snackbar open={snackbar} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          {"사연이 전송되었습니다."}
-        </Alert>
-      </Snackbar>
-
       <Stack
         direction="column"
         justifyContent="flex-end"
@@ -113,7 +93,7 @@ const Main: React.FC = () => {
             }}
           >
             <p>최근 받은 사연</p>
-            {recentStories && (
+            {recentStories.length ? (
               <Link
                 href="/story-list"
                 underline="none"
@@ -121,7 +101,7 @@ const Main: React.FC = () => {
               >
                 더보기
               </Link>
-            )}
+            ) : null}
           </Stack>
           <Box
             sx={{
@@ -131,7 +111,7 @@ const Main: React.FC = () => {
               justifyContent: "end",
             }}
           >
-            {recentStories ? (
+            {recentStories.length ? (
               <Stack
                 direction="row"
                 justifyContent=""
