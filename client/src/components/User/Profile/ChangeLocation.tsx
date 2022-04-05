@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Stack,
@@ -25,24 +25,26 @@ const ChangeLocation = () => {
     useState<string>("");
 
 
+
   // 상세주소용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
     string[]
   >([]);
 
-  const valueRef = useRef(defaultLocation);
-  let isMount = useRef(false);
     
   useEffect(() => {
-    isMount.current = true;
+    // let isMount = true;
     getMyLocation();
-    return () => {
-      if (Object.keys(defaultLocation).length) {
-      setDetailedLocationOptions(Object.keys(null || LocationJson[
-        valueRef.current as keyof typeof LocationJson
-      ]))};
-      isMount.current = false;
-    };
+    // if (Object.keys(defaultLocation).length) {
+    //   if (isMount) {
+    //     setDetailedLocationOptions(Object.keys(null || LocationJson[
+    //       location as keyof typeof LocationJson
+    //     ]).sort())};
+    //   }
+
+    // return () => {
+    //   isMount = false;
+    // };
   }, []);
   
 
@@ -125,12 +127,14 @@ const ChangeLocation = () => {
           LocationJson[location][detailedLocation].latitude,
       },
     })
-      .then(() => {
-        console.log("위치 정보 수정 완료");
-        setIsEditingLocation(false);
-        getMyLocation();
-      })
-      .catch((err) => console.log(err));
+    .then(() => {
+      console.log("위치 정보 수정 완료");
+      setIsEditingLocation(false);
+      getMyLocation();
+    })
+    .catch((err) => {
+      console.log(err)
+    });
   };
 
   return (
@@ -144,10 +148,12 @@ const ChangeLocation = () => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={location}
+                  // value={location ?? " "}
+                  defaultValue=""
                   label="시/도"
                   onChange={onChangeLocation}
                   className="select-custom"
+                  required
                 >
                   {locationOptions &&
                     locationOptions.map((option, index) => {
@@ -168,10 +174,11 @@ const ChangeLocation = () => {
                 <Select
                   id="demo-simple-select"
                   label="시/군/구"
-                  // defaultValue={defaultDetailedLocation}
-                  value={detailedLocation}
+                  // value={detailedLocation ?? " "}
+                  defaultValue=""
                   onChange={onChangeDetailedLocation}
                   className="select-custom"
+                  required
                 >
                   {detailedLocationOptions && detailedLocationOptions.map((option) => {
                   return (

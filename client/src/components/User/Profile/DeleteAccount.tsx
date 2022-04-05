@@ -126,8 +126,8 @@ const DeleteAccount: React.FC = () => {
                   width: "250px",
                   height: "50px",
                   borderRadius: 31.5,
-                  boxShadow: "none"
                 }}
+                disableElevation={true}
                 size="large"
                 variant="contained"
                 type="submit"

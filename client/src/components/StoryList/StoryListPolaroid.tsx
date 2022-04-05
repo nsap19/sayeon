@@ -32,7 +32,7 @@ const StoryListPolaroid: React.FC<{
     max-width: ${defaultImageAndFrameRatios[imageType] * 100}%;
     max-height: 100%;
     transform: translateY(12.32%);
-    width: 80%;
+    width: 85%;
   `;
 
   const PolaroidFrame = styled.div`
