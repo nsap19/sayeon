@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Divider, Box, Stack } from "@mui/material";
 import StoryTalk from "pages/StoryTalk/StoryTalk";
-import Polaroid from "components/Story/Polaroid";
+import Polaroid from "components/Polaroid/Polaroid";
 
 interface Story {
   storyId: number;

@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StoryTalkHeaderbar from "components/StoryTalk/StoryTalkHeaderbar";
-import {
-  Button,
-  Box,
-  CircularProgress,
-  Stack,
-  Fab,
-  SvgIcon,
-} from "@mui/material";
-import Polaroid from "components/Story/Polaroid";
+import { Box, CircularProgress, Stack, Fab, SvgIcon } from "@mui/material";
+import KeywordsPolaroid from "components/Polaroid/KeywordsPolaroid";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Send } from "assets/icon/send.svg";
 
@@ -22,6 +15,7 @@ interface Story {
   receiverId: string;
   dateSent: string;
   dateReceived: string;
+  keyword: string;
 }
 
 interface MyInfoType {
@@ -122,7 +116,7 @@ const StoryTalk: React.FC<{
                       : "10px 10px 10px auto",
                 }}
               >
-                <Polaroid
+                <KeywordsPolaroid
                   imageUrl={story.image}
                   imageType={imageTypes[parseInt(story.imageType)]}
                   senderNickname={
@@ -131,6 +125,7 @@ const StoryTalk: React.FC<{
                       : myInfo.memberProfile.nickname
                   }
                   dateReceived={story.dateReceived}
+                  keywords={story.keyword.slice(1, -1).split(",")}
                 />
               </Box>
             ))}
@@ -154,6 +149,10 @@ const StoryTalk: React.FC<{
             bottom: "78px",
             right: "8px",
             boxShadow: "0px 5px 10px rgb(0 0 0 / 10%)",
+            "&.Mui-disabled": {
+              boxShadow: "0px 5px 10px rgb(0 0 0 / 10%)",
+              backgroundColor: "#D1CFCF",
+            },
           }}
           color="primary"
           href="/send"

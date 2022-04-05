@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
-import PolaroidDialog from "./PolaroidDialog";
 
 const defaultPolaroidRatios = {
   MINI: 54 / 86,
@@ -20,7 +19,6 @@ const Polaroid: React.FC<{
   senderNickname: string;
   dateReceived: string;
 }> = ({ imageUrl, imageType, senderNickname, dateReceived }) => {
-  const [open, setOpen] = useState<boolean>(false);
   const [height, setHeight] = useState(0);
   const div = useCallback((node) => {
     if (node !== null) {
@@ -52,61 +50,11 @@ const Polaroid: React.FC<{
     font-size: min(16px, ${height / 20}px);
   `;
 
-  const HiddenAlert = styled.p`
-    position: absolute;
-    top: 37.68%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: min(16px, ${height / 20}px);
-    color: white;
-  `;
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const hidden = new Date().getTime() < new Date(dateReceived).getTime();
-
-  const hourDifference = Math.round(
-    (new Date(dateReceived).getTime() - new Date().getTime()) / 36e5
-  );
-
   return (
-    <>
-      <PolaroidDialog
-        handleClose={handleClose}
-        open={open}
-        imageType={imageType}
-        hidden={hidden}
-        imageUrl={imageUrl}
-        handleClickOpen={handleClickOpen}
-        hourDifference={hourDifference}
-        senderNickname={senderNickname}
-      />
-
-      <PolaroidFrame ref={div} onClick={handleClickOpen}>
-        <StyledImage
-          src={
-            hidden
-              ? require(`../../assets/images/default/${imageType}_default.png`)
-              : imageUrl
-          }
-          alt="img"
-        />
-        {hidden && (
-          <HiddenAlert>
-            <p>{hourDifference}시간 뒤에</p>
-            <p>사연이 열립니다.</p>
-          </HiddenAlert>
-        )}
-        <Nickname>{senderNickname}</Nickname>
-      </PolaroidFrame>
-    </>
+    <PolaroidFrame ref={div}>
+      <StyledImage src={imageUrl} alt="img" />
+      <Nickname>{senderNickname}</Nickname>
+    </PolaroidFrame>
   );
 };
 

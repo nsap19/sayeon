@@ -21,7 +21,12 @@ export const detectKeywords = async (imageName: string) => {
       visualFeatures: ["Adult"],
     })
   ).adult;
-  if (adult.adultScore.toFixed(4) >= 0.5 && adult.racyScore.toFixed(4) >= 0.5) {
+  console.log(adult);
+  if (
+    adult.adultScore.toFixed(4) >= 0.5 ||
+    adult.racyScore.toFixed(4) >= 0.5 ||
+    adult.goreScore.toFixed(4) >= 0.5
+  ) {
     throw new Error("유해 이미지");
   }
 
