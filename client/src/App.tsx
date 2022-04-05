@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
+import Password from "./pages/User/Password";
 import Register from "./pages/User/Register";
 // import ChangePassword from "./components/User/Profile/ChangePassword";
 import DeleteAccount from "components/User/Profile/DeleteAccount";
@@ -70,8 +71,8 @@ function App() {
             path="/story-talk/:userNickname"
             element={
               <StoryTalk
-                firstId={"e4738614-cc21-41ed-8ba0-6c1bd2501083"}
-                secondId={"de9322ee-03bb-47e3-8f7a-9c38dc3d59bb"}
+              firstId={"e4738614-cc21-41ed-8ba0-6c1bd2501083"}
+              secondId={"de9322ee-03bb-47e3-8f7a-9c38dc3d59bb"}
               />
             }
           /> */}
@@ -79,6 +80,7 @@ function App() {
         <Route path="/" element={<IsAuthRoute />}>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/password" element={<Password />}></Route>
         </Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
