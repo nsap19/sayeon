@@ -56,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests().antMatchers(
                 		"/users/**",
+                		"/api/**",
                          "/",
                          "/userInfo/find-password",
                          "/translation",
