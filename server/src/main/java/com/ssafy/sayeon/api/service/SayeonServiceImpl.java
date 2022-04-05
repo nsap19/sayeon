@@ -218,7 +218,7 @@ public class SayeonServiceImpl implements SayeonService {
 	private static String getTime(String sentdate, double distance, float waitingtime) throws ParseException {
 
 		// 2022-03-31 14:58:23
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		sentdate = sentdate.replaceAll("[T]", " ").substring(0, 19);
 		Date date = format.parse(sentdate);
 
@@ -252,9 +252,10 @@ public class SayeonServiceImpl implements SayeonService {
 		String currentTime = format.format(now);
 
 		int distToSecond = (int) (distance / 100 * 600);
-		int hour = distToSecond / 3600;
-		int min = distToSecond % 3600 / 60;
-		int sec = distToSecond % 3600 % 60;
+		int waitSecond = (int) (distToSecond * waitingTime);
+		int hour = waitSecond / 3600;
+		int min = waitSecond % 3600 / 60;
+		int sec = waitSecond % 3600 % 60;
 
 		String receivedDate = hour + ":" + min + ":" + sec;
 		System.out.println(currentTime + " " + receivedDate);
