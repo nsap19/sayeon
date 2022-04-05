@@ -13,7 +13,7 @@ const DoneDialog: React.FC<{
   const navigate = useNavigate();
   const handleClose = () => {
     if (receiver) {
-      navigate("/story-talk-list");
+      navigate("/story-talk");
     } else {
       navigate("/");
     }
