@@ -132,7 +132,8 @@ const SelectImage: React.FC<{
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          {"다른 사진을 선택해주세요."}
+          <p>민감한 사진으로 확인되었습니다.</p>
+          <p>다른 사진을 골라주세요.</p>
         </Alert>
       </Snackbar>
 
