@@ -13,6 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         .allowedOrigins("http://localhost:3000","http://j6a204.p.ssafy.io:3000","http://j6a204.p.ssafy.io")
         .allowedHeaders("*")
         .maxAge(3600) // 3600초 동안 preflight 결과를 캐시에 저장
-        .allowedMethods("*");
+        .allowedMethods("*")
+        .allowedOriginPatterns("*");
   }
 }
