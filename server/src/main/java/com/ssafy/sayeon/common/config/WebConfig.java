@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-        .allowedOrigins("http://localhost:3000","http://http://j6a204.p.ssafy.io/3000","http://http://j6a204.p.ssafy.io")
+        .allowedOrigins("http://localhost:3000","http://j6a204.p.ssafy.io/3000","http://j6a204.p.ssafy.io")
         .maxAge(3600) // 3600초 동안 preflight 결과를 캐시에 저장
         .allowedMethods("*");
   }
