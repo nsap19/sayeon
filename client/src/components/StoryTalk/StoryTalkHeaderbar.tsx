@@ -53,7 +53,7 @@ const StoryTalkHeaderbar: React.FC<{
       />
       <DivStyle>
         <Grid container alignItems="center">
-          <Grid item xs={4} sx={{ textAlign: "left" }}>
+          <Grid item xs={2} sx={{ textAlign: "left" }}>
             <SvgIcon
               sx={{ margin: "5px 0 0 8px" }}
               component={ArrowLeft}
@@ -67,7 +67,7 @@ const StoryTalkHeaderbar: React.FC<{
 
           <Grid
             item
-            xs={4}
+            xs={8}
             container
             alignItems="center"
             justifyContent="center"
@@ -82,7 +82,7 @@ const StoryTalkHeaderbar: React.FC<{
             <span>{headerName}</span>
           </Grid>
 
-          <Grid item xs={4} sx={{ textAlign: "right" }}>
+          <Grid item xs={2} sx={{ textAlign: "right" }}>
             <SvgIcon
               sx={{ margin: "5px 12px 0 0" }}
               component={Send}

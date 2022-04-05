@@ -105,7 +105,7 @@ const Main: React.FC = () => {
           </Stack>
           <Box
             sx={{
-              height: "100%",
+              height: "85%",
               width: "100%",
               display: "flex",
               justifyContent: "end",
