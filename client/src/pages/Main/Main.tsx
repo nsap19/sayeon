@@ -17,7 +17,7 @@ const Main: React.FC = () => {
       })
       .then((res) => {
         console.log(res);
-        setRecentStories(res.data.data);
+        setRecentStories(res.data.data.reverse());
       })
       .catch((err) => console.log(err));
   };

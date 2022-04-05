@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import StoryTalkHeaderbar from "components/StoryTalk/StoryTalkHeaderbar";
 import { Box, CircularProgress, Stack, Fab, SvgIcon } from "@mui/material";
@@ -42,17 +42,18 @@ interface OtherUserInfoType {
 const StoryTalk: React.FC<{
   myInfo: MyInfoType;
   otherUserInfo: OtherUserInfoType;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setStoryTalkOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ myInfo, otherUserInfo, setOpen, setStoryTalkOpen }) => {
+}> = ({ myInfo, otherUserInfo, setStoryTalkOpen }) => {
   const navigate = useNavigate();
   const [storyTalk, setStoryTalk] = useState<Story[]>([]);
 
   const imageTypes: ("MINI" | "SQUARE" | "WIDE")[] = ["MINI", "WIDE", "SQUARE"];
 
+  const endRef = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => {
-    document.getElementById("story-talk")!.scrollTop =
-      document.getElementById("story-talk")!.scrollHeight;
+    if (endRef.current) {
+      endRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const getStoryTalk = () => {
@@ -89,21 +90,14 @@ const StoryTalk: React.FC<{
 
   return (
     <>
-      <StoryTalkHeaderbar
-        headerName={otherUserInfo?.nickname}
-        otherUserInfo={otherUserInfo}
-        otherUserId={otherUserInfo.id}
-        setOpen={setOpen}
-        setStoryTalkOpen={setStoryTalkOpen}
-      />
       <Box
         sx={{
-          height: "calc(100% - 70px)",
+          height: "100%",
           overflowY: "auto",
         }}
         id="story-talk"
       >
-        {storyTalk.length ? (
+        {storyTalk.length > 0 ? (
           <>
             {storyTalk.map((story) => (
               <Box
@@ -139,9 +133,10 @@ const StoryTalk: React.FC<{
             <CircularProgress />
           </Stack>
         )}
+        <div ref={endRef} />
       </Box>
 
-      {storyTalk.length && (
+      {storyTalk.length > 0 && (
         <Fab
           sx={{
             color: "white",
