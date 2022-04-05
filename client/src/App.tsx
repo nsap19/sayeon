@@ -12,6 +12,7 @@ import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
 import StoryTalkList from "./pages/StoryTalk/StoryTalkList";
 import StoryTalk from "pages/StoryTalk/StoryTalk";
+import Landing from "pages/Landing/Landing";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AuthRoute from "AuthRoute";
 import IsAuthRoute from "IsAuthRoute";
@@ -83,6 +84,7 @@ function App() {
           <Route path="/password" element={<Password />}></Route>
         </Route>
         <Route path="/*" element={<NotFound />} />
+        <Route path="/landing" element={<Landing />} />
       </Routes>
       <BottomNavbar />
     </ThemeProvider>

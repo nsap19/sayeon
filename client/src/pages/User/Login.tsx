@@ -13,7 +13,7 @@ import Headerbar from "components/Headerbar";
 
 interface CustomizedState {
   openSnackbar: boolean;
-  content: String;
+  type: String;
 }
 
 export default function Login() {
@@ -77,9 +77,7 @@ export default function Login() {
       <Headerbar headerName={"로그인"} />
       <Snackbar open={snackbar} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          {state.content === "register" && "회원가입이 완료되었습니다."}
-          {state.content === "password" &&
-            "새 비밀번호가 이메일로 전송되었습니다."}
+          {"모르겠다"}
         </Alert>
       </Snackbar>
       <Snackbar
