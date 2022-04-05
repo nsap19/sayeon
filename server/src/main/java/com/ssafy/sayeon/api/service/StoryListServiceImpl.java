@@ -15,8 +15,8 @@ import com.ssafy.sayeon.model.repository.ReceivedStroryRepository;
 import com.ssafy.sayeon.model.repository.SentStroryRepository;
 
 @Service("sayeonListService")
-public class StoryListServiceImpl implements StoryListService{
-	
+public class StoryListServiceImpl implements StoryListService {
+
 	@Autowired
 	MemberProfileRepository memberProfileRepository;
 	@Autowired
@@ -37,8 +37,7 @@ public class StoryListServiceImpl implements StoryListService{
 	@Override
 	public Page<ReceivedStory> getReceivedStoryList(Member receiver, Integer page, Integer size) {
 		// TODO Auto-generated method stub
-		PageRequest pageRequest = PageRequest.of(page,size, Sort.by("dateReceived").ascending()); //기본적으로 최신순으로 정렬
-
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by("dateReceived").ascending()); // 기본적으로 최신순으로 정렬
 		return receivedStroryRepository.findByReceiver(receiver, pageRequest);
 	}
 
@@ -57,9 +56,9 @@ public class StoryListServiceImpl implements StoryListService{
 	@Override
 	public Page<SentStory> getSentStoryByPageRequest(Member sender, Integer page, Integer size) {
 		// TODO Auto-generated method stub
-		
-		PageRequest pageRequest = PageRequest.of(page,size, Sort.by("dateSent").ascending()); //기본적으로 최신순으로 정렬
-		return sentStroryRepository.findBySender(sender,pageRequest);
+
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by("dateSent").ascending()); // 기본적으로 최신순으로 정렬
+		return sentStroryRepository.findBySender(sender, pageRequest);
 	}
 
 	@Override
