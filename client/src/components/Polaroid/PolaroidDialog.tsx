@@ -25,6 +25,7 @@ const PolaroidDialog: React.FC<{
   imageUrl: string;
   senderNickname: string;
   hourDifference: number;
+  keywords: string[];
 }> = ({
   handleClose,
   handleClickOpen,
@@ -34,6 +35,7 @@ const PolaroidDialog: React.FC<{
   imageUrl,
   senderNickname,
   hourDifference,
+  keywords,
 }) => {
   const [flip, setFlip] = useState(false);
   const [dialogHeight, setDialogHeight] = useState(0);
@@ -86,8 +88,6 @@ const PolaroidDialog: React.FC<{
     position: absolute;
   `;
 
-  const keywords = ["키워드1", "키워드2", "키워드3", "키워드4"];
-
   return (
     <Dialog
       PaperProps={{
@@ -128,8 +128,17 @@ const PolaroidDialog: React.FC<{
           />
           {hidden && (
             <DialogHiddenAlert>
-              <p>{hourDifference}시간 뒤에</p>
-              <p>사연이 열립니다.</p>
+              {hourDifference > 0 ? (
+                <>
+                  <p>{hourDifference}시간 뒤에</p>
+                  <p>사연이 열립니다.</p>
+                </>
+              ) : (
+                <>
+                  <p>1시간 이내로</p>
+                  <p>사연이 열립니다.</p>
+                </>
+              )}
             </DialogHiddenAlert>
           )}
           <DialogNickname>{senderNickname}</DialogNickname>
