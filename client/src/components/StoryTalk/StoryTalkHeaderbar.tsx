@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { SvgIcon, Grid } from "@mui/material";
 import { ReactComponent as ArrowLeft } from "assets/icon/arrow-left.svg";
@@ -24,22 +24,30 @@ const StoryTalkHeaderbar: React.FC<{
   headerName: string | undefined;
   otherUserInfo: { profilePic: number; nickname: string } | undefined;
   otherUserId: string | undefined;
-}> = ({ headerName, otherUserInfo, otherUserId }) => {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setStoryTalkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({
+  headerName,
+  otherUserInfo,
+  otherUserId,
+  setOpen,
+  setStoryTalkOpen,
+}) => {
   const navigate = useNavigate();
 
-  const [open, setOpen] = React.useState(false);
+  const [openRequestDialog, setOpenRequestDialog] = useState(false);
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenRequestDialog(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenRequestDialog(false);
   };
 
   return (
     <>
       <RequestDialog
-        open={open}
+        open={openRequestDialog}
         onClose={handleClose}
         otherUserId={otherUserId}
       />
@@ -50,7 +58,10 @@ const StoryTalkHeaderbar: React.FC<{
               sx={{ margin: "5px 0 0 8px" }}
               component={ArrowLeft}
               inheritViewBox
-              onClick={() => navigate(-1)}
+              onClick={() => {
+                setStoryTalkOpen(false);
+                console.log("what");
+              }}
             />
           </Grid>
 
@@ -63,7 +74,7 @@ const StoryTalkHeaderbar: React.FC<{
           >
             {otherUserInfo !== undefined && (
               <img
-                src={require(`../../assets/images/profile/Avatars-${otherUserInfo.profilePic}.png`)}
+                src={require(`../../assets/images/profile/Avatar-${otherUserInfo.profilePic}.svg`)}
                 alt="profile pic"
                 style={{ width: "30px", marginRight: "10px" }}
               />

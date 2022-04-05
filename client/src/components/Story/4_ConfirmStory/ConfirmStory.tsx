@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { selectCreateStory } from "../../../store/createStory";
 import { useAppSelector } from "../../../store/hooks";
 import Polaroid from "../Polaroid";
-import { Box, Stack, Chip, Snackbar, Alert } from "@mui/material";
+import { Box, Stack, Chip, Snackbar, Alert, Divider } from "@mui/material";
 import axios from "axios";
 import { receiverState } from "../types";
 import { useNavigate } from "react-router-dom";
@@ -10,11 +10,11 @@ import { StyledButton, StyledP, StyledStack } from "../StyledComponent";
 import Dove from "assets/images/waiting/dove.png";
 import Bike from "assets/images/waiting/bike.png";
 import Postbox from "assets/images/waiting/postbox.png";
+import DoneDialog from "./DoneDialog";
 
 const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
   const { image, selectedKeywords, waiting } =
     useAppSelector(selectCreateStory);
-  const navigate = useNavigate();
 
   const onClick = () => {
     const data =
@@ -40,11 +40,7 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
       })
       .then((res) => {
         console.log(res);
-        if (receiver) {
-          navigate("/story-talk-list", { state: { openSnackbar: true } });
-        } else {
-          navigate("/", { state: { openSnackbar: true } });
-        }
+        setDoneDialog(true);
       })
       .catch((err) => {
         console.log(err);
@@ -66,6 +62,7 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
     setOpen(false);
   };
 
+  const [doneDialog, setDoneDialog] = useState(false);
   return (
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
@@ -99,33 +96,50 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
               width: "290px",
               boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.05)",
               margin: "20px",
-              padding: "20px",
+              padding: "10px 20px",
             }}
           >
-            {waiting > 0 && (
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="center"
-                spacing={2}
-                sx={{ margin: "10px" }}
-              >
-                <img
-                  style={{ width: "50px" }}
-                  src={waitingImage[waiting]}
-                  alt="#"
-                />
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              spacing={2}
+              sx={{ margin: "10px" }}
+            >
+              {waiting > 0 ? (
+                <>
+                  <img
+                    style={{ width: "50px" }}
+                    src={waitingImage[waiting]}
+                    alt="#"
+                  />
+                  <Stack
+                    direction="column"
+                    sx={{ textAlign: "left", width: "150px" }}
+                  >
+                    <p style={{ fontSize: "12px" }}>사연이 도착하는데</p>
+                    <p style={{ fontSize: "12px" }}>XX시간이 걸립니다.</p>
+                  </Stack>
+                </>
+              ) : (
+                <>
+                  <img
+                    style={{ width: "50px" }}
+                    src={require("../../../assets/images/waiting/letter.png")}
+                    alt="#"
+                  />
+                  <Stack
+                    direction="column"
+                    sx={{ textAlign: "left", width: "150px" }}
+                  >
+                    <p style={{ fontSize: "12px" }}>비슷한 사연과 연결되면</p>
+                    <p style={{ fontSize: "12px" }}>사연이 전달됩니다.</p>
+                  </Stack>
+                </>
+              )}
+            </Stack>
 
-                <Stack
-                  direction="column"
-                  sx={{ textAlign: "left", width: "150px" }}
-                >
-                  <p style={{ fontSize: "12px" }}>사연이 도착하는데</p>
-                  <p style={{ fontSize: "12px" }}>XX시간이 걸립니다.</p>
-                </Stack>
-              </Stack>
-            )}
-
+            <Divider sx={{ color: "#8C8888" }}></Divider>
             <Stack direction="row" sx={{ margin: "10px", flexWrap: "wrap" }}>
               {selectedKeywords.map((keyword) => (
                 <Chip
@@ -150,6 +164,12 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
           </StyledButton>
         </Box>
       </StyledStack>
+
+      <DoneDialog
+        setDoneDialog={setDoneDialog}
+        doneDialog={doneDialog}
+        receiver={receiver}
+      />
     </>
   );
 };

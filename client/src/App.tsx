@@ -47,6 +47,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           bottom: "78px",
+          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
         },
       },
     },
@@ -63,9 +64,9 @@ function App() {
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/story-list" element={<StoryList />}></Route>
           {/* <Route path="/change-password" element={<ChangePassword />} /> */}
-          <Route path="/story-talk/list" element={<StoryTalkList />} />
+          <Route path="/story-talk" element={<StoryTalkList />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
-          <Route
+          {/* <Route
             path="/story-talk/:userNickname"
             element={
               <StoryTalk
@@ -73,7 +74,7 @@ function App() {
                 secondId={"de9322ee-03bb-47e3-8f7a-9c38dc3d59bb"}
               />
             }
-          />
+          /> */}
         </Route>
         <Route path="/" element={<IsAuthRoute />}>
           <Route path="/register" element={<Register />} />

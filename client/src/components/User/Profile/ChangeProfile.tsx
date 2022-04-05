@@ -91,15 +91,10 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
               onClick={() => handleListItemClick(profilePic)}
               key={profilePic}
             >
-              {/* <img
-              src={`/images/profile/Avatars-${profilePic}.png`}
-              alt="profile pic"
-              style={{ width: "50px" }}
-            /> */}
               <img
-                src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
+                src={require(`../../../assets/images/profile/Avatar-${profilePic}.svg`)}
                 alt="profile pic"
-                style={{ width: "50px", margin: "auto" }}
+                style={{ width: "100%", margin: "auto" }}
               />
             </ImageListItem>
           ))}
@@ -142,7 +137,7 @@ const ChangeProfile = () => {
   return (
     <div style={{ position: "relative" }}>
       <img
-        src={require(`../../../assets/images/profile/Avatars-${profilePic}.png`)}
+        src={require(`../../../assets/images/profile/Avatar-${profilePic}.svg`)}
         alt="profile pic"
         style={{ width: "60px" }}
       />

@@ -10,21 +10,7 @@ interface CustomizedState {
 }
 
 const Main: React.FC = () => {
-  // 사연 전송 성공시 스낵바
-  const location = useLocation();
-  const state = location.state as CustomizedState;
-  const [snackbar, setSnackbar] = useState(state ? state.openSnackbar : false);
   const [recentStories, setRecentStories] = useState<any[]>([]);
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackbar(false);
-  };
 
   const getRecentStories = () => {
     axios
@@ -47,24 +33,17 @@ const Main: React.FC = () => {
 
   return (
     <>
-      <Snackbar open={snackbar} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          {"사연이 전송되었습니다."}
-        </Alert>
-      </Snackbar>
-
       <Stack
         direction="column"
         justifyContent="flex-end"
         alignItems="center"
-        spacing={1.5}
-        sx={{ height: "calc(100% - 56px)", padding: "20px 0 10px" }}
+        sx={{ height: "calc(100% - 70px)" }}
       >
         <Logo style={{ width: "60%", height: "auto" }} />
 
         <Box
           sx={{
-            width: "85%",
+            width: "80%",
             backgroundColor: "white",
             borderRadius: "20px",
             boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.05)",
@@ -72,11 +51,13 @@ const Main: React.FC = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            margin: "30px 20px 20px",
           }}
         >
-          <p style={{ padding: "40px 40px 20px" }}>
-            당신의 사연을 사진에 담아 보내고 비슷한 사연을 답장으로 받아보세요.
-          </p>
+          <div style={{ padding: "40px 40px 15px", textAlign: "center" }}>
+            <p>사진으로 전하는 당신의 사연,</p>
+            <p>지금 보내보세요.</p>
+          </div>
           <Button
             href="/send"
             sx={{
@@ -105,15 +86,22 @@ const Main: React.FC = () => {
           <Stack
             direction="row"
             justifyContent="space-between"
+            alignItems="end"
             sx={{
               width: "85%",
-              margin: "10px 0",
+              margin: "10px",
             }}
           >
             <p>최근 받은 사연</p>
-            <Link href="/story-list" underline="none">
-              더보기
-            </Link>
+            {recentStories.length ? (
+              <Link
+                href="/story-list"
+                underline="none"
+                sx={{ fontSize: "14px" }}
+              >
+                더보기
+              </Link>
+            ) : null}
           </Stack>
           <Box
             sx={{
@@ -123,27 +111,42 @@ const Main: React.FC = () => {
               justifyContent: "end",
             }}
           >
-            <Stack
-              direction="row"
-              justifyContent=""
-              alignItems="center"
-              spacing={2}
-              sx={{ width: "92%", overflowX: "auto", height: "100%" }}
-            >
-              {recentStories.map((recentStory) => (
-                <Box
-                  sx={{ width: "auto", height: "90%" }}
-                  key={recentStory.storyId}
-                >
-                  <Polaroid
-                    imageUrl={recentStory.image}
-                    imageType={recentStory.imageType}
-                    senderNickname={recentStory.senderNickname}
-                    dateReceived={recentStory.dateReceived}
-                  />
-                </Box>
-              ))}
-            </Stack>
+            {recentStories.length ? (
+              <Stack
+                direction="row"
+                justifyContent=""
+                alignItems="start"
+                spacing={2}
+                sx={{ width: "92%", overflowX: "auto", height: "100%" }}
+              >
+                {recentStories.map((recentStory) => (
+                  <Box
+                    sx={{ width: "auto", height: "90%" }}
+                    key={recentStory.storyId}
+                  >
+                    <Polaroid
+                      imageUrl={recentStory.image}
+                      imageType={recentStory.imageType}
+                      senderNickname={recentStory.senderNickname}
+                      dateReceived={recentStory.dateReceived}
+                    />
+                  </Box>
+                ))}
+              </Stack>
+            ) : (
+              <p
+                style={{
+                  alignSelf: "center",
+                  margin: "0 auto",
+                  textAlign: "center",
+                  color: "#8c8888",
+                  fontSize: "14px",
+                }}
+              >
+                <p>아직 주고 받은 사연이 없습니다.</p>
+                <p>지금 바로 사연을 보내보세요!</p>
+              </p>
+            )}
           </Box>
         </Box>
       </Stack>

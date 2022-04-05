@@ -11,7 +11,7 @@ const StyledButton = styled(Button)({
 });
 
 const StyledP = styled("p")({
-  color: "#8C8888",
+  color: "#272727",
   margin: "10px 0 0 20px",
   fontFamily: "S-CoreDream-6Bold",
   alignSelf: "start",

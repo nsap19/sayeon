@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StoryTalkHeaderbar from "components/StoryTalk/StoryTalkHeaderbar";
-import { Button, Box, CircularProgress, Stack } from "@mui/material";
+import {
+  Button,
+  Box,
+  CircularProgress,
+  Stack,
+  Fab,
+  SvgIcon,
+} from "@mui/material";
 import Polaroid from "components/Story/Polaroid";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as Send } from "assets/icon/send.svg";
 
 interface Story {
   storyId: number;
@@ -16,64 +24,37 @@ interface Story {
   dateReceived: string;
 }
 
-const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
-  firstId,
-  secondId,
-}) => {
-  const navigate = useNavigate();
-  const [storyTalk, setStoryTalk] = useState<Story[]>([]);
-  const [userInfo, setUserInfo] = useState<{ id: string; nickname: string }>({
-    id: "",
-    nickname: "",
-  });
-  const [otherUserId, setotherUserId] = useState<string>("");
-  const [otherUserInfo, setOtherUserInfo] = useState<{
+interface MyInfoType {
+  email: string;
+  memberProfile: {
+    latitude: number;
+    location: string;
+    longitude: number;
     nickname: string;
     profilePic: number;
-    withdrawal: string;
-  }>();
+  };
+  password: string;
+  userId: string;
+  withdrawal: string;
+}
+
+interface OtherUserInfoType {
+  id: string;
+  nickname: string;
+  profilePic: number;
+  withdrawal: string;
+}
+
+const StoryTalk: React.FC<{
+  myInfo: MyInfoType;
+  otherUserInfo: OtherUserInfoType;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setStoryTalkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ myInfo, otherUserInfo, setOpen, setStoryTalkOpen }) => {
+  const navigate = useNavigate();
+  const [storyTalk, setStoryTalk] = useState<Story[]>([]);
 
   const imageTypes: ("MINI" | "SQUARE" | "WIDE")[] = ["MINI", "WIDE", "SQUARE"];
-
-  const getUserId = () => {
-    axios
-      .get("userInfo/myinfo", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setUserInfo({
-          id: res.data.data.userId,
-          nickname: res.data.data.memberProfile.nickname,
-        });
-        const otherUserId =
-          res.data.data.userId === firstId ? secondId : firstId;
-        setotherUserId(otherUserId);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getOtherUserInfo = () => {
-    console.log(otherUserId);
-    axios
-      .get("userInfo", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          userId: otherUserId,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setOtherUserInfo({
-          nickname: res.data.data.memberProfile.nickname,
-          profilePic: res.data.data.memberProfile.profilePic,
-          withdrawal: res.data.data.memberProfile.withdrawal,
-        });
-      })
-      .catch((err) => console.log(err));
-  };
 
   const scrollToBottom = () => {
     document.getElementById("story-talk")!.scrollTop =
@@ -84,7 +65,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
     axios
       .get(`story-talk`, {
         headers: {
-          userId: otherUserId,
+          userId: otherUserInfo.id,
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
@@ -108,25 +89,22 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
   };
 
   useEffect(() => {
-    getUserId();
+    getStoryTalk();
     scrollToBottom();
-
-    if (otherUserId) {
-      getOtherUserInfo();
-      getStoryTalk();
-    }
-  }, [otherUserId]);
+  }, [otherUserInfo]);
 
   return (
     <>
       <StoryTalkHeaderbar
         headerName={otherUserInfo?.nickname}
         otherUserInfo={otherUserInfo}
-        otherUserId={otherUserId}
+        otherUserId={otherUserInfo.id}
+        setOpen={setOpen}
+        setStoryTalkOpen={setStoryTalkOpen}
       />
       <Box
         sx={{
-          height: "calc(100% - 70px - 70px)",
+          height: "calc(100% - 70px)",
           overflowY: "auto",
         }}
         id="story-talk"
@@ -139,7 +117,7 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
                 sx={{
                   width: "70%",
                   margin:
-                    otherUserId === story.senderId
+                    otherUserInfo.id === story.senderId
                       ? "10px auto 10px 10px"
                       : "10px 10px 10px auto",
                 }}
@@ -148,9 +126,9 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
                   imageUrl={story.image}
                   imageType={imageTypes[parseInt(story.imageType)]}
                   senderNickname={
-                    otherUserId === story.senderId && otherUserInfo && userInfo
+                    otherUserInfo.id === story.senderId
                       ? otherUserInfo.nickname
-                      : userInfo.nickname
+                      : myInfo.memberProfile.nickname
                   }
                   dateReceived={story.dateReceived}
                 />
@@ -161,44 +139,39 @@ const StoryTalk: React.FC<{ firstId: string; secondId: string }> = ({
           <Stack
             justifyContent="center"
             alignItems="center"
-            sx={{ height: "calc(100% - 60px )" }}
+            sx={{ height: "calc(100% - 70px)" }}
           >
             <CircularProgress />
           </Stack>
         )}
-
-        <Box sx={{ textAlign: "center", margin: "10px" }}>
-          {storyTalk.length && (
-            <Button
-              href="/send"
-              sx={{
-                color: "white",
-                fontFamily: "S-CoreDream-4Regular",
-                margin: "5px 0 5px",
-                width: "100%",
-                height: "50px",
-                borderRadius: "15px",
-              }}
-              disableElevation={true}
-              size="large"
-              variant="contained"
-              onClick={() =>
-                navigate("/send", {
-                  state: { id: otherUserId, info: otherUserInfo },
-                })
-              }
-              disabled={
-                otherUserInfo?.withdrawal === "Y" ||
-                storyTalk.slice(-1)[0].senderId === userInfo.id
-                  ? true
-                  : false
-              }
-            >
-              답장하기
-            </Button>
-          )}
-        </Box>
       </Box>
+
+      {storyTalk.length && (
+        <Fab
+          sx={{
+            color: "white",
+            position: "fixed",
+            bottom: "78px",
+            right: "8px",
+            boxShadow: "0px 5px 10px rgb(0 0 0 / 10%)",
+          }}
+          color="primary"
+          href="/send"
+          onClick={() =>
+            navigate("/send", {
+              state: { id: otherUserInfo.id, info: otherUserInfo },
+            })
+          }
+          disabled={
+            otherUserInfo?.withdrawal === "Y" ||
+            storyTalk.slice(-1)[0].senderId === myInfo.userId
+              ? true
+              : false
+          }
+        >
+          <SvgIcon component={Send} inheritViewBox />
+        </Fab>
+      )}
     </>
   );
 };

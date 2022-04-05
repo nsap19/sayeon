@@ -15,6 +15,22 @@ const computerVisionClient = new ComputerVisionClient(
 export const detectKeywords = async (imageName: string) => {
   const tagsURL = `https://sayeon.s3.ap-northeast-2.amazonaws.com/upload/${imageName}`;
 
+  // is adult image
+  const adult = (
+    await computerVisionClient.analyzeImage(tagsURL, {
+      visualFeatures: ["Adult"],
+    })
+  ).adult;
+  console.log(adult);
+  if (
+    adult.adultScore.toFixed(4) >= 0.5 ||
+    adult.racyScore.toFixed(4) >= 0.5 ||
+    adult.goreScore.toFixed(4) >= 0.5
+  ) {
+    throw new Error("유해 이미지");
+  }
+
+  // Analyze URL image
   const tags = (
     await computerVisionClient.analyzeImage(tagsURL, {
       visualFeatures: ["Tags"],
