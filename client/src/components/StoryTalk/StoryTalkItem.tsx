@@ -77,23 +77,32 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
           justifyContent="start"
           spacing={2}
         >
-          {storyTalk.map(
-            (story: any) =>
-              otherUserInfo && (
-                <Box sx={{}} key={story.storyId}>
-                  <Polaroid
-                    imageUrl={story.image}
-                    imageType={story.imageType}
-                    senderNickname={
-                      story.senderId === firstId
-                        ? myInfo.memberProfile.nickname
-                        : otherUserInfo.nickname
-                    }
-                    dateReceived={story.dateReceived}
-                  />
-                </Box>
-              )
-          )}
+          {storyTalk
+            .sort(
+              (
+                a: { dateReceived: string; dateSent: string },
+                b: { dateReceived: string; dateSent: string }
+              ) =>
+                b.dateReceived.localeCompare(a.dateReceived) ||
+                b.dateSent.localeCompare(a.dateSent)
+            )
+            .map(
+              (story: any) =>
+                otherUserInfo && (
+                  <Box sx={{}} key={story.storyId}>
+                    <Polaroid
+                      imageUrl={story.image}
+                      imageType={story.imageType}
+                      senderNickname={
+                        story.senderId === firstId
+                          ? myInfo.memberProfile.nickname
+                          : otherUserInfo.nickname
+                      }
+                      dateReceived={story.dateReceived}
+                    />
+                  </Box>
+                )
+            )}
         </Stack>
       </Box>
     </Box>
