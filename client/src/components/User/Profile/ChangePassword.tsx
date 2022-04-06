@@ -11,7 +11,6 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { StyledTextField } from "../Register/StyledComponent";
-import { ReactComponent as Close } from "../../../assets/icon/close.svg";
 
 
 interface Props {
@@ -75,6 +74,10 @@ const ChangePassword = (props: Props) => {
     setOpen(false);
   };
 
+  const handleCloseDialog = () => {
+    props.setOpenDialog(false);
+  }
+
 
   return (
     <>
@@ -95,14 +98,24 @@ const ChangePassword = (props: Props) => {
           </Alert>
         </Snackbar>
 
-        <Dialog open={props.openDialog} onClose={handleClose} disableScrollLock={ true }>
+        <Dialog 
+          open={props.openDialog} 
+          onClose={handleCloseDialog} 
+          disableScrollLock={ true }
+          PaperProps={{
+            style: { borderRadius: 20, width: "300px", padding: "5%" },
+          }}  
+        >
           <Stack 
             direction="row"
-            justifyContent="space-around"
+            justifyContent="center"
             alignItems="center"
           >
-            <DialogTitle style={{ marginLeft: "30px"}}>비밀번호 변경</DialogTitle>
-            <Close onTouchEnd={() => props.setOpenDialog(false)} />
+            <DialogTitle 
+              sx={{ fontSize: "18px", fontFamily: "S-CoreDream-4Regular" }}  
+            >
+              비밀번호 변경
+            </DialogTitle>
           </Stack>
           <Stack direction="column" alignItems="center" justifyContent="center">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -188,6 +201,7 @@ const ChangePassword = (props: Props) => {
                       height: "50px",
                       borderRadius: 31.5,
                     }}
+                    disableElevation={true}
                     size="large"
                     variant="contained"
                     type="submit"

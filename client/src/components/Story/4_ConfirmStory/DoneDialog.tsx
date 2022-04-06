@@ -13,7 +13,7 @@ const DoneDialog: React.FC<{
   const navigate = useNavigate();
   const handleClose = () => {
     if (receiver) {
-      navigate("/story-talk-list");
+      navigate("/story-talk");
     } else {
       navigate("/");
     }
@@ -26,6 +26,8 @@ const DoneDialog: React.FC<{
         style: {
           borderRadius: 30,
           padding: "50px 0",
+          boxShadow:
+            "0px 11px 15px -7px rgb(0 0 0 / 5%), 0px 24px 38px 3px rgb(0 0 0 / 7%), 0px 9px 46px 8px rgb(0 0 0 / 4%)",
         },
       }}
       onClose={handleClose}

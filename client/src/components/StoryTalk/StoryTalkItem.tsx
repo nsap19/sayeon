@@ -1,26 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Divider, Box, Stack } from "@mui/material";
-import StoryTalk from "pages/StoryTalk/StoryTalk";
-import Polaroid from "components/Story/Polaroid";
+import { Box, Stack } from "@mui/material";
+import Polaroid from "components/Polaroid/Polaroid";
 
-interface Story {
-  storyId: number;
-  image: string;
-  imageType: "square" | "mini" | "wide";
-  waiting: number;
-  senderId: string;
-  receiverId: string;
-  dateSent: string;
-  dateReceived: string;
-}
-
-export default function StoryTalkItem({
-  storyTalk,
-  myInfo,
-  storyTalkOpen,
-  setStoryTalkOpen,
-}: any) {
+export default function StoryTalkItem({ storyTalk, myInfo }: any) {
   // STATE
   const firstId = myInfo.userId;
   const secondId = () => {
@@ -35,7 +18,6 @@ export default function StoryTalkItem({
     profilePic: number;
     withdrawal: string;
   }>({ id: "", nickname: "", profilePic: 0, withdrawal: "" });
-  const [open, setOpen] = useState(false);
 
   // 정보 요청
   const getOtherUserInfo = () => {
@@ -61,69 +43,59 @@ export default function StoryTalkItem({
     getOtherUserInfo();
   }, []);
 
-  const openStoryTalk = () => {
-    setStoryTalkOpen(true);
-  };
-
   return (
-    <>
-      {!storyTalkOpen ? (
-        <Box sx={{ padding: "25px 30px" }}>
-          <Stack direction="column" alignItems="start" spacing={2}>
-            <div onClick={openStoryTalk}>
-              {otherUserInfo && (
-                <img
-                  src={require(`../../assets/images/profile/Avatar-${otherUserInfo?.profilePic}.svg`)}
-                  alt="profile pic"
-                  style={{ width: "30px", margin: "10px 10px -10px" }}
-                />
-              )}
-              {otherUserInfo?.nickname}
-            </div>
-            <Box
-              sx={{
-                width: "40%",
-                height: "40%",
-                display: "flex",
-                justifyContent: "start",
-              }}
-            >
-              <Stack direction="row" justifyContent="start" spacing={2}>
-                {storyTalk.map(
-                  (story: any) =>
-                    otherUserInfo && (
-                      <div key={story.storyId} onClick={openStoryTalk}>
-                        <Polaroid
-                          imageUrl={story.image}
-                          imageType={story.imageType}
-                          senderNickname={
-                            story.senderId === firstId
-                              ? myInfo.memberProfile.nickname
-                              : otherUserInfo.nickname
-                          }
-                          dateReceived={story.dateReceived}
-                        />
-                      </div>
-                    )
-                )}
-              </Stack>
-            </Box>
-          </Stack>
-          <Divider
-            variant="fullWidth"
-            flexItem
-            light
-            sx={{ margin: "12px auto" }}
+    <Box sx={{ height: "200px", margin: "20px 0 5px 20px" }}>
+      <Stack
+        direction="row"
+        justifyContent="start"
+        alignItems="center"
+        sx={{ height: "20%", paddingBottom: "10px", marginLeft: "10px" }}
+      >
+        {otherUserInfo && (
+          <img
+            src={require(`../../assets/images/profile/Avatar-${otherUserInfo?.profilePic}.svg`)}
+            alt="profile pic"
+            style={{
+              maxHeight: "80px",
+              height: "100%",
+            }}
           />
-        </Box>
-      ) : (
-        <StoryTalk
-          myInfo={myInfo}
-          otherUserInfo={otherUserInfo}
-          setOpen={setOpen}
-          setStoryTalkOpen={setStoryTalkOpen}
-        />
-      )}
-    </>
+        )}
+        <span style={{ marginLeft: "10px" }}>{otherUserInfo?.nickname}</span>
+      </Stack>
+      <Box
+        sx={{
+          height: "80%",
+          overflowX: "auto",
+          display: "flex",
+          justifyContent: "start",
+        }}
+      >
+        <Stack
+          sx={{ height: "85%" }}
+          direction="row"
+          justifyContent="start"
+          spacing={2}
+        >
+          {storyTalk.map(
+            (story: any) =>
+              otherUserInfo && (
+                <Box sx={{}} key={story.storyId}>
+                  <Polaroid
+                    imageUrl={story.image}
+                    imageType={story.imageType}
+                    senderNickname={
+                      story.senderId === firstId
+                        ? myInfo.memberProfile.nickname
+                        : otherUserInfo.nickname
+                    }
+                    dateReceived={story.dateReceived}
+                  />
+                </Box>
+              )
+          )}
+        </Stack>
+      </Box>
+    </Box>
   );
 }
