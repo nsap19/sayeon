@@ -38,10 +38,10 @@ const Intro: React.FC = () => {
               fontFamily: "S-CoreDream-6Bold",
             }}
           >
-            <p style={{ fontSize: "26px", fontFamily: "S-CoreDream-6Bold" }}>
+            <p style={{ fontSize: "26px", fontFamily: "S-CoreDream-3Light" }}>
               사진으로 전하는
             </p>
-            <p style={{ fontSize: "26px", fontFamily: "S-CoreDream-6Bold" }}>
+            <p style={{ fontSize: "26px", fontFamily: "S-CoreDream-3Light" }}>
               당신의 사연,
             </p>
             <p>지금 보내보세요.</p>
@@ -65,7 +65,11 @@ const Intro: React.FC = () => {
         spacing={1}
         padding="20px"
         className={"bounce2"}
-        sx={{ opacity: inView ? 1 : 0, transition: "opacity 2s" }}
+        sx={{
+          opacity: inView ? 1 : 0,
+          transition: "opacity 2s",
+          color: "#8c8888",
+        }}
       >
         <SvgIcon component={ArrowDown} inheritViewBox />
         <span>아래로 스크롤</span>

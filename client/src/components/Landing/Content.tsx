@@ -20,7 +20,8 @@ const Content: React.FC<{
         <p
           style={{
             fontSize: "16px",
-            padding: "5px 5px 5px 0",
+            padding: "5px 5px 0 0",
+            color: "#8c8888",
           }}
         >
           {smallTitle}
@@ -33,7 +34,7 @@ const Content: React.FC<{
             fontSize: "36px",
             padding: "0 5px 10px 0",
             color: "#A4CCF3",
-            fontFamily: "S-CoreDream-6Bold",
+            // fontFamily: "S-CoreDream-6Bold",
           }}
         >
           {title}
@@ -41,7 +42,17 @@ const Content: React.FC<{
       </Slide>
 
       <Slide direction="up">
-        <p style={{ fontSize: "16px" }}>{content}</p>
+        <p
+          style={{
+            fontSize: "16px",
+            whiteSpace: "pre-wrap",
+            color: "#8c8888",
+            fontFamily: "S-CoreDream-3Light",
+            padding: "0 10px",
+          }}
+        >
+          {content}
+        </p>
       </Slide>
 
       <Slide direction="up" style={{ width: "100%", textAlign: "center" }}>

@@ -70,7 +70,7 @@ const Landing: React.FC = () => {
           <Content {...landingContent} />
         </Box>
       ))}
-      <Box sx={{ height: "30vh" }}>
+      <Box sx={{ height: "50vh" }}>
         <Footer />
       </Box>
       <Fab

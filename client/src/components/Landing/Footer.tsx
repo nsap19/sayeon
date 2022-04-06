@@ -11,16 +11,16 @@ const Footer: React.FC = () => {
         height: "100%",
         backgroundColor: "#8c8888",
         color: "#F9F9F9",
-        padding: "20px",
+        padding: "50px 20px",
       }}
     >
-      <p style={{ fontSize: "18px", fontFamily: "S-CoreDream-6Bold" }}>
+      <p style={{ fontSize: "18px", fontFamily: "S-CoreDream-4Regular" }}>
         사진으로 연결하다, 사연
       </p>
       <p
         style={{
           fontSize: "14px",
-          fontFamily: "S-CoreDream-6Bold",
+          fontFamily: "S-CoreDream-4Regular",
           marginBottom: "5px",
         }}
       >
@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
             component={Mail}
             inheritViewBox
           />
-          <span>sayeon@gmail.com</span>
+          <span>sayeonservice@gmail.com</span>
         </Stack>
         <Stack direction="row" alignItems="center">
           <SvgIcon
