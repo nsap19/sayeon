@@ -54,7 +54,7 @@ const SelectImage: React.FC<{
     }
 
     console.log(files[0].size, 4 * 1024 * 1024);
-    if (files[0].size > 4 * 1024 * 1024) {
+    if (files[0].size > 3 * 1024 * 1024) {
       setQuality((3 * 1024 * 1024) / files[0].size);
     }
 
