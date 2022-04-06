@@ -28,7 +28,6 @@ export default function StoryTalkList() {
         },
       })
       .then((response: any) => {
-        console.log(response);
         setStoryTalkList(response.data.storyTalkList);
       })
       .catch((err: any) => {
@@ -94,6 +93,7 @@ export default function StoryTalkList() {
                 : storyTalk.storyTalk[0].receiverId
             );
           }}
+          key={idx}
         >
           <StoryTalkItem
             key={idx}
