@@ -51,7 +51,7 @@ const StoryList: React.FC = () => {
         justifyContent="center"
         sx={{
           flex: "1 1 auto",
-          height: "calc(100% - 56px - 100px)",
+          height: "calc(100% - 70px - 70px - 31px)",
           overflowY: "auto",
         }}
       >

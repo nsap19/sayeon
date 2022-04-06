@@ -82,7 +82,12 @@ const StoryListSent: React.FC = () => {
   
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mx: 3 }}>
+      <Box sx={{ 
+        display: "flex", 
+        justifyContent: "space-between", 
+        mx: 3,
+      }}
+      >
         <p>보낸 사연</p>
         <p>{countSentImages}</p>
       </Box>
