@@ -17,7 +17,6 @@ import NotFound from "pages/Main/NotFound";
 import Landing from "pages/Landing";
 import { useLocation } from "react-router-dom";
 
-
 const theme = createTheme({
   palette: {
     mode: "light",
@@ -62,9 +61,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/landing" element={<Landing />} />
+        <Route path="/" element={<Landing />} />
         <Route path="/" element={<AuthRoute />}>
-          <Route path="/" element={<Main />} />
+          <Route path="/main" element={<Main />} />
           <Route path="/send" element={<CreateStory />} />
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/story-list" element={<StoryList />}></Route>

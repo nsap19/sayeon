@@ -52,6 +52,7 @@ const Intro: React.FC = () => {
             onClick={() => console.log("click")}
             size="large"
             disableElevation={true}
+            href="/main"
           >
             시작하기
           </StyledButton>
