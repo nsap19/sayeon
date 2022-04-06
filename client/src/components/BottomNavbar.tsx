@@ -1,7 +1,5 @@
 import * as React from "react";
 import {
-  Box,
-  Stack,
   BottomNavigation,
   BottomNavigationAction,
   SvgIcon,
@@ -17,52 +15,46 @@ import { useLocation } from "react-router-dom";
 export default function BottomNavbar() {
   const location = useLocation();
 
+  const refresh = (value: string) => {
+    if (value === location.pathname) {
+      window.location.reload();
+    }
+  };
+
   return (
-    // <Stack
-    //   justifyContent="center"
-    //   sx={{
-    //     position: "sticky",
-    //     bottom: 0,
-    //     height: "70px",
-    //     backgroundColor: "white",
-    //   }}
-    // >
     <BottomNavigation
       showLabels
       value={location.pathname}
       sx={{
         "& .MuiBottomNavigationAction-root": {
           minWidth: "",
-        },
-        "& .MuiSvgIcon-root": {
-          // width: "30px",
-          // height: "30px",
+          color: "#D1CFCF",
         },
         position: "sticky",
         bottom: 0,
         height: "70px",
         backgroundColor: "white",
       }}
+      onChange={(_, newValue) => {
+        refresh(newValue);
+      }}
     >
       <BottomNavigationAction
         component={Link}
-        to="/"
-        value="/"
-        sx={{ color: "#D1CFCF" }}
+        to="/main"
+        value="/main"
         icon={<SvgIcon component={Home} inheritViewBox />}
       />
       <BottomNavigationAction
         component={Link}
         to="/story-talk"
         value="/story-talk"
-        sx={{ color: "#D1CFCF" }}
         icon={<SvgIcon component={StoryTalkList} inheritViewBox />}
       />
       <BottomNavigationAction
         component={Link}
         to="/send"
         value="/send"
-        sx={{ color: "#D1CFCF" }}
         icon={
           <SvgIcon
             sx={{ width: "35px", height: "35px" }}
@@ -75,17 +67,14 @@ export default function BottomNavbar() {
         component={Link}
         to="/story-list"
         value="/story-list"
-        sx={{ color: "#D1CFCF" }}
         icon={<SvgIcon component={StoryList} inheritViewBox />}
       />
       <BottomNavigationAction
         component={Link}
         to="/profile"
         value="/profile"
-        sx={{ color: "#D1CFCF" }}
         icon={<SvgIcon component={User} inheritViewBox />}
       />
     </BottomNavigation>
-    // </Stack>
   );
 }

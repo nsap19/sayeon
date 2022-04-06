@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Stack } from "@mui/material";
-import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
+import { ReactComponent as Edit } from "assets/icon/edit.svg";
 import "./Profile.css";
 
 

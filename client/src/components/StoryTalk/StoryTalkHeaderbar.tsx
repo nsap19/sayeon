@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import { SvgIcon, Grid } from "@mui/material";
 import { ReactComponent as ArrowLeft } from "assets/icon/arrow-left.svg";
 import { ReactComponent as Send } from "assets/icon/setting.svg";
-import { useNavigate } from "react-router-dom";
 import RequestDialog from "./RequestDialog";
 
 const DivStyle = styled.div`
@@ -11,7 +10,7 @@ const DivStyle = styled.div`
   font-size: 18px;
   height: 70px;
   text-align: center;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
   z-index: 1;
@@ -24,17 +23,8 @@ const StoryTalkHeaderbar: React.FC<{
   headerName: string | undefined;
   otherUserInfo: { profilePic: number; nickname: string } | undefined;
   otherUserId: string | undefined;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setStoryTalkOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({
-  headerName,
-  otherUserInfo,
-  otherUserId,
-  setOpen,
-  setStoryTalkOpen,
-}) => {
-  const navigate = useNavigate();
-
+}> = ({ headerName, otherUserInfo, otherUserId, setStoryTalkOpen }) => {
   const [openRequestDialog, setOpenRequestDialog] = useState(false);
   const handleClickOpen = () => {
     setOpenRequestDialog(true);
@@ -53,21 +43,20 @@ const StoryTalkHeaderbar: React.FC<{
       />
       <DivStyle>
         <Grid container alignItems="center">
-          <Grid item xs={4} sx={{ textAlign: "left" }}>
+          <Grid item xs={2} sx={{ textAlign: "left" }}>
             <SvgIcon
               sx={{ margin: "5px 0 0 8px" }}
               component={ArrowLeft}
               inheritViewBox
               onClick={() => {
                 setStoryTalkOpen(false);
-                console.log("what");
               }}
             />
           </Grid>
 
           <Grid
             item
-            xs={4}
+            xs={8}
             container
             alignItems="center"
             justifyContent="center"
@@ -82,7 +71,7 @@ const StoryTalkHeaderbar: React.FC<{
             <span>{headerName}</span>
           </Grid>
 
-          <Grid item xs={4} sx={{ textAlign: "right" }}>
+          <Grid item xs={2} sx={{ textAlign: "right" }}>
             <SvgIcon
               sx={{ margin: "5px 12px 0 0" }}
               component={Send}

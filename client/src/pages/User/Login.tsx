@@ -13,6 +13,7 @@ import Headerbar from "components/Headerbar";
 
 interface CustomizedState {
   openSnackbar: boolean;
+  content: String;
 }
 
 export default function Login() {
@@ -40,7 +41,7 @@ export default function Login() {
         // get User date & dispatch
         localStorage.setItem("token", token);
         // dispatch(setLoggedUser(response.data));
-        navigate("/");
+        navigate("/main");
       })
       .catch((err) => {
         // console.log("axios err: ", err);
@@ -70,14 +71,19 @@ export default function Login() {
       hasError: false,
     });
   };
+  const AlertContent = () => {
+    if (state && state.content === "register") {
+      return "회원가입이 완료되었습니다.";
+    }
+    return "새로운 임시 비밀번호가 이메일로 전송되었습니다.";
+  };
 
   return (
     <>
       <Headerbar headerName={"로그인"} />
-
       <Snackbar open={snackbar} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          {"회원가입이 완료되었습니다."}
+          {AlertContent()}
         </Alert>
       </Snackbar>
       <Snackbar
@@ -93,7 +99,7 @@ export default function Login() {
       <Stack
         direction="column"
         justifyContent="center"
-        sx={{ height: "calc(100% - 56px - 70px)", textAlign: "center" }}
+        sx={{ height: "calc(100% - 70px - 70px)", textAlign: "center" }}
       >
         <Stack direction="column" alignItems="center">
           <Logo style={{ width: "55%", height: "55%", margin: "0 auto 10%" }} />

@@ -2,8 +2,8 @@ import React, { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Stack, Button, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
-import Headerbar from "../../Headerbar";
-import { StyledTextField } from "../Register/StyledComponent";
+import Headerbar from "components/Headerbar";
+import { StyledTextField } from "components/User/Register/StyledComponent";
 
 interface DeleteAccountInput {
   password: string;
@@ -27,21 +27,21 @@ const DeleteAccount: React.FC = () => {
         password: data.password,
       },
     })
-    .then((res) => {
-      console.log(res);
-      console.log('탈퇴완료')
-      localStorage.removeItem("token");
-      setAlertState("success");
-      setOpen(true);
-      setTimeout(function () {
-        window.location.reload();
-      }, 500);
-    })
-    .catch((err) => {
-      console.log(err);
-      setAlertState("error");
-      setOpen(true);
-    });
+      .then((res) => {
+        console.log(res);
+        console.log("탈퇴완료");
+        localStorage.removeItem("token");
+        setAlertState("success");
+        setOpen(true);
+        setTimeout(function () {
+          window.location.reload();
+        }, 500);
+      })
+      .catch((err) => {
+        console.log(err);
+        setAlertState("error");
+        setOpen(true);
+      });
   };
 
   // 스낵바 관련
@@ -67,7 +67,7 @@ const DeleteAccount: React.FC = () => {
       <Stack
         direction="column"
         justifyContent="center"
-        sx={{ height: "calc(100% - 56px - 70px)" }}
+        sx={{ height: "calc(100% - 70px - 70px)" }}
       >
         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert
@@ -75,16 +75,18 @@ const DeleteAccount: React.FC = () => {
             severity={alertState}
             sx={{ width: "100%" }}
           >
-            {alertState === "success" ? "탈퇴가 완료되었습니다." : "비밀번호가 맞지 않습니다."}
+            {alertState === "success"
+              ? "탈퇴가 완료되었습니다."
+              : "비밀번호가 맞지 않습니다."}
           </Alert>
         </Snackbar>
 
-        <Stack direction="column">
-          <Stack margin="0 18% 10%">
+        <Stack direction="column" alignItems="center" justifyContent="center">
+          <Stack marginBottom="10%" textAlign="center">
             <p className="p-custom">정말 탈퇴하시겠습니까?</p>
             <p className="p-custom">삭제된 계정은 복구되지 않습니다.</p>
           </Stack>
-          <Stack alignItems="center">
+          <Stack>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 name="password"
@@ -97,8 +99,7 @@ const DeleteAccount: React.FC = () => {
                   },
                   pattern: {
                     value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
-                    message:
-                      "비밀번호가 일치하지 않습니다.",
+                    message: "비밀번호가 일치하지 않습니다.",
                   },
                 }}
                 render={({ field, fieldState }) => (
@@ -127,6 +128,7 @@ const DeleteAccount: React.FC = () => {
                   height: "50px",
                   borderRadius: 31.5,
                 }}
+                disableElevation={true}
                 size="large"
                 variant="contained"
                 type="submit"

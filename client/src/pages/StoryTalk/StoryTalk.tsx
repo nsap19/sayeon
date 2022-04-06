@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import StoryTalkHeaderbar from "components/StoryTalk/StoryTalkHeaderbar";
-import {
-  Button,
-  Box,
-  CircularProgress,
-  Stack,
-  Fab,
-  SvgIcon,
-} from "@mui/material";
-import Polaroid from "components/Story/Polaroid";
+import { Box, CircularProgress, Stack, Fab, SvgIcon } from "@mui/material";
+import KeywordsPolaroid from "components/Polaroid/KeywordsPolaroid";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Send } from "assets/icon/send.svg";
 
@@ -22,6 +15,7 @@ interface Story {
   receiverId: string;
   dateSent: string;
   dateReceived: string;
+  keyword: string;
 }
 
 interface MyInfoType {
@@ -48,17 +42,18 @@ interface OtherUserInfoType {
 const StoryTalk: React.FC<{
   myInfo: MyInfoType;
   otherUserInfo: OtherUserInfoType;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setStoryTalkOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ myInfo, otherUserInfo, setOpen, setStoryTalkOpen }) => {
+}> = ({ myInfo, otherUserInfo, setStoryTalkOpen }) => {
   const navigate = useNavigate();
   const [storyTalk, setStoryTalk] = useState<Story[]>([]);
 
   const imageTypes: ("MINI" | "SQUARE" | "WIDE")[] = ["MINI", "WIDE", "SQUARE"];
 
+  const endRef = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => {
-    document.getElementById("story-talk")!.scrollTop =
-      document.getElementById("story-talk")!.scrollHeight;
+    if (endRef.current) {
+      endRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const getStoryTalk = () => {
@@ -95,21 +90,14 @@ const StoryTalk: React.FC<{
 
   return (
     <>
-      <StoryTalkHeaderbar
-        headerName={otherUserInfo?.nickname}
-        otherUserInfo={otherUserInfo}
-        otherUserId={otherUserInfo.id}
-        setOpen={setOpen}
-        setStoryTalkOpen={setStoryTalkOpen}
-      />
       <Box
         sx={{
-          height: "calc(100% - 70px)",
+          height: "100%",
           overflowY: "auto",
         }}
         id="story-talk"
       >
-        {storyTalk.length ? (
+        {storyTalk.length > 0 ? (
           <>
             {storyTalk.map((story) => (
               <Box
@@ -122,7 +110,7 @@ const StoryTalk: React.FC<{
                       : "10px 10px 10px auto",
                 }}
               >
-                <Polaroid
+                <KeywordsPolaroid
                   imageUrl={story.image}
                   imageType={imageTypes[parseInt(story.imageType)]}
                   senderNickname={
@@ -130,7 +118,12 @@ const StoryTalk: React.FC<{
                       ? otherUserInfo.nickname
                       : myInfo.memberProfile.nickname
                   }
-                  dateReceived={story.dateReceived}
+                  dateReceived={
+                    myInfo.userId === story.senderId
+                      ? new Date().toString()
+                      : story.dateReceived
+                  }
+                  keywords={story.keyword.slice(1, -1).split(",")}
                 />
               </Box>
             ))}
@@ -144,9 +137,10 @@ const StoryTalk: React.FC<{
             <CircularProgress />
           </Stack>
         )}
+        <div ref={endRef} />
       </Box>
 
-      {storyTalk.length && (
+      {storyTalk.length > 0 && (
         <Fab
           sx={{
             color: "white",
@@ -154,6 +148,10 @@ const StoryTalk: React.FC<{
             bottom: "78px",
             right: "8px",
             boxShadow: "0px 5px 10px rgb(0 0 0 / 10%)",
+            "&.Mui-disabled": {
+              boxShadow: "0px 5px 10px rgb(0 0 0 / 10%)",
+              backgroundColor: "#D1CFCF",
+            },
           }}
           color="primary"
           href="/send"

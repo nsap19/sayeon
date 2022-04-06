@@ -44,7 +44,9 @@ const Register: React.FC = () => {
     })
       .then((res) => {
         console.log(res);
-        navigate("/login", { state: { openSnackbar: true } });
+        navigate("/login", {
+          state: { openSnackbar: true, content: "register" },
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -78,7 +80,7 @@ const Register: React.FC = () => {
         justifyContent="center"
         sx={{
           flex: "1 1 auto",
-          height: "calc(100% - 56px - 70px)",
+          height: "calc(100% - 70px - 70px)",
           overflowY: "auto",
         }}
       >

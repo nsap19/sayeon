@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { selectCreateStory } from "../../../store/createStory";
 import { useAppSelector } from "../../../store/hooks";
 import Polaroid from "../Polaroid";
@@ -63,6 +63,33 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
   };
 
   const [doneDialog, setDoneDialog] = useState(false);
+
+  const [storyTime, setStoryTime] = useState(0);
+  const getStoryTime = () => {
+    axios
+      .post(
+        "story-time",
+        { receiverId: receiver.id, waitingId: waiting },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.data.split(":"));
+        const time = res.data.data.split(":");
+        if (30 <= parseInt(time[1])) {
+          setStoryTime(parseInt(time[0]) + 1);
+        } else setStoryTime(parseInt(time[0]));
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    if (receiver) {
+      getStoryTime();
+    }
+  }, []);
+
   return (
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
@@ -117,8 +144,19 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
                     direction="column"
                     sx={{ textAlign: "left", width: "150px" }}
                   >
-                    <p style={{ fontSize: "12px" }}>사연이 도착하는데</p>
-                    <p style={{ fontSize: "12px" }}>XX시간이 걸립니다.</p>
+                    {storyTime > 0 ? (
+                      <>
+                        <p style={{ fontSize: "12px" }}>사연이 도착하는데</p>
+                        <p style={{ fontSize: "12px" }}>
+                          {storyTime}시간이 걸립니다.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p style={{ fontSize: "12px" }}>1시간 이내로</p>
+                        <p style={{ fontSize: "12px" }}>사연이 전달됩니다.</p>
+                      </>
+                    )}
                   </Stack>
                 </>
               ) : (

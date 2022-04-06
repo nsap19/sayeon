@@ -12,7 +12,7 @@ const DivStyle = styled.div`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: center;

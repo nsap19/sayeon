@@ -25,6 +25,7 @@ const PolaroidDialog: React.FC<{
   imageUrl: string;
   senderNickname: string;
   hourDifference: number;
+  keywords: string[];
 }> = ({
   handleClose,
   handleClickOpen,
@@ -34,6 +35,7 @@ const PolaroidDialog: React.FC<{
   imageUrl,
   senderNickname,
   hourDifference,
+  keywords,
 }) => {
   const [flip, setFlip] = useState(false);
   const [dialogHeight, setDialogHeight] = useState(0);
@@ -47,8 +49,8 @@ const PolaroidDialog: React.FC<{
     background-color: white;
     aspect-ratio: ${defaultPolaroidRatios[imageType]};
     text-align: center;
-    box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%),
-      0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
+    box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 5%),
+      0px 24px 38px 3px rgb(0 0 0 / 7%), 0px 9px 46px 8px rgb(0 0 0 / 4%);
     position: relative;
     height: 100%;
   `;
@@ -86,7 +88,10 @@ const PolaroidDialog: React.FC<{
     position: absolute;
   `;
 
-  const keywords = ["키워드", "키워드", "키워드", "키워드"];
+  const onClose = () => {
+    handleClose();
+    setFlip(false);
+  };
 
   return (
     <Dialog
@@ -98,7 +103,7 @@ const PolaroidDialog: React.FC<{
           boxShadow: "none",
         },
       }}
-      onClose={handleClose}
+      onClose={onClose}
       open={open}
       disableScrollLock={true}
     >
@@ -128,8 +133,17 @@ const PolaroidDialog: React.FC<{
           />
           {hidden && (
             <DialogHiddenAlert>
-              <p>{hourDifference}시간 뒤에</p>
-              <p>사연이 열립니다.</p>
+              {hourDifference > 0 ? (
+                <>
+                  <p>{hourDifference}시간 뒤에</p>
+                  <p>사연이 열립니다.</p>
+                </>
+              ) : (
+                <>
+                  <p>1시간 이내로</p>
+                  <p>사연이 열립니다.</p>
+                </>
+              )}
             </DialogHiddenAlert>
           )}
           <DialogNickname>{senderNickname}</DialogNickname>
