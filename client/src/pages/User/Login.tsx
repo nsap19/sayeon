@@ -41,7 +41,7 @@ export default function Login() {
         // get User date & dispatch
         localStorage.setItem("token", token);
         // dispatch(setLoggedUser(response.data));
-        navigate("/");
+        navigate("/main");
       })
       .catch((err) => {
         // console.log("axios err: ", err);

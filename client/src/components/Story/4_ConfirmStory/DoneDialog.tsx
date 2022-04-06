@@ -15,7 +15,7 @@ const DoneDialog: React.FC<{
     if (receiver) {
       navigate("/story-talk");
     } else {
-      navigate("/");
+      navigate("/main");
     }
     setDoneDialog(false);
   };

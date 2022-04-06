@@ -26,7 +26,7 @@ const NotFound: React.FC = () => {
       {isAuthorized ? (
         <>
           <StyledButton
-            href="/"
+            href="/main"
             disableElevation={true}
             size="large"
             variant="contained"
