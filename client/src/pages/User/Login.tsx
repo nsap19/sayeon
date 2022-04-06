@@ -79,7 +79,7 @@ export default function Login() {
   };
 
   return (
-    <>
+    <Stack sx={{ height: "calc(100% - 70px)" }}>
       <Headerbar headerName={"로그인"} />
       <Snackbar open={snackbar} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
@@ -99,65 +99,69 @@ export default function Login() {
       <Stack
         direction="column"
         justifyContent="center"
-        sx={{ height: "calc(100% - 70px - 70px)", textAlign: "center" }}
+        alignItems="center"
+        sx={{
+          height: "calc(100% - 70px - 70px)",
+          textAlign: "center",
+          flex: "1 1 auto",
+          overflowY: "auto",
+        }}
       >
-        <Stack direction="column" alignItems="center">
-          <Logo style={{ width: "55%", height: "55%", margin: "0 auto 10%" }} />
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={0.1}>
-              <EmailController control={control} />
-              <PasswordController control={control} />
-              <Box sx={{ marginTop: 8 }}>
-                <Button
-                  sx={{
-                    color: "white",
-                    fontFamily: "S-CoreDream-4Regular",
-                    width: "300px",
-                    minHeight: "56px",
-                    borderRadius: 31.5,
-                    marginTop: "10px",
-                  }}
-                  disableElevation={true}
-                  size="large"
-                  variant="contained"
-                  type="submit"
-                >
-                  로그인
-                </Button>
-              </Box>
-            </Stack>
-          </form>
-          <Button
-            sx={{
-              color: "white",
-              backgroundColor: "#B6B6B6",
-              fontFamily: "S-CoreDream-4Regular",
-              marginTop: "10px",
-              width: "300px",
-              minHeight: "56px",
-              borderRadius: 31.5,
-            }}
-            disableElevation={true}
-            size="large"
-            variant="contained"
-            type="button"
-            href="/register"
-          >
-            회원가입
-          </Button>
-          <Button
-            variant="text"
-            sx={{
-              color: "#B6B6B6",
-              fontSize: "13px",
-              fontFamily: "S-CoreDream-4Regular",
-            }}
-            href="/password"
-          >
-            비밀번호를 잊으셨나요?
-          </Button>
-        </Stack>
+        <Logo style={{ width: "200px", margin: "10px auto" }} />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={0.1} direction="column">
+            <EmailController control={control} />
+            <PasswordController control={control} />
+            <Box>
+              <Button
+                sx={{
+                  color: "white",
+                  fontFamily: "S-CoreDream-4Regular",
+                  width: "300px",
+                  minHeight: "56px",
+                  borderRadius: 31.5,
+                  marginTop: "10px",
+                }}
+                disableElevation={true}
+                size="large"
+                variant="contained"
+                type="submit"
+              >
+                로그인
+              </Button>
+            </Box>
+          </Stack>
+        </form>
+        <Button
+          sx={{
+            color: "white",
+            backgroundColor: "#B6B6B6",
+            fontFamily: "S-CoreDream-4Regular",
+            marginTop: "10px",
+            width: "300px",
+            minHeight: "56px",
+            borderRadius: 31.5,
+          }}
+          disableElevation={true}
+          size="large"
+          variant="contained"
+          type="button"
+          href="/register"
+        >
+          회원가입
+        </Button>
+        <Button
+          variant="text"
+          sx={{
+            color: "#B6B6B6",
+            fontSize: "13px",
+            fontFamily: "S-CoreDream-4Regular",
+          }}
+          href="/password"
+        >
+          비밀번호를 잊으셨나요?
+        </Button>
       </Stack>
-    </>
+    </Stack>
   );
 }
