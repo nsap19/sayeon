@@ -48,19 +48,23 @@ const Content: React.FC<{
             whiteSpace: "pre-wrap",
             color: "#8c8888",
             fontFamily: "S-CoreDream-3Light",
-            padding: "0 10px",
+            padding: "0 10px 50px",
           }}
         >
           {content}
         </p>
       </Slide>
 
-      <Slide direction="up" style={{ width: "100%", textAlign: "center" }}>
+      <Slide
+        // duration={500}
+        direction="up"
+        style={{ width: "100%", textAlign: "center" }}
+      >
         <img
-          src={PolaroidLogo}
+          src={require(`../../assets/images/landing/Landing_image_${imageUrl}.png`)}
           alt="logo"
           style={{
-            height: 200,
+            height: 350,
             display: "inline",
             padding: "5px",
           }}
