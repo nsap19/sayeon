@@ -130,7 +130,7 @@ const StoryListReceived: React.FC = () => {
           </Box>
           ) : (
           <Stack direction="column" alignItems="center" marginY="50%">
-            <p style={{color: "#8c8888", fontSize: "15px"}}>아직 보낸 사연이 없습니다.</p>
+            <p style={{color: "#8c8888", fontSize: "15px"}}>아직 받은 사연이 없습니다.</p>
             <p style={{color: "#8c8888", fontSize: "15px"}}>지금 바로 사연을 보내보세요.</p>
             <Button
               href="/send"
