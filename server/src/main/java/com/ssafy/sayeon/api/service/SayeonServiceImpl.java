@@ -157,8 +157,8 @@ public class SayeonServiceImpl implements SayeonService {
 
 		// 기준 이상 유사도 나타나면 매칭
 		if (maxSimilarity > MINIMUM) {
-
 			SentStory matchedStory = sentStoryRepository.findByStoryId(maxStoryId);
+			System.out.println("매칭 성공 , 매칭된 스토리 아이디 "+matchedStory.getStoryId() );
 
 			// 날짜 계산 : 기존의 sentdate + waitingid.waitingtime * 거리 기준 계산 ??
 
