@@ -8,4 +8,5 @@ public interface ReceivedStoryView {
 	String getDateReceived();
 	String getImage();
 	String getImageType();
+	String getKeyword();
 }
