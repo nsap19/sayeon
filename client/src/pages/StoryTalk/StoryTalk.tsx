@@ -118,7 +118,11 @@ const StoryTalk: React.FC<{
                       ? otherUserInfo.nickname
                       : myInfo.memberProfile.nickname
                   }
-                  dateReceived={story.dateReceived}
+                  dateReceived={
+                    myInfo.userId === story.senderId
+                      ? new Date().toString()
+                      : story.dateReceived
+                  }
                   keywords={story.keyword.slice(1, -1).split(",")}
                 />
               </Box>

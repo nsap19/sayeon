@@ -98,7 +98,11 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
                           ? myInfo.memberProfile.nickname
                           : otherUserInfo.nickname
                       }
-                      dateReceived={story.dateReceived}
+                      dateReceived={
+                        myInfo.userId === story.senderId
+                          ? new Date().toString()
+                          : story.dateReceived
+                      }
                     />
                   </Box>
                 )
