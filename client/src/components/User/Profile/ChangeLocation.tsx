@@ -6,9 +6,9 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
-import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
-import { ReactComponent as Location } from "../../../assets/icon/location.svg";
-import LocationJson from "../../../assets/json/location.json";
+import { ReactComponent as Edit } from "assets/icon/edit.svg";
+import { ReactComponent as Location } from "assets/icon/location.svg";
+import LocationJson from "assets/json/location.json";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import "./Profile.css";
 

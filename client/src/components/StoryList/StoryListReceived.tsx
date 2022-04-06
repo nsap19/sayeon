@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Polaroid from "../Polaroid/StoryListPolaroid";
+import Polaroid from "components/Polaroid/StoryListPolaroid";
 import axios from "axios";
 import { Box, ImageList, ImageListItem, Stack, Button } from "@mui/material";
 import { useInView } from "react-intersection-observer"

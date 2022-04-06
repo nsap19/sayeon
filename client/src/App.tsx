@@ -17,6 +17,7 @@ import NotFound from "pages/Main/NotFound";
 import Landing from "pages/Landing";
 import { useLocation } from "react-router-dom";
 
+
 const theme = createTheme({
   palette: {
     mode: "light",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Polaroid from "../Polaroid/StoryListPolaroid";
+import Polaroid from "components/Polaroid/StoryListPolaroid";
 import {
   Box,
   ImageList,
@@ -91,7 +91,7 @@ const StoryListSent: React.FC = () => {
         <p>{countSentImages}</p>
       </Box>
       <Box sx={{ 
-        px: 2, 
+        px: 2,
         height: "500px",
         overflowY: "auto", 
         mt: 2 }}
