@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
+import Password from "./pages/User/Password";
 import Register from "./pages/User/Register";
-// import ChangePassword from "./components/User/Profile/ChangePassword";
 import DeleteAccount from "components/User/Profile/DeleteAccount";
 import BottomNavbar from "./components/BottomNavbar";
 import Main from "./pages/Main/Main";
@@ -10,11 +10,12 @@ import CreateStory from "./pages/Story/CreateStory";
 import Profile from "./pages/User/Profile";
 import StoryList from "./pages/StoryList/StoryList";
 import StoryTalkList from "./pages/StoryTalk/StoryTalkList";
-import StoryTalk from "pages/StoryTalk/StoryTalk";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import AuthRoute from "AuthRoute";
 import IsAuthRoute from "IsAuthRoute";
 import NotFound from "pages/Main/NotFound";
+import Landing from "pages/Landing";
+import { useLocation } from "react-router-dom";
 
 
 const theme = createTheme({
@@ -56,34 +57,28 @@ const theme = createTheme({
 });
 
 function App() {
+  const location = useLocation();
+
   return (
     <ThemeProvider theme={theme}>
       <Routes>
+        <Route path="/landing" element={<Landing />} />
         <Route path="/" element={<AuthRoute />}>
           <Route path="/" element={<Main />} />
           <Route path="/send" element={<CreateStory />} />
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/story-list" element={<StoryList />}></Route>
-          {/* <Route path="/change-password" element={<ChangePassword />} /> */}
           <Route path="/story-talk" element={<StoryTalkList />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
-          {/* <Route
-            path="/story-talk/:userNickname"
-            element={
-              <StoryTalk
-                firstId={"e4738614-cc21-41ed-8ba0-6c1bd2501083"}
-                secondId={"de9322ee-03bb-47e3-8f7a-9c38dc3d59bb"}
-              />
-            }
-          /> */}
         </Route>
         <Route path="/" element={<IsAuthRoute />}>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/password" element={<Password />}></Route>
         </Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
-      <BottomNavbar />
+      {location.pathname != "/landing" && <BottomNavbar />}
     </ThemeProvider>
   );
 }
