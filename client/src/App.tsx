@@ -77,7 +77,7 @@ function App() {
         </Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
-      {location.pathname != "/landing" && <BottomNavbar />}
+      {location.pathname != "/" && <BottomNavbar />}
     </ThemeProvider>
   );
 }
