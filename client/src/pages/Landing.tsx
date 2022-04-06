@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Intro from "components/Landing/Intro/Intro";
 import Content from "components/Landing/Content";
+import Footer from "components/Landing/Footer";
 import { Box, Fab, SvgIcon } from "@mui/material";
 import { ReactComponent as ArrowUp } from "../assets/icon/arrow-up.svg";
 import { useInView } from "react-intersection-observer";
@@ -63,6 +64,9 @@ const Landing: React.FC = () => {
           <Content {...landingContent} />
         </Box>
       ))}
+      <Box sx={{ height: "30vh" }}>
+        <Footer />
+      </Box>
       <Fab
         sx={{
           color: "white",
