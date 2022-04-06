@@ -158,7 +158,7 @@ public class SayeonServiceImpl implements SayeonService {
 		// 기준 이상 유사도 나타나면 매칭
 		if (maxSimilarity > MINIMUM) {
 			SentStory matchedStory = sentStoryRepository.findByStoryId(maxStoryId);
-			System.out.println("매칭 성공 , 매칭된 스토리 아이디 "+matchedStory.getStoryId() );
+			System.out.println("매칭 성공 , 매칭된 스토리 아이디 " + matchedStory.getStoryId());
 
 			// 날짜 계산 : 기존의 sentdate + waitingid.waitingtime * 거리 기준 계산 ??
 
@@ -225,7 +225,7 @@ public class SayeonServiceImpl implements SayeonService {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 
-		int distToSecond = (int) (distance / 100 * 600);
+		int distToSecond = (int) (distance / 100 * 600) * 2;
 
 		int waitSecond = (int) (distToSecond * waitingtime);
 		cal.add(Calendar.SECOND, waitSecond);
@@ -251,7 +251,7 @@ public class SayeonServiceImpl implements SayeonService {
 		Date now = new Date();
 		String currentTime = format.format(now);
 
-		int distToSecond = (int) (distance / 100 * 600);
+		int distToSecond = (int) (distance / 100 * 600) * 2;
 		int waitSecond = (int) (distToSecond * waitingTime);
 		int hour = waitSecond / 3600;
 		int min = waitSecond % 3600 / 60;
