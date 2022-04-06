@@ -40,7 +40,7 @@ const StoryListReceived: React.FC = () => {
       },
       params : {
         page : page,
-        size : 5
+        size : 32
       }
     }
 

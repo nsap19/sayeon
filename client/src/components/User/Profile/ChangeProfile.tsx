@@ -7,10 +7,10 @@ import {
   ImageList,
   ImageListItem,
   IconButton,
-  Button,
   Box,
 } from "@mui/material";
 import axios from "axios";
+import "./Profile.css";
 
 const profilePics = Array.from({ length: 36 }, (x, i) => i);
 
@@ -29,13 +29,9 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (value: number) => {
+  const updateProfilePic = (value: number) => {
     onClose(value);
-  };
-
-  const updateProfilePic = () => {
     const token = localStorage.getItem("token");
-    console.log(selectedValue);
     setOpen(false);
     axios({
       method: "put",
@@ -44,7 +40,7 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
         Authorization: `Bearer ${token}`,
       },
       data: {
-        profilePic: selectedValue,
+        profilePic: value,
       },
     })
       .then((res) => {
@@ -86,7 +82,7 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
         <ImageList cols={4} gap={15}>
           {profilePics.map((profilePic) => (
             <ImageListItem
-              onClick={() => handleListItemClick(profilePic)}
+              onClick={() => updateProfilePic(profilePic)}
               key={profilePic}
             >
               <img
@@ -98,7 +94,6 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
           ))}
         </ImageList>
       </Box>
-      <Button onClick={() => updateProfilePic()}>수정</Button>
     </Dialog>
   );
 }
@@ -121,7 +116,7 @@ const ChangeProfile = () => {
         setProfilePic(res.data.data.memberProfile.profilePic);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [profilePic]);
 
   const handleClickOpen = () => {
     setOpen(true);

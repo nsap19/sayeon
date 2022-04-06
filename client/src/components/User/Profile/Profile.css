@@ -21,13 +21,17 @@
   border: none;
   border-radius: 20px;
   background-color: #F9F9F9;
+  margin: 5px 10px 0;
 }
 
 .select-custom {
-  width: 185.06px;
+  height: 43px;
+  width: 160px;
   border: #B6B6B6;
   opacity: .6;
-  font-family: "S-CoreDream-4Regular"
+  font-family: "S-CoreDream-4Regular";
+  font-size: 12px;
+  margin-bottom: 5px;
 }
 
 .svg-custom {

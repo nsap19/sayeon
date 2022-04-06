@@ -5,6 +5,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  Box
 } from "@mui/material";
 import { ReactComponent as Edit } from "assets/icon/edit.svg";
 import { ReactComponent as Location } from "assets/icon/location.svg";
@@ -20,31 +21,14 @@ const ChangeLocation = () => {
   const [locations, setLocations] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [detailedLocation, setDetailedLocation] = useState<string>("");
-  const [defaultLocation, setDefaultLocation] = useState<string>("");
-  const [defaultDetailedLocation, setDefaultDetailedLocation] =
-    useState<string>("");
 
-
-
-  // 상세주소용
   const [detailedLocationOptions, setDetailedLocationOptions] = useState<
     string[]
   >([]);
 
     
   useEffect(() => {
-    // let isMount = true;
     getMyLocation();
-    // if (Object.keys(defaultLocation).length) {
-    //   if (isMount) {
-    //     setDetailedLocationOptions(Object.keys(null || LocationJson[
-    //       location as keyof typeof LocationJson
-    //     ]).sort())};
-    //   }
-
-    // return () => {
-    //   isMount = false;
-    // };
   }, []);
   
 
@@ -58,33 +42,22 @@ const ChangeLocation = () => {
       },
     })
     .then((res) => {
-      // console.log(res);
       setLocations(res.data.data.memberProfile.location);
       setLocation(res.data.data.memberProfile.location.split(" ")[0]);
       if (res.data.data.memberProfile.location.split(" ")[2]) {
         setDetailedLocation(
           res.data.data.memberProfile.location.split(" ")[1] + ' ' + res.data.data.memberProfile.location.split(" ")[2]
         );
-        setDefaultDetailedLocation(
-          res.data.data.memberProfile.location.split(" ")[1] + ' ' + res.data.data.memberProfile.location.split(" ")[2]
-        );
       }
       else {
-        setDetailedLocation(res.data.data.memberProfile.location.split(" ")[1]);
-        setDefaultDetailedLocation(
-          res.data.data.memberProfile.location.split(" ")[1]
-        );
-      }
-      setDefaultLocation(res.data.data.memberProfile.location.split(" ")[0]);
-    })
+        setDetailedLocation(res.data.data.memberProfile.location.split(" ")[1])};
+      })
     .catch((err) => console.log(err));
   }
 
 
   const closeEditing = () => {
     setIsEditingLocation(false);
-    setLocation(defaultLocation);
-    setDetailedLocation(defaultDetailedLocation);
   };
 
   // 위치 정보 수정
@@ -96,6 +69,7 @@ const ChangeLocation = () => {
 
   // 시/도 부분 수정
   const onChangeLocation = (event: SelectChangeEvent) => {
+    setDetailedLocation('');
     setLocation(event.target.value as string);
     setDetailedLocationOptions(
       Object.keys(LocationJson[
@@ -141,8 +115,8 @@ const ChangeLocation = () => {
     <>
       <Stack>
         {isEditingLocation ? (
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Stack>
+          <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
+            <Stack justifyContent="center" alignItems="center">
               <FormControl>
                 <InputLabel id="demo-simple-select-label">시/도</InputLabel>
                 <Select
@@ -193,13 +167,15 @@ const ChangeLocation = () => {
                 })}
                 </Select>
               </FormControl>
+              <Box>
+                <button className="button-custom" onClick={changeLocation}>
+                  수정
+                </button>
+                <button className="button-custom" onClick={closeEditing}>
+                  취소
+                </button>
+              </Box>
             </Stack>
-            <button className="button-custom" onClick={changeLocation}>
-              수정
-            </button>
-            <button className="button-custom" onClick={closeEditing}>
-              취소
-            </button>
           </Stack>
         ) : (
           <Stack direction="row" spacing={2} alignItems="center">
