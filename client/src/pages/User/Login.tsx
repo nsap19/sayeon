@@ -72,7 +72,7 @@ export default function Login() {
     });
   };
   const AlertContent = () => {
-    if (state.content === "register") {
+    if (state && state.content === "register") {
       return "회원가입이 완료되었습니다.";
     }
     return "새로운 임시 비밀번호가 이메일로 전송되었습니다.";
