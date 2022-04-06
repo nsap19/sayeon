@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/User/Login";
+import Password from "./pages/User/Password";
 import Register from "./pages/User/Register";
 import DeleteAccount from "components/User/Profile/DeleteAccount";
 import BottomNavbar from "./components/BottomNavbar";
@@ -72,6 +73,7 @@ function App() {
         <Route path="/" element={<IsAuthRoute />}>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/password" element={<Password />}></Route>
         </Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>

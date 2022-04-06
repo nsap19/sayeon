@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Polaroid from "./StoryListPolaroid";
+import React, { useState, useEffect, useCallback } from "react";
+import Polaroid from "../Polaroid/StoryListPolaroid";
 import {
   Box,
   ImageList,
   ImageListItem,
-  Pagination,
-  Stack,
 } from "@mui/material";
 import axios from "axios";
+import { useInView } from "react-intersection-observer"
+
 
 interface sentStory {
   storyId: number;
@@ -20,42 +20,50 @@ interface sentStory {
 const StoryListSent: React.FC = () => {
   const [sentImageList, setSentImageList] = useState<sentStory[]>([]);
   const [countSentImages, setCountSentImages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(7);
+  const [page, setPage] = useState(0)
+  const [loading, setLoading] = useState(false)
+
+  const [ref, inView] = useInView()
+
+
+  const getSentImageList = useCallback(async () => {
+    setLoading(true)
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params : {
+        page : page,
+        size : 5
+      }
+    }
+
+    axios.get('story-list/sent', config)
+    .then((res) => {
+      // console.log(res.data.data)
+      if (res.data.data) {
+        setSentImageList([...sentImageList, ...res.data.data]);
+      }
+    })
+    .catch((err) => console.log(err));
+    setLoading(false)
+  }, [page]);
 
   useEffect(() => {
     getSentImageList();
+  }, [getSentImageList]);
+
+  useEffect(() => {
     getSentCnt();
   }, []);
 
-  const getSentImageList = () => {
-    // 페이지네이션 처리해야-
-    const token = localStorage.getItem("token");
-    axios({
-      method: "get",
-      url: "story-list/sent",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        page: 0,
-        size: 7,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-        if (res.data.data) {
-          var reverseSentImageList = res.data.data.reverse();
-          setSentImageList(reverseSentImageList);
-        }
-      })
-      .then((res) => {
-        // console.log(res.data.data);
-        // setSentImageList(res.data.data);
-      })
-      .catch((err) => console.log(err));
-  };
+  useEffect(() => {
+    if (inView && !loading) {
+      setPage(prevState => prevState + 1)
+    }
+  }, [inView, loading])
+
 
   const getSentCnt = () => {
     const token = localStorage.getItem("token");
@@ -66,41 +74,51 @@ const StoryListSent: React.FC = () => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => {
-        // console.log(res.data.data);
-        if (res.data.data) {
-          setCountSentImages(res.data.data);
-        }
-      })
-      .catch((err) => console.log(err));
+    .then((res) => {
+      // console.log(res.data.data);
+      if (res.data.data) {
+        setCountSentImages(res.data.data);
+      }
+    })
+    .catch((err) => console.log(err));
   };
 
+  
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between", mx: 3 }}>
         <p>보낸 사연</p>
         <p>{countSentImages}</p>
       </Box>
-      <Box sx={{ px: 2, height: 520, overflowY: "scroll", mt: 2 }}>
+      <Box sx={{ 
+        px: 2, 
+        height: "500px",
+        overflowY: "auto", 
+        mt: 2 }}
+      >
         <ImageList variant="masonry" cols={2} gap={10}>
-          {sentImageList.map((item) => (
-            <ImageListItem key={item.image}>
-              <Polaroid
-                imageUrl={`${item.image}`}
-                imageType={item.imageType}
-                senderNickname={item.senderNickname}
-              />
+          {sentImageList.map((item, idx) => (
+            <ImageListItem key={idx} ref={ref}>
+              {sentImageList.length -1 === idx ? (
+                <Polaroid
+                  imageUrl={`${item.image}`}
+                  imageType={item.imageType}
+                  senderNickname={item.senderNickname}
+                  dateReceived=''
+                />
+              ) : (
+                <Polaroid
+                  imageUrl={`${item.image}`}
+                  imageType={item.imageType}
+                  senderNickname={item.senderNickname}
+                  dateReceived=''
+                />
+              )}
             </ImageListItem>
           ))}
         </ImageList>
-        <Stack
-          spacing={2}
-          direction="row"
-          justifyContent="center"
-          marginTop="10px"
-        >
-          <Pagination count={Math.ceil(countSentImages / 7)} size="small" />
-        </Stack>
+      </Box>
+      <Box>
       </Box>
     </>
   );
