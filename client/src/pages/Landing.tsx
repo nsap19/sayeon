@@ -60,7 +60,13 @@ const Landing: React.FC = () => {
         <Intro />
       </Box>
       {langdingContents.map((landingContent) => (
-        <Box key={landingContent.id} sx={{ height: "100vh" }}>
+        <Box
+          key={landingContent.id}
+          sx={{
+            height: "100vh",
+            backgroundColor: landingContent.id % 2 ? "#FCFCFC" : "",
+          }}
+        >
           <Content {...landingContent} />
         </Box>
       ))}
