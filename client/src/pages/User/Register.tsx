@@ -80,7 +80,7 @@ const Register: React.FC = () => {
         justifyContent="center"
         sx={{
           flex: "1 1 auto",
-          height: "calc(100% - 56px - 70px)",
+          height: "calc(100% - 70px - 70px)",
           overflowY: "auto",
         }}
       >

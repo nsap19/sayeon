@@ -19,7 +19,7 @@ const NotFound: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       spacing={2}
-      sx={{ height: "calc(100% - 56px)", padding: "20px 0 10px" }}
+      sx={{ height: "calc(100% - 70px)", padding: "20px 0 10px" }}
     >
       <Lottie animationData={NotFoundPolaroid} loop={true} />
       <p>찾으시는 페이지가 존재하지 않습니다.</p>

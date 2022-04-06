@@ -3,29 +3,37 @@ import StoryListReceived from "components/StoryList/StoryListReceived";
 import StoryListSent from "components/StoryList/StoryListSent";
 import { Stack, Box } from "@mui/material";
 import "./StoryList.css";
-import StoryListHeaderbar from "components/StoryList/StoryListHeaderbar"
+import StoryListHeaderbar from "components/StoryList/StoryListHeaderbar";
 
 const StoryList: React.FC = () => {
   const [isActive, setIsActive] = React.useState(true);
 
   const handleDisabled = () => {
-    setIsActive(false)
+    setIsActive(false);
   };
 
   const handleActive = () => {
-    setIsActive(true)
+    setIsActive(true);
   };
 
   return (
-    <Stack sx={{ height: "calc(100% - 56px)" }}>
+    <Stack sx={{ height: "calc(100% - 70px)" }}>
       <header>
         <StoryListHeaderbar headerName={"내 사연함"} />
       </header>
-      <Box sx={{ display: 'flex', justifyContent: 'space-around', p: .5, bgcolor: 'white', color: '#8c8888' }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          p: 0.5,
+          bgcolor: "white",
+          color: "#8c8888",
+        }}
+      >
         <p onClick={handleActive}>받은 사연함</p>
         <p onClick={handleDisabled}>보낸 사연함</p>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+      <Box sx={{ display: "flex", justifyContent: "space-around" }}>
         {isActive ? (
           <>
             <div className="form-list-on" />
@@ -48,15 +56,11 @@ const StoryList: React.FC = () => {
         }}
       >
         <Box sx={{ my: 2 }}>
-          {isActive ? (
-            <StoryListReceived />
-            ) : (
-            <StoryListSent />
-          )}
+          {isActive ? <StoryListReceived /> : <StoryListSent />}
         </Box>
       </Stack>
     </Stack>
-  )
-}
+  );
+};
 
 export default StoryList;

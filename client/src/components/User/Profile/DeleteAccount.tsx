@@ -27,21 +27,21 @@ const DeleteAccount: React.FC = () => {
         password: data.password,
       },
     })
-    .then((res) => {
-      console.log(res);
-      console.log('탈퇴완료')
-      localStorage.removeItem("token");
-      setAlertState("success");
-      setOpen(true);
-      setTimeout(function () {
-        window.location.reload();
-      }, 500);
-    })
-    .catch((err) => {
-      console.log(err);
-      setAlertState("error");
-      setOpen(true);
-    });
+      .then((res) => {
+        console.log(res);
+        console.log("탈퇴완료");
+        localStorage.removeItem("token");
+        setAlertState("success");
+        setOpen(true);
+        setTimeout(function () {
+          window.location.reload();
+        }, 500);
+      })
+      .catch((err) => {
+        console.log(err);
+        setAlertState("error");
+        setOpen(true);
+      });
   };
 
   // 스낵바 관련
@@ -67,7 +67,7 @@ const DeleteAccount: React.FC = () => {
       <Stack
         direction="column"
         justifyContent="center"
-        sx={{ height: "calc(100% - 56px - 70px)" }}
+        sx={{ height: "calc(100% - 70px - 70px)" }}
       >
         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert
@@ -75,7 +75,9 @@ const DeleteAccount: React.FC = () => {
             severity={alertState}
             sx={{ width: "100%" }}
           >
-            {alertState === "success" ? "탈퇴가 완료되었습니다." : "비밀번호가 맞지 않습니다."}
+            {alertState === "success"
+              ? "탈퇴가 완료되었습니다."
+              : "비밀번호가 맞지 않습니다."}
           </Alert>
         </Snackbar>
 
@@ -97,8 +99,7 @@ const DeleteAccount: React.FC = () => {
                   },
                   pattern: {
                     value: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
-                    message:
-                      "비밀번호가 일치하지 않습니다.",
+                    message: "비밀번호가 일치하지 않습니다.",
                   },
                 }}
                 render={({ field, fieldState }) => (

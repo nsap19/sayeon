@@ -48,7 +48,7 @@ const Profile = () => {
   };
 
   return (
-    <Stack sx={{ height: "calc(100% - 56px)" }}>
+    <Stack sx={{ height: "calc(100% - 70px)" }}>
       <Headerbar headerName={"내 정보"} />
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert
@@ -65,16 +65,22 @@ const Profile = () => {
         justifyContent="center"
         sx={{
           flex: "1 1 auto",
-          height: "calc(100% - 56px - 70px)",
+          height: "calc(100% - 70px - 70px)",
           overflowY: "auto",
         }}
       >
-        <Stack direction="row" spacing={3} justifyContent="center" alignItems="center" margin="20% 5% 5%">
+        <Stack
+          direction="row"
+          spacing={3}
+          justifyContent="center"
+          alignItems="center"
+          margin="20% 5% 5%"
+        >
           <ChangeProfile />
           <ChangeNickname />
         </Stack>
         <Stack justifyContent="center" alignItems="center">
-          <Box sx={{ height: 140}}>
+          <Box sx={{ height: 140 }}>
             <ChangeLocation />
           </Box>
         </Stack>
@@ -94,10 +100,13 @@ const Profile = () => {
               size="large"
               variant="contained"
               onClick={handleOpenDialog}
-              >
+            >
               비밀번호 수정
             </Button>
-            <ChangePassword openDialog={openDialog} setOpenDialog={setOpenDialog}/>
+            <ChangePassword
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+            />
           </Box>
           <Button
             sx={{

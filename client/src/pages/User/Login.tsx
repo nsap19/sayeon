@@ -99,7 +99,7 @@ export default function Login() {
       <Stack
         direction="column"
         justifyContent="center"
-        sx={{ height: "calc(100% - 56px - 70px)", textAlign: "center" }}
+        sx={{ height: "calc(100% - 70px - 70px)", textAlign: "center" }}
       >
         <Stack direction="column" alignItems="center">
           <Logo style={{ width: "55%", height: "55%", margin: "0 auto 10%" }} />

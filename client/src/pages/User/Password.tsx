@@ -31,7 +31,7 @@ export default function Password() {
         direction="column"
         justifyContent="center"
         sx={{
-          height: "calc(100% - 56px - 70px)",
+          height: "calc(100% - 70px - 70px)",
           textAlign: "center",
         }}
       >
