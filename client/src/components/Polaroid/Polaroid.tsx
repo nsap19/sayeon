@@ -96,9 +96,8 @@ const Polaroid: React.FC<{
 
   const hidden = new Date().getTime() < new Date(dateReceived).getTime();
 
-  const hourDifference = Math.round(
-    (new Date(dateReceived).getTime() - new Date().getTime()) / 36e5
-  );
+  const hourDifference =
+    (new Date(dateReceived).getTime() - new Date().getTime()) / 36e5;
 
   return (
     <>
@@ -134,14 +133,14 @@ const Polaroid: React.FC<{
           />
           {hidden && (
             <DialogHiddenAlert>
-              {hourDifference > 0 ? (
+              {hourDifference >= 1 ? (
                 <>
-                  <p>{hourDifference}시간 뒤에</p>
+                  <p>{Math.round(hourDifference)}시간 뒤에</p>
                   <p>사연이 열립니다.</p>
                 </>
               ) : (
                 <>
-                  <p>1시간 이내로</p>
+                  <p>{hourDifference}분 뒤에</p>
                   <p>사연이 열립니다.</p>
                 </>
               )}
