@@ -12,7 +12,7 @@ export default function Password() {
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<loginInput> = async (data) => {
     await axios
-      .post("/userInfo/find-password", { email: data })
+      .post("/userInfo/find-password", data)
       .then((response) => {
         console.log(response);
         navigate("/login", {
