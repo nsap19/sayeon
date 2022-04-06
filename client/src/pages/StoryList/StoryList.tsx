@@ -1,9 +1,9 @@
 import React from "react";
-import StoryListReceived from "../../components/StoryList/StoryListReceived";
-import StoryListSent from "../../components/StoryList/StoryListSent";
+import StoryListReceived from "components/StoryList/StoryListReceived";
+import StoryListSent from "components/StoryList/StoryListSent";
 import { Stack, Box } from "@mui/material";
 import "./StoryList.css";
-import StoryListHeaderbar from "../../components/StoryList/StoryListHeaderbar"
+import StoryListHeaderbar from "components/StoryList/StoryListHeaderbar"
 
 const StoryList: React.FC = () => {
   const [isActive, setIsActive] = React.useState(true);
@@ -38,13 +38,23 @@ const StoryList: React.FC = () => {
           </>
         )}
       </Box>
-      <Box sx={{ my: 2 }}>
-        {isActive ? (
-          <StoryListReceived />
-          ) : (
-          <StoryListSent />
-        )}
-      </Box>
+      <Stack
+        direction="column"
+        justifyContent="center"
+        sx={{
+          flex: "1 1 auto",
+          height: "calc(100% - 56px - 100px)",
+          overflowY: "auto",
+        }}
+      >
+        <Box sx={{ my: 2 }}>
+          {isActive ? (
+            <StoryListReceived />
+            ) : (
+            <StoryListSent />
+          )}
+        </Box>
+      </Stack>
     </Stack>
   )
 }

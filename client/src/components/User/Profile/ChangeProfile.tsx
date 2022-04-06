@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { ReactComponent as Edit } from "../../../assets/icon/edit.svg";
-import { ReactComponent as Close } from "../../../assets/icon/close.svg";
+import { ReactComponent as Edit } from "assets/icon/edit.svg";
+import { ReactComponent as Close } from "assets/icon/close.svg";
 import {
   DialogTitle,
   Dialog,

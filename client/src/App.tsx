@@ -16,6 +16,7 @@ import AuthRoute from "AuthRoute";
 import IsAuthRoute from "IsAuthRoute";
 import NotFound from "pages/Main/NotFound";
 
+
 const theme = createTheme({
   palette: {
     mode: "light",

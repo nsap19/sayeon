@@ -2,8 +2,8 @@ import React, { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Stack, Button, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
-import Headerbar from "../../Headerbar";
-import { StyledTextField } from "../Register/StyledComponent";
+import Headerbar from "components/Headerbar";
+import { StyledTextField } from "components/User/Register/StyledComponent";
 
 interface DeleteAccountInput {
   password: string;
