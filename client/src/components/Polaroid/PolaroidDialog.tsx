@@ -88,6 +88,11 @@ const PolaroidDialog: React.FC<{
     position: absolute;
   `;
 
+  const onClose = () => {
+    handleClose();
+    setFlip(false);
+  };
+
   return (
     <Dialog
       PaperProps={{
@@ -98,7 +103,7 @@ const PolaroidDialog: React.FC<{
           boxShadow: "none",
         },
       }}
-      onClose={handleClose}
+      onClose={onClose}
       open={open}
       disableScrollLock={true}
     >
