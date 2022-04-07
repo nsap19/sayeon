@@ -49,10 +49,10 @@ public class TranslationServiceImpl implements TranslationService {
 			if (Keywords[i].toLowerCase().equals("outdoor")) {
 				set.add("야외");
 			} else {
-
 				String word = translate(Keywords[i] + ",").replaceAll("[,.]", "");
 				System.out.println(word);
-				set.add(word);
+				if (!word.equals("아 제발") && !word.equals("을 위해"))	
+					set.add(word);
 			}
 		}
 
