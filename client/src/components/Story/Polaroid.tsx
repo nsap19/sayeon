@@ -50,9 +50,48 @@ const Polaroid: React.FC<{
     font-size: min(16px, ${height / 20}px);
   `;
 
+  const HiddenAlert = styled.div`
+    position: absolute;
+    top: 37.68%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: min(16px, ${height / 20}px);
+    color: white;
+  `;
+
+  const hidden = new Date().getTime() < new Date(dateReceived).getTime();
+
+  const hourDifference =
+    (new Date(dateReceived).getTime() - new Date().getTime()) / 36e5;
+
   return (
     <PolaroidFrame ref={div}>
-      <StyledImage src={imageUrl} alt="img" />
+      <StyledImage
+        src={
+          hidden
+            ? require(`../../assets/images/default/${imageType}_default.png`)
+            : imageUrl
+        }
+        alt="img"
+      />
+
+      {hidden && (
+        <HiddenAlert>
+          {hourDifference >= 1 ? (
+            <>
+              <p>{Math.round(hourDifference)}시간 뒤에</p>
+              <p>사연이 열립니다.</p>
+            </>
+          ) : (
+            <>
+              <p>{Math.round(hourDifference * 60)}분 뒤에</p>
+              <p>사연이 열립니다.</p>
+            </>
+          )}
+        </HiddenAlert>
+      )}
+
       <Nickname>{senderNickname}</Nickname>
     </PolaroidFrame>
   );
