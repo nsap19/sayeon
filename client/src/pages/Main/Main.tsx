@@ -45,7 +45,7 @@ const Main: React.FC = () => {
       alignItems="center"
       sx={{ height: "calc(100% - 70px)" }}
     >
-      <Box sx={{ height: "110px" }}>
+      <Box sx={{ height: "110px", textAlign: "center" }}>
         <Logo style={{ width: "60%", height: "auto" }} onClick={onClick} />
       </Box>
 
