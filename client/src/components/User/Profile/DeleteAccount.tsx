@@ -28,8 +28,6 @@ const DeleteAccount: React.FC = () => {
       },
     })
       .then((res) => {
-        console.log(res);
-        console.log("탈퇴완료");
         localStorage.removeItem("token");
         setAlertState("success");
         setOpen(true);
@@ -38,7 +36,6 @@ const DeleteAccount: React.FC = () => {
         }, 500);
       })
       .catch((err) => {
-        console.log(err);
         setAlertState("error");
         setOpen(true);
       });

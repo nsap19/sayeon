@@ -53,7 +53,6 @@ const SelectImage: React.FC<{
       files = e.target.files;
     }
 
-    console.log(files[0].size, 4 * 1024 * 1024);
     if (files[0].size > 3 * 1024 * 1024) {
       setQuality((3 * 1024 * 1024) / files[0].size);
     }
@@ -93,7 +92,6 @@ const SelectImage: React.FC<{
             // 3. 업로드 완료시 키워드 추출 및 번역
             detectKeywords(imageName)
               .then((res) => {
-                console.log("결과", res.data.keywords.split(","));
                 // 4. 번역 완료시 상태 저장
                 dispatch(updateKeywords(res.data.keywords.split(",")));
                 dispatch(
@@ -115,7 +113,9 @@ const SelectImage: React.FC<{
                 setKeywordsReady(false);
               });
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            // console.log(err);
+          });
       },
       imageExtension,
       quality
