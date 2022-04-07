@@ -49,7 +49,6 @@ const Intro: React.FC = () => {
 
           <StyledButton
             variant="contained"
-            onClick={() => console.log("click")}
             size="large"
             disableElevation={true}
             href="/main"

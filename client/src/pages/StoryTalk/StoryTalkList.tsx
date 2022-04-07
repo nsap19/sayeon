@@ -31,7 +31,7 @@ export default function StoryTalkList() {
         setStoryTalkList(response.data.storyTalkList);
       })
       .catch((err: any) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -72,7 +72,9 @@ export default function StoryTalkList() {
         });
         setStoryTalkOpen(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err)
+      });
   };
 
   // RENDER

@@ -36,7 +36,6 @@ const StoryListSent: React.FC = () => {
     axios
       .get("story-list/sent", config)
       .then((res) => {
-        // console.log(res.data.data)
         if (res.data.data) {
           setSentImageList([...sentImageList, ...res.data.data]);
         }
@@ -76,12 +75,13 @@ const StoryListSent: React.FC = () => {
       },
     })
       .then((res) => {
-        // console.log(res.data.data);
         if (res.data.data) {
           setCountSentImages(res.data.data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err);
+      });
   };
 
   return (

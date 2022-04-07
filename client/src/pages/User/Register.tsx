@@ -24,7 +24,6 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: registerInput) => {
-    console.log(data);
     axios({
       method: "post",
       url: "users/signup",
@@ -43,13 +42,11 @@ const Register: React.FC = () => {
       },
     })
       .then((res) => {
-        console.log(res);
         navigate("/login", {
           state: { openSnackbar: true, content: "register" },
         });
       })
       .catch((err) => {
-        console.log(err);
         setOpen(true);
       });
   };

@@ -65,7 +65,6 @@ const StoryTalk: React.FC<{
         },
       })
       .then((res: any) => {
-        console.log(res);
         res.data.data.conversation.sort(
           (
             a: { dateReceived: string; dateSent: string },

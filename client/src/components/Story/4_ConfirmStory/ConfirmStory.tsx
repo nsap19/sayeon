@@ -39,11 +39,9 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
         },
       })
       .then((res) => {
-        console.log(res);
         setDoneDialog(true);
       })
       .catch((err) => {
-        console.log(err);
         setOpen(true);
       });
   };
@@ -75,13 +73,14 @@ const ConfirmStory: React.FC<{ receiver: receiverState }> = ({ receiver }) => {
         }
       )
       .then((res) => {
-        console.log(res.data.data.split(":"));
         const time = res.data.data.split(":");
         if (30 <= parseInt(time[1])) {
           setStoryTime(parseInt(time[0]) + 1);
         } else setStoryTime(parseInt(time[0]));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err);
+      });
   };
 
   useEffect(() => {

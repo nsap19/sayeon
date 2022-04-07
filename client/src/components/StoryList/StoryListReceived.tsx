@@ -47,12 +47,13 @@ const StoryListReceived: React.FC = () => {
     axios
       .get("story-list/received", config)
       .then((res) => {
-        // console.log(res.data.data);
         if (res.data.data) {
           setReceivedImageList([...receivedImageList, ...res.data.data]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err);
+      });
     setLoading(false);
   }, [page]);
 
@@ -80,7 +81,6 @@ const StoryListReceived: React.FC = () => {
       },
     })
       .then((res) => {
-        // console.log(res.data.data);
         if (res.data.data) {
           setCountReceivedImages(res.data.data);
         }

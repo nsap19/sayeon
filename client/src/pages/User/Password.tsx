@@ -14,13 +14,12 @@ export default function Password() {
     await axios
       .post("/userInfo/find-password", data)
       .then((response) => {
-        console.log(response);
         navigate("/login", {
           state: { openSnackbar: true, content: "password" },
         });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
