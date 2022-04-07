@@ -78,6 +78,10 @@ export default function Login() {
     return "새로운 임시 비밀번호가 이메일로 전송되었습니다.";
   };
 
+  const onClick = () => {
+    navigate("/");
+  };
+
   return (
     <Stack sx={{ height: "calc(100% - 70px)" }}>
       <Headerbar headerName={"로그인"} />
@@ -107,7 +111,11 @@ export default function Login() {
           overflowY: "auto",
         }}
       >
-        <Logo style={{ width: "200px", margin: "10px auto" }} />
+        <Box sx={{ height: "200px" }} onClick={onClick}>
+          <Logo
+            style={{ width: "200px", height: "200px", margin: "10px auto" }}
+          />
+        </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={0.1} direction="column">
             <EmailController control={control} />

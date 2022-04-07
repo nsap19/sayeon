@@ -3,6 +3,7 @@ import { Box, Button, Stack, Link } from "@mui/material";
 import Polaroid from "../../components/Polaroid/Polaroid";
 import { ReactComponent as Logo } from "../../assets/logo/logo.svg";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Main: React.FC = () => {
   const [recentStories, setRecentStories] = useState<any[]>([""]);
@@ -26,6 +27,11 @@ const Main: React.FC = () => {
     getRecentStories();
   }, []);
 
+  const navigate = useNavigate();
+  const onClick = () => {
+    navigate("/");
+  };
+
   return (
     <Stack
       direction="column"
@@ -33,7 +39,9 @@ const Main: React.FC = () => {
       alignItems="center"
       sx={{ height: "calc(100% - 70px)" }}
     >
-      <Logo style={{ width: "60%", height: "auto" }} />
+      <Box sx={{ height: "110px" }}>
+        <Logo style={{ width: "60%", height: "auto" }} onClick={onClick} />
+      </Box>
 
       <Box
         sx={{

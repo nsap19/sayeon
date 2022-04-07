@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Stack } from "@mui/material";
-import Polaroid from "components/Polaroid/Polaroid";
+import Polaroid from "components/Story/Polaroid";
 
 export default function StoryTalkItem({ storyTalk, myInfo }: any) {
   // STATE
