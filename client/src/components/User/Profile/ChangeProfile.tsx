@@ -115,7 +115,14 @@ const ChangeProfile = () => {
         console.log(res);
         setProfilePic(res.data.data.memberProfile.profilePic);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
+      });
   }, [profilePic]);
 
   const handleClickOpen = () => {

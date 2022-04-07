@@ -79,7 +79,12 @@ const StoryTalk: React.FC<{
         scrollToBottom();
       })
       .catch((err: any) => {
-        console.log(err);
+        if (err.response.status) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
       });
   };
 
