@@ -17,7 +17,7 @@ const Main: React.FC = () => {
         },
       })
       .then((res) => {
-        setRecentStories(res.data.data.reverse());
+        setRecentStories(res.data.data);
       })
       .catch((err) => {
         if (err.response.status === 500) {
