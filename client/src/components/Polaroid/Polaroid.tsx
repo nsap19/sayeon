@@ -66,7 +66,7 @@ const Polaroid: React.FC<{
     font-size: min(16px, ${dialogHeight / 20}px);
   `;
 
-  const HiddenAlert = styled.p`
+  const HiddenAlert = styled.div`
     position: absolute;
     top: 37.68%;
     bottom: 0;
@@ -76,7 +76,7 @@ const Polaroid: React.FC<{
     color: white;
   `;
 
-  const DialogHiddenAlert = styled.p`
+  const DialogHiddenAlert = styled.div`
     position: absolute;
     top: 37.68%;
     bottom: 0;

@@ -42,7 +42,7 @@ export const detectKeywords = async (imageName: string) => {
 
   return axios.post(
     "translation",
-    { keywords: tagsArray.join() },
+    { keywords: tagsArray.slice(0, 13).join() },
     {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     }

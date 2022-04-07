@@ -66,7 +66,7 @@ const StoryListPolaroid: React.FC<{
     font-size: min(16px, ${dialogWidth / 20}px);
   `;
 
-  const HiddenAlert = styled.p`
+  const HiddenAlert = styled.div`
     position: absolute;
     line-height: 0.7rem;
     top: 37.68%;
@@ -77,7 +77,7 @@ const StoryListPolaroid: React.FC<{
     color: white;
   `;
 
-  const DialogHiddenAlert = styled.p`
+  const DialogHiddenAlert = styled.div`
     position: absolute;
     top: 37.68%;
     bottom: 0;
