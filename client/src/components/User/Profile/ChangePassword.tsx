@@ -1,17 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 import {
   Button,
   Dialog,
   DialogTitle,
   Stack,
   Snackbar,
-  Alert
+  Alert,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { StyledTextField } from "../Register/StyledComponent";
-
 
 interface Props {
   openDialog: boolean;
@@ -43,19 +42,15 @@ const ChangePassword = (props: Props) => {
       },
     })
       .then((res) => {
-        console.log(res);
-        console.log("비밀번호 변경완료");
         setOpen(true);
         props.setOpenDialog(false);
         navigate("/profile");
       })
       .catch((err) => {
-        console.log(err);
         setAlertState("error");
         setOpen(true);
       });
   };
-
 
   // 스낵바 관련
   const [open, setOpen] = useState(false);
@@ -76,51 +71,40 @@ const ChangePassword = (props: Props) => {
 
   const handleCloseDialog = () => {
     props.setOpenDialog(false);
-  }
-
+  };
 
   return (
     <>
-      <Stack
-        direction="column"
-        alignItems="center"
-        sx={{ width: "100%" }}
-      >
+      <Stack direction="column" alignItems="center" sx={{ width: "100%" }}>
         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert
             onClose={handleClose}
             severity={alertState}
             sx={{ width: "100%" }}
           >
-            {alertState === "success"
-              ? "비밀번호가 변경되었습니다."
-              : null}
+            {alertState === "success" ? "비밀번호가 변경되었습니다." : null}
           </Alert>
         </Snackbar>
 
-        <Dialog 
-          open={props.openDialog} 
-          onClose={handleCloseDialog} 
-          disableScrollLock={ true }
+        <Dialog
+          open={props.openDialog}
+          onClose={handleCloseDialog}
+          disableScrollLock={true}
           PaperProps={{
             style: { borderRadius: 20, width: "300px", padding: "5%" },
-          }}  
+          }}
         >
-          <Stack 
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <DialogTitle 
-              sx={{ fontSize: "18px", fontFamily: "S-CoreDream-4Regular" }}  
+          <Stack direction="row" justifyContent="center" alignItems="center">
+            <DialogTitle
+              sx={{ fontSize: "18px", fontFamily: "S-CoreDream-4Regular" }}
             >
               비밀번호 변경
             </DialogTitle>
           </Stack>
           <Stack direction="column" alignItems="center" justifyContent="center">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Stack 
-                spacing={2} 
+              <Stack
+                spacing={2}
                 direction="column"
                 alignItems="center"
                 sx={{ padding: "10px 0" }}
@@ -154,7 +138,9 @@ const ChangePassword = (props: Props) => {
                       type="password"
                       error={!!fieldState.error}
                       helperText={
-                        fieldState.error?.message ? fieldState.error.message : " "
+                        fieldState.error?.message
+                          ? fieldState.error.message
+                          : " "
                       }
                     />
                   )}
@@ -182,7 +168,9 @@ const ChangePassword = (props: Props) => {
                       type="password"
                       error={!!fieldState.error}
                       helperText={
-                        fieldState.error?.message ? fieldState.error.message : " "
+                        fieldState.error?.message
+                          ? fieldState.error.message
+                          : " "
                       }
                     />
                   )}
@@ -190,7 +178,7 @@ const ChangePassword = (props: Props) => {
                 <Stack
                   direction="column"
                   alignItems="center"
-                  sx={{ padding: "0px 10px 5px"}}
+                  sx={{ padding: "0px 10px 5px" }}
                 >
                   <Button
                     sx={{
@@ -216,6 +204,6 @@ const ChangePassword = (props: Props) => {
       </Stack>
     </>
   );
-}
+};
 
 export default ChangePassword;

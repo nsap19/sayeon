@@ -36,7 +36,9 @@ export default function StoryTalkItem({ storyTalk, myInfo }: any) {
           withdrawal: res.data.data.memberProfile.withdrawal,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err);
+      });
   };
 
   useEffect(() => {

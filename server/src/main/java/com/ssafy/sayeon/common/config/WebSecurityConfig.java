@@ -92,6 +92,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://j6a204.p.ssafy.io");
         configuration.addAllowedOrigin("http://j6a204.p.ssafy.io:3000");
+        configuration.addAllowedOrigin("https://localhost:3000");
+        configuration.addAllowedOrigin("https://j6a204.p.ssafy.io");
+        configuration.addAllowedOrigin("https://j6a204.p.ssafy.io:3000");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);

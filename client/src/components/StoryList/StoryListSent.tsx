@@ -36,12 +36,18 @@ const StoryListSent: React.FC = () => {
     axios
       .get("story-list/sent", config)
       .then((res) => {
-        // console.log(res.data.data)
         if (res.data.data) {
           setSentImageList([...sentImageList, ...res.data.data]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
+      });
     setLoading(false);
   }, [page]);
 
@@ -69,12 +75,13 @@ const StoryListSent: React.FC = () => {
       },
     })
       .then((res) => {
-        // console.log(res.data.data);
         if (res.data.data) {
           setCountSentImages(res.data.data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err);
+      });
   };
 
   return (

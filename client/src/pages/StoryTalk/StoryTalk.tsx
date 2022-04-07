@@ -65,7 +65,6 @@ const StoryTalk: React.FC<{
         },
       })
       .then((res: any) => {
-        console.log(res);
         res.data.data.conversation.sort(
           (
             a: { dateReceived: string; dateSent: string },
@@ -79,7 +78,12 @@ const StoryTalk: React.FC<{
         scrollToBottom();
       })
       .catch((err: any) => {
-        console.log(err);
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
       });
   };
 

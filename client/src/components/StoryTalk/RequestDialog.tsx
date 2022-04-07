@@ -75,13 +75,14 @@ const RequestDialog: React.FC<{
         }
       )
       .then((res) => {
-        console.log(res);
         handleClose();
         navigate("/story-talk", {
           state: { openSnackbar: true },
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err);
+      });
   };
 
   return (

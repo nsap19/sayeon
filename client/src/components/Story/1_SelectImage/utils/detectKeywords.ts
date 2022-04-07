@@ -21,7 +21,6 @@ export const detectKeywords = async (imageName: string) => {
       visualFeatures: ["Adult"],
     })
   ).adult;
-  console.log(adult);
   if (
     adult.adultScore.toFixed(4) >= 0.5 ||
     adult.racyScore.toFixed(4) >= 0.5 ||
@@ -40,7 +39,6 @@ export const detectKeywords = async (imageName: string) => {
   const tagsArray = await tags.map((tag: any) => {
     return tag.name;
   });
-  console.log(tagsArray.join());
 
   return axios.post(
     "translation",

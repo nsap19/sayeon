@@ -31,7 +31,7 @@ export default function StoryTalkList() {
         setStoryTalkList(response.data.storyTalkList);
       })
       .catch((err: any) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -46,7 +46,12 @@ export default function StoryTalkList() {
         setMyInfo(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
       });
   };
 
@@ -67,7 +72,9 @@ export default function StoryTalkList() {
         });
         setStoryTalkOpen(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err)
+      });
   };
 
   // RENDER
