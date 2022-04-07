@@ -7,6 +7,7 @@ import SelectKeyword from "../../components/Story/2_SelectKeyword/SelectKeyword"
 import ConfirmStory from "../../components/Story/4_ConfirmStory/ConfirmStory";
 import CreateStoryHeaderbar from "../../components/Story/CreateStoryHeaderbar";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 interface CustomizedState {
   id: string;
@@ -18,8 +19,26 @@ const CreateStory: React.FC = () => {
   const receiver = location.state as CustomizedState;
   const [step, setStep] = useState<number>(1);
 
+  const getMyInfo = () => {
+    axios
+      .get("userInfo/myinfo", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .catch((err) => {
+        if (err.response.status) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
+      });
+  };
+
   useEffect(() => {
     document.getElementById("create-story")!.scrollTo(0, 0);
+    getMyInfo();
   }, [step]);
 
   return (
