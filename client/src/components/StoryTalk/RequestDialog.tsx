@@ -29,7 +29,9 @@ const RequestDialog: React.FC<{
   open: boolean;
   onClose: () => void;
   otherUserId: string | undefined;
-}> = ({ open, onClose, otherUserId }) => {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSnackbar: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ open, onClose, otherUserId, setOpen, setSnackbar }) => {
   const [alert, setAlert] = useState<AlertType>();
   const handleClose = () => {
     onClose();
@@ -75,11 +77,9 @@ const RequestDialog: React.FC<{
         }
       )
       .then((res) => {
+        setOpen(true);
         handleClose();
         window.location.reload();
-        navigate("/story-talk", {
-          state: { openSnackbar: true },
-        });
       })
       .catch((err) => {
         // console.log(err);
