@@ -61,8 +61,8 @@ public class TranslationServiceImpl implements TranslationService {
 
 	private static String translate(String originalText)  {
 		
-		String clientId = "ZjydFG6UPMdIlMVdX7xQ";// 애플리케이션 클라이언트 아이디값";
-		String clientSecret = "czb2wM4RYI";// 애플리케이션 클라이언트 시크릿값";
+		String clientId = "08gQdgEQNrUDXlwu9C5Q";// 애플리케이션 클라이언트 아이디값";
+		String clientSecret = "wStp_il6u5";// 애플리케이션 클라이언트 시크릿값";
 
 		String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
 		String text;
