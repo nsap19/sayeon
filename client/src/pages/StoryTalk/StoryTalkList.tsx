@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import StoryTalkItem from "components/StoryTalk/StoryTalkItem";
 import { Stack, Box, Divider, CircularProgress } from "@mui/material";
@@ -77,8 +77,12 @@ export default function StoryTalkList() {
       });
   };
 
+  const endRef = useRef<null | HTMLDivElement>(null);
   // RENDER
   useEffect(() => {
+    if (endRef.current) {
+      endRef.current.scrollIntoView({ behavior: "smooth" });
+    }
     if (storyTalkList) {
       setTimeout(() => {
         setLoad(false);
@@ -87,7 +91,7 @@ export default function StoryTalkList() {
       getMyInfo();
       getStoryTalkList();
     }
-  }, [storyTalkList]);
+  }, [storyTalkList, storyTalkOpen]);
 
   const showStoryTalkItems = storyTalkList?.map(
     (storyTalk: any, idx: number) => {
@@ -128,7 +132,6 @@ export default function StoryTalkList() {
         />
       )}
       {!storyTalkOpen && <Headerbar headerName={"사연 대화 목록"} />}
-
       <Stack
         direction="column"
         sx={{
@@ -152,6 +155,7 @@ export default function StoryTalkList() {
           </Stack>
         )}
         <Box sx={{ margin: storyTalkOpen ? "0" : "10px 0 10px 10px" }}>
+          {storyTalkList && !storyTalkOpen && <div id="scroll" ref={endRef} />}
           {storyTalkList && !storyTalkOpen && showStoryTalkItems}
           {storyTalkList && storyTalkOpen && (
             <StoryTalk

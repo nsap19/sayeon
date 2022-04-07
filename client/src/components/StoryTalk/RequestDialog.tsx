@@ -76,6 +76,7 @@ const RequestDialog: React.FC<{
       )
       .then((res) => {
         handleClose();
+        window.location.reload();
         navigate("/story-talk", {
           state: { openSnackbar: true },
         });
