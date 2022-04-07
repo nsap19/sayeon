@@ -85,7 +85,14 @@ const StoryListReceived: React.FC = () => {
           setCountReceivedImages(res.data.data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
+      });
   };
 
   return (

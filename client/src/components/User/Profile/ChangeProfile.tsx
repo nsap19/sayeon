@@ -47,7 +47,12 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
         console.log("프로필 수정 완료");
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
       });
   };
 

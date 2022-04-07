@@ -79,7 +79,7 @@ const StoryTalk: React.FC<{
         scrollToBottom();
       })
       .catch((err: any) => {
-        if (err.response.status) {
+        if (err.response.status === 500) {
           localStorage.removeItem("token");
           setTimeout(function () {
             window.location.reload();

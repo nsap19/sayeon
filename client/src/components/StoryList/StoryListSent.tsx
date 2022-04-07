@@ -41,7 +41,14 @@ const StoryListSent: React.FC = () => {
           setSentImageList([...sentImageList, ...res.data.data]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
+      });
     setLoading(false);
   }, [page]);
 
