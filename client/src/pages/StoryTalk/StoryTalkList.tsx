@@ -46,7 +46,12 @@ export default function StoryTalkList() {
         setMyInfo(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
       });
   };
 

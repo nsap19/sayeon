@@ -133,14 +133,14 @@ const PolaroidDialog: React.FC<{
           />
           {hidden && (
             <DialogHiddenAlert>
-              {hourDifference > 0 ? (
+              {hourDifference >= 1 ? (
                 <>
-                  <p>{hourDifference}시간 뒤에</p>
+                  <p>{Math.round(hourDifference)}시간 뒤에</p>
                   <p>사연이 열립니다.</p>
                 </>
               ) : (
                 <>
-                  <p>1시간 이내로</p>
+                  <p>{Math.round(hourDifference * 60)}분 뒤에</p>
                   <p>사연이 열립니다.</p>
                 </>
               )}

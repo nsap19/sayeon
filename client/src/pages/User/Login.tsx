@@ -107,7 +107,9 @@ export default function Login() {
           overflowY: "auto",
         }}
       >
-        <Logo style={{ width: "200px", margin: "10px auto" }} />
+        <Logo
+          style={{ width: "200px", height: "200px", margin: "10px auto 0" }}
+        />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={0.1} direction="column">
             <EmailController control={control} />

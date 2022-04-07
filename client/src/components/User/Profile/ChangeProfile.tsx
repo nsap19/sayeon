@@ -47,7 +47,12 @@ function SelectProfilePIcDialog(props: SelectProfilePIcDialogProps) {
         console.log("프로필 수정 완료");
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
       });
   };
 
@@ -115,7 +120,14 @@ const ChangeProfile = () => {
         console.log(res);
         setProfilePic(res.data.data.memberProfile.profilePic);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
+      });
   }, [profilePic]);
 
   const handleClickOpen = () => {

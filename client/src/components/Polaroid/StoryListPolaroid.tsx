@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import { Dialog, IconButton } from "@mui/material";
-import { ReactComponent as Close } from "../../assets/icon/close-circle.svg";
+import { ReactComponent as Close } from "../../assets/icon/close.svg";
 
 const defaultPolaroidRatios = {
   MINI: 54 / 86,
@@ -34,7 +34,6 @@ const StoryListPolaroid: React.FC<{
       setDialogWidth(node.getBoundingClientRect().width);
     }
   }, []);
-
 
   const StyledImage = styled.img`
     max-width: ${defaultImageAndFrameRatios[imageType] * 100}%;
@@ -69,7 +68,7 @@ const StoryListPolaroid: React.FC<{
 
   const HiddenAlert = styled.p`
     position: absolute;
-    line-height: .7rem;
+    line-height: 0.7rem;
     top: 37.68%;
     bottom: 0;
     left: 0;
@@ -98,9 +97,8 @@ const StoryListPolaroid: React.FC<{
 
   const hidden = new Date().getTime() < new Date(dateReceived).getTime();
 
-  const hourDifference = Math.round(
-    (new Date(dateReceived).getTime() - new Date().getTime()) / 36e5
-  );
+  const hourDifference =
+    (new Date(dateReceived).getTime() - new Date().getTime()) / 36e5;
 
   return (
     <>
@@ -165,14 +163,14 @@ const StoryListPolaroid: React.FC<{
 
         {hidden && (
           <HiddenAlert>
-            {hourDifference > 0 ? (
+            {hourDifference >= 1 ? (
               <>
-                <p>{hourDifference}시간 뒤에</p>
+                <p>{Math.round(hourDifference)}시간 뒤에</p>
                 <p>사연이 열립니다.</p>
               </>
             ) : (
               <>
-                <p>1시간 이내로</p>
+                <p>{Math.round(hourDifference * 60)}분 뒤에</p>
                 <p>사연이 열립니다.</p>
               </>
             )}

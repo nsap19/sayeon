@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Polaroid from "components/Polaroid/StoryListPolaroid";
 import axios from "axios";
 import { Box, ImageList, ImageListItem, Stack, Button } from "@mui/material";
-import { useInView } from "react-intersection-observer"
-
+import { useInView } from "react-intersection-observer";
 
 interface receivedStory {
   storyId: number;
@@ -18,13 +17,14 @@ interface receivedStory {
 }
 
 const StoryListReceived: React.FC = () => {
-  const [receivedImageList, setReceivedImageList] = useState<receivedStory[]>([]);
+  const [receivedImageList, setReceivedImageList] = useState<receivedStory[]>(
+    []
+  );
   const [countReceivedImages, setCountReceivedImages] = useState(0);
-  const [page, setPage] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const [ref, inView] = useInView()
-
+  const [ref, inView] = useInView();
 
   useEffect(() => {
     getReceivedImageList();
@@ -32,65 +32,68 @@ const StoryListReceived: React.FC = () => {
   }, []);
 
   const getReceivedImageList = useCallback(async () => {
-    setLoading(true)
+    setLoading(true);
     const token = localStorage.getItem("token");
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      params : {
-        page : page,
-        size : 32
-      }
-    }
+      params: {
+        page: page,
+        size: 32,
+      },
+    };
 
-    axios.get('story-list/received', config)
-    .then((res) => {
-      // console.log(res.data.data);
-      if (res.data.data) {
-        setReceivedImageList([...receivedImageList, ...res.data.data]);
-      }
-    })
-    .catch((err) => console.log(err));
-    setLoading(false)
+    axios
+      .get("story-list/received", config)
+      .then((res) => {
+        // console.log(res.data.data);
+        if (res.data.data) {
+          setReceivedImageList([...receivedImageList, ...res.data.data]);
+        }
+      })
+      .catch((err) => console.log(err));
+    setLoading(false);
   }, [page]);
-
 
   useEffect(() => {
     getReceivedImageList();
   }, [getReceivedImageList]);
 
-
   useEffect(() => {
     getReceivedCnt();
   }, []);
 
-
   useEffect(() => {
     if (inView && !loading) {
-      setPage(prevState => prevState + 1)
+      setPage((prevState) => prevState + 1);
     }
-  }, [inView, loading])
-
+  }, [inView, loading]);
 
   const getReceivedCnt = () => {
     const token = localStorage.getItem("token");
     axios({
       method: "get",
-      url: 'story-list/received-cnt',
+      url: "story-list/received-cnt",
       headers: {
-        Authorization : `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     })
-    .then((res) => {
-      // console.log(res.data.data);
-      if (res.data.data) {
-        setCountReceivedImages(res.data.data)
-      }
-    })
-    .catch((err) => console.log(err));
-  }
-
+      .then((res) => {
+        // console.log(res.data.data);
+        if (res.data.data) {
+          setCountReceivedImages(res.data.data);
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 500) {
+          localStorage.removeItem("token");
+          setTimeout(function () {
+            window.location.reload();
+          }, 500);
+        }
+      });
+  };
 
   return (
     <>
@@ -98,18 +101,20 @@ const StoryListReceived: React.FC = () => {
         <p>받은 사연</p>
         <p>{countReceivedImages}</p>
       </Box>
-      <Stack direction="column" justifyContent="center">
+      <Stack direction="column" justifyContent="start">
         {countReceivedImages ? (
-          <Box sx={{ 
-            px: 2, 
-            height: "500px",
-            overflowY: "auto", 
-            mt: 2 
-          }}>
+          <Box
+            sx={{
+              px: 2,
+              height: "100%",
+              overflowY: "auto",
+              mt: 2,
+            }}
+          >
             <ImageList variant="masonry" cols={2} gap={10}>
               {receivedImageList.map((item, idx) => (
                 <ImageListItem key={idx} ref={ref}>
-                  {receivedImageList.length -1 === idx ? (
+                  {receivedImageList.length - 1 === idx ? (
                     <Polaroid
                       imageUrl={`${item.image}`}
                       imageType={item.imageType}
@@ -128,10 +133,14 @@ const StoryListReceived: React.FC = () => {
               ))}
             </ImageList>
           </Box>
-          ) : (
+        ) : (
           <Stack direction="column" alignItems="center" marginY="50%">
-            <p style={{color: "#8c8888", fontSize: "15px"}}>아직 보낸 사연이 없습니다.</p>
-            <p style={{color: "#8c8888", fontSize: "15px"}}>지금 바로 사연을 보내보세요.</p>
+            <p style={{ color: "#8c8888", fontSize: "15px" }}>
+              아직 받은 사연이 없습니다.
+            </p>
+            <p style={{ color: "#8c8888", fontSize: "15px" }}>
+              지금 바로 사연을 보내보세요.
+            </p>
             <Button
               href="/send"
               sx={{
@@ -142,11 +151,11 @@ const StoryListReceived: React.FC = () => {
               disableElevation={true}
               size="large"
               variant="contained"
-              >
+            >
               사연 보내기
             </Button>
           </Stack>
-          )}
+        )}
       </Stack>
     </>
   );

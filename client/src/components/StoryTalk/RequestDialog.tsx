@@ -129,14 +129,14 @@ const RequestDialog: React.FC<{
       ) : (
         <>
           <List sx={{ width: "100%" }}>
-            <ListItem
+            {/* <ListItem
               sx={{ padding: "20px " }}
               button
               onClick={() => handleClick("BLOCK")}
             >
               사용자 차단
             </ListItem>
-            <Divider />
+            <Divider /> */}
             <ListItem
               sx={{ padding: "20px " }}
               button
