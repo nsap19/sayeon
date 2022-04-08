@@ -10,13 +10,13 @@
 
 ### 목차
 
-1. [기획 의도 및 배경](#기획 의도 및 배경)
-2. [서비스 목표](#서비스 목표)
-3. [대상 타겟](#대상 타겟)
-4. [기술 스택](#기술 스택)
-5. [주요 기능](#주요 기능)
-6. [프로젝트 구성도](#프로젝트 구성도)
-7. [팀 소개](#팀 소개)
+1. [기획 의도 및 배경](##기획 의도 및 배경)
+2. [서비스 목표](##서비스 목표)
+3. [대상 타겟](##대상 타겟)
+4. [기술 스택](##기술 스택)
+5. [주요 기능](##주요 기능)
+6. [프로젝트 구성도](##프로젝트 구성도)
+7. [팀 소개](##팀 소개)
 
 <br>
 
@@ -85,7 +85,7 @@
 
 #### Backend
 
-| <img src="README.assets/java.png" alt="java" style="zoom: 25%;" /> | <img src="README.assets/Spring.png" alt="Spring" style="zoom: 25%;" /> | <img src="README.assets/MySQL.png" alt="MySQL" style="zoom:25%;" /> |
+| <img src="README.assets/java.png" alt="java" style="zoom: 15%;" /> | <img src="README.assets/Spring.png" alt="Spring" style="zoom: 15%;" /> | <img src="README.assets/MySQL.png" alt="MySQL" style="zoom:15%;" /> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                             Java                             |                         Spring-Boot                          |                            MySQL                             |
 
@@ -101,7 +101,7 @@
 
 #### DevOps
 
-| <img src="README.assets/nginx.png" alt="nginx" style="zoom:25%;" /> | <img src="README.assets/AWS.png" alt="AWS" style="zoom:25%;" /> |
+| <img src="README.assets/nginx.png" alt="nginx" style="zoom:15%;" /> | <img src="README.assets/AWS.png" alt="AWS" style="zoom:15%;" /> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                            NGiNX                             |                             AWS                              |
 
