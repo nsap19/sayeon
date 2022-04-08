@@ -81,10 +81,10 @@
     - Figma
 
   - Database
-    - MySQL Workbench
+    - MySQL (8.0.28)
 
   - Server
-    - AWS EC2 (Ubuntu)
+    - AWS EC2 (Ubuntu 20.04 LTS)
 
   - Browser
     - Chrome 97.0.4692.71 64bit
