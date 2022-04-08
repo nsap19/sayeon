@@ -8,17 +8,7 @@
 
 <br>
 
-### 목차
 
-1. [기획 의도 및 배경](##기획-의도-및-배경)
-2. [서비스 목표](##서비스-목표)
-3. [대상 타겟](##대상-타겟)
-4. [기술 스택](##기술-스택)
-5. [주요 기능](##주요-기능)
-6. [프로젝트 구성도](##프로젝트-구성도)
-7. [팀 소개](##팀-소개)
-
-<br>
 
 ## 기획 의도 및 배경
 
@@ -54,58 +44,72 @@
 
 ### 🌏 환경 버전
 
-#### 형상관리
+- 형상관리
 
-- Jira
+  - Jira
 
-- Gitlab
 
-- Mattermost
-- Webex
-- Notion
+  - Gitlab
 
-#### 개발 환경
 
-- OS
-  - Windows 10
-- IDE
-  - STS 3.9.14
-  - Visual Studio Code 1.63.2
-  - Figma
-- Database
-  - MySQL Workbench
-- Server
-  - AWS EC2 (Ubuntu)
-- Browser
-  - Chrome 97.0.4692.71 64bit
+  - Mattermost
+
+  - Webex
+
+  - Notion
+
+- 개발 환경
+
+  - OS
+    - Windows 10
+
+  - IDE
+    - STS 3.9.14
+    - Visual Studio Code 1.63.2
+    - Figma
+
+  - Database
+    - MySQL Workbench
+
+  - Server
+    - AWS EC2 (Ubuntu)
+
+  - Browser
+    - Chrome 97.0.4692.71 64bit
+
 
 <br>
 
 ### ⛏ 기술 스택
 
-#### Backend
+- Backend
 
-- Java
-- Spring-Boot
-- MySQL
+  - Java
 
-<br>
+  - Spring-Boot
 
-#### Frontend
+  - MySQL
 
-- React
-- Redux
-- TypeScript
-- CSS
-- JavaScript
-- HTML5
 
-<br>
+- Frontend
 
-#### DevOps
+  - React
 
-- NGiNX
-- AWS
+  - Redux
+
+  - TypeScript
+
+  - CSS, HTML5
+
+  - Node.js
+
+
+- DevOps
+
+  - NGiNX
+
+  - AWS
+
 
 <br>
 
