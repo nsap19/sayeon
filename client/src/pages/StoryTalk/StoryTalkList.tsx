@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
+  Button,
 } from "@mui/material";
 import Headerbar from "components/Headerbar";
 import StoryTalk from "./StoryTalk";
@@ -185,10 +186,34 @@ export default function StoryTalkList() {
               setStoryTalkOpen={setStoryTalkOpen}
             />
           )}
-          {!storyTalkList && (
-            <Box sx={{ margin: "10% auto" }}>사연 대화가 없습니다</Box>
-          )}
         </Box>
+        {storyTalkList && storyTalkList.length === 0 && (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ height: "100%" }}
+          >
+            <p style={{ color: "#8c8888", fontSize: "15px" }}>
+              아직 받은 사연이 없습니다.
+            </p>
+            <p style={{ color: "#8c8888", fontSize: "15px" }}>
+              새로운 사연을 보내보세요!
+            </p>
+            <Button
+              href="/send"
+              sx={{
+                color: "white",
+                fontFamily: "S-CoreDream-4Regular",
+                margin: "10px 30px 30px",
+              }}
+              disableElevation={true}
+              size="large"
+              variant="contained"
+            >
+              사연 보내기
+            </Button>
+          </Stack>
+        )}
       </Stack>
 
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
