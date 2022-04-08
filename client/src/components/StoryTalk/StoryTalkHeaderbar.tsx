@@ -24,7 +24,16 @@ const StoryTalkHeaderbar: React.FC<{
   otherUserInfo: { profilePic: number; nickname: string } | undefined;
   otherUserId: string | undefined;
   setStoryTalkOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ headerName, otherUserInfo, otherUserId, setStoryTalkOpen }) => {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSnackbar: React.Dispatch<React.SetStateAction<string>>;
+}> = ({
+  headerName,
+  otherUserInfo,
+  otherUserId,
+  setStoryTalkOpen,
+  setOpen,
+  setSnackbar,
+}) => {
   const [openRequestDialog, setOpenRequestDialog] = useState(false);
   const handleClickOpen = () => {
     setOpenRequestDialog(true);
@@ -40,6 +49,8 @@ const StoryTalkHeaderbar: React.FC<{
         open={openRequestDialog}
         onClose={handleClose}
         otherUserId={otherUserId}
+        setOpen={setOpen}
+        setSnackbar={setSnackbar}
       />
       <DivStyle>
         <Grid container alignItems="center">

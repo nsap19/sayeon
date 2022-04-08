@@ -53,7 +53,7 @@ const Polaroid: React.FC<{
     font-size: min(16px, ${height / 20}px);
   `;
 
-  const HiddenAlert = styled.p`
+  const HiddenAlert = styled.div`
     position: absolute;
     top: 37.68%;
     bottom: 0;

@@ -30,7 +30,7 @@ const theme = createTheme({
       main: "#f3aca4",
     },
     success: {
-      main: "#a4f3d3",
+      main: "#A4CCF3",
     },
     text: {
       primary: "#8c8888",

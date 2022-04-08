@@ -20,7 +20,7 @@ const Content: React.FC<{
         <p
           style={{
             fontSize: "16px",
-            padding: "5px 5px 0 0",
+            padding: "5px 5px 5px 0",
             color: "#8c8888",
           }}
         >
@@ -48,7 +48,7 @@ const Content: React.FC<{
             whiteSpace: "pre-wrap",
             color: "#8c8888",
             fontFamily: "S-CoreDream-3Light",
-            padding: "0 10px 50px",
+            padding: "0 0px 50px",
           }}
         >
           {content}

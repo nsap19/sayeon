@@ -38,31 +38,35 @@ public class TranslationServiceImpl implements TranslationService {
 
 	@Override
 	public String translateKeywords(String keywords) {
-		System.out.println("키워드 목록 : "+keywords);
+		System.out.println("키워드 목록 : " + keywords);
 		// TODO Auto-generated method stub
 		String[] Keywords = keywords.replaceAll("[\\[|\\]|\\\"]", "").split(",");
 		String[] result = new String[Keywords.length];
-		
-		StringBuilder sb= new StringBuilder();
-		HashSet<String> set = new HashSet<>();
-		for(int i=0;i<Keywords.length;i++) {
-			String word= translate(Keywords[i]+",").replaceAll("[,.]", "");
-			System.out.println(word);
-			set.add(word);
- 		}
-		
-		for(String str : set) {
-			sb.append(str+",");
-		}
-		
-		return sb.toString().substring(0, sb.length()-1);
-	}
-	
 
-	private static String translate(String originalText)  {
-		
-		String clientId = "ZjydFG6UPMdIlMVdX7xQ";// 애플리케이션 클라이언트 아이디값";
-		String clientSecret = "czb2wM4RYI";// 애플리케이션 클라이언트 시크릿값";
+		StringBuilder sb = new StringBuilder();
+		HashSet<String> set = new HashSet<>();
+		for (int i = 0; i < Keywords.length; i++) {
+			if (Keywords[i].toLowerCase().equals("outdoor")) {
+				set.add("야외");
+			} else {
+				String word = translate(Keywords[i] + ",").replaceAll("[,.]", "");
+				System.out.println(word);
+				if (!word.equals("아 제발") && !word.equals("을 위해"))	
+					set.add(word);
+			}
+		}
+
+		for (String str : set) {
+			sb.append(str + ",");
+		}
+
+		return sb.toString().substring(0, sb.length() - 1);
+	}
+
+	private static String translate(String originalText) {
+
+		String clientId = "90LYZcJHYeZyj5ppJNNa";// 애플리케이션 클라이언트 아이디값";
+		String clientSecret = "x5s4vANsa3";// 애플리케이션 클라이언트 시크릿값";
 
 		String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
 		String text;
@@ -71,24 +75,25 @@ public class TranslationServiceImpl implements TranslationService {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("인코딩 실패", e);
 		}
-		
+
 		Map<String, String> requestHeaders = new HashMap<>();
-		
+
 		requestHeaders.put("X-Naver-Client-Id", clientId);
 		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-		
+
 		String responseBody = post(apiURL, requestHeaders, text);
-		
+
 		JsonParser parser = new JsonParser();
 		JsonElement element = parser.parse(responseBody);
-		JsonElement  objMessage = element.getAsJsonObject().get("message");
-		JsonElement  objResult = objMessage.getAsJsonObject().get("result");
-		
+		JsonElement objMessage = element.getAsJsonObject().get("message");
+		JsonElement objResult = objMessage.getAsJsonObject().get("result");
+
 		String translatedText = objResult.getAsJsonObject().get("translatedText").getAsString();
 
 		System.out.println(translatedText);
 		return translatedText;
 	}
+
 	private static String post(String apiUrl, Map<String, String> requestHeaders, String text) {
 		HttpURLConnection con = connect(apiUrl);
 		String postParams = "source=en&target=ko&text=" + text; // 원본언어: 한국어 (ko) -> 목적언어: 영어 (en)

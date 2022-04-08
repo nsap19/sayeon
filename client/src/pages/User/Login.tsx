@@ -74,8 +74,14 @@ export default function Login() {
   const AlertContent = () => {
     if (state && state.content === "register") {
       return "회원가입이 완료되었습니다.";
+    } else if (state && state.content === "logout") {
+      return "로그아웃 되었습니다.";
     }
     return "새로운 임시 비밀번호가 이메일로 전송되었습니다.";
+  };
+
+  const onClick = () => {
+    navigate("/");
   };
 
   return (
@@ -107,9 +113,11 @@ export default function Login() {
           overflowY: "auto",
         }}
       >
-        <Logo
-          style={{ width: "200px", height: "200px", margin: "10px auto 0" }}
-        />
+        <Box sx={{ height: "200px" }} onClick={onClick}>
+          <Logo
+            style={{ width: "200px", height: "200px", margin: "10px auto" }}
+          />
+        </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={0.1} direction="column">
             <EmailController control={control} />

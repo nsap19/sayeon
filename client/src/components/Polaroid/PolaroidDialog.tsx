@@ -63,7 +63,7 @@ const PolaroidDialog: React.FC<{
     border: solid rgba(140, 136, 136, 0.3) 1px;
   `;
 
-  const DialogHiddenAlert = styled.p`
+  const DialogHiddenAlert = styled.div`
     position: absolute;
     top: 37.68%;
     bottom: 0;

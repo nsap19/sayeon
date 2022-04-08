@@ -19,11 +19,9 @@ const Profile = () => {
   // 로그아웃
   const logout = () => {
     localStorage.removeItem("token");
-    setAlertState("success");
-    setOpen(true);
-    setTimeout(function () {
-      window.location.reload();
-    }, 500);
+    navigate("/login", {
+      state: { openSnackbar: true, content: "logout" },
+    });
   };
 
   // 회원탈퇴 페이지로 이동
@@ -31,34 +29,9 @@ const Profile = () => {
     navigate("/delete-account");
   };
 
-  // 스낵바 관련
-  const [open, setOpen] = useState(false);
-  const [alertState, setAlertState] = useState<
-    "error" | "info" | "success" | "warning"
-  >("error");
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-
   return (
     <Stack sx={{ height: "calc(100% - 70px)" }}>
       <Headerbar headerName={"내 정보"} />
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert
-          onClose={handleClose}
-          severity={alertState}
-          sx={{ width: "100%" }}
-        >
-          {alertState === "success" ? "로그아웃 되었습니다." : null}
-        </Alert>
-      </Snackbar>
 
       <Stack
         direction="column"
