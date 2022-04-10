@@ -71,9 +71,8 @@ const SelectImage: React.FC<{
         head.length) *
         3) /
       4;
-
     while (4 * 1024 * 1024 < fileSize) {
-      if (0.05 < quality) {
+      if (0 < quality) {
         quality -= 0.1;
         fileSize =
           ((cropper.getCroppedCanvas().toDataURL(imageExtension, quality)
@@ -103,6 +102,9 @@ const SelectImage: React.FC<{
       setAlertContent("최대 크기를 초과하였습니다.");
       setOpen(true);
       setClickNext(false);
+      setKeywordsLoading(false);
+      setImageType("SQUARE");
+      return;
     }
 
     // 1. 크롭된 이미지를 blob object로 생성
