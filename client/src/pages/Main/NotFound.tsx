@@ -1,5 +1,5 @@
 import React from "react";
-import Lottie from "lottie-react";
+import Lottie from "react-lottie-player";
 import NotFoundPolaroid from "assets/json/Lottie/NotFoundPolaroid.json";
 import { Stack, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -21,7 +21,7 @@ const NotFound: React.FC = () => {
       spacing={2}
       sx={{ height: "calc(100% - 70px)", padding: "20px 0 10px" }}
     >
-      <Lottie animationData={NotFoundPolaroid} loop={true} />
+      <Lottie animationData={NotFoundPolaroid} play loop={true} />
       <p>찾으시는 페이지가 존재하지 않습니다.</p>
       {isAuthorized ? (
         <>

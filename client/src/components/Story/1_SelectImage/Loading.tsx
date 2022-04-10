@@ -1,9 +1,9 @@
 import React from "react";
-import { Stack, CircularProgress } from "@mui/material";
-import Lottie from "lottie-react";
+import { Stack } from "@mui/material";
+import Lottie from "react-lottie-player";
 import Keywords from "assets/json/Lottie/Keywords.json";
 
-const Loading: React.FC<{ keywordsReady: boolean }> = ({ keywordsReady }) => {
+const Loading: React.FC = () => {
   return (
     <Stack
       direction="column"
@@ -12,7 +12,12 @@ const Loading: React.FC<{ keywordsReady: boolean }> = ({ keywordsReady }) => {
       spacing={3}
       sx={{ height: "100%" }}
     >
-      <Lottie animationData={Keywords} loop={true} style={{ width: "50%" }} />
+      <Lottie
+        animationData={Keywords}
+        play
+        loop={true}
+        style={{ width: "50%" }}
+      />
     </Stack>
   );
 };
