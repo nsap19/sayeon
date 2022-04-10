@@ -1,22 +1,19 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Stack,
   Box,
-  CircularProgress,
   Alert,
   Snackbar,
+  CircularProgress,
 } from "@mui/material";
-import Cropper from "react-cropper";
 import { uploadFile } from "./utils/uploadFile";
 import { detectKeywords } from "./utils/detectKeywords";
-import "cropperjs/dist/cropper.css";
-import "./SelectImage.css";
-import { ReactComponent as Image } from "assets/icon/image.svg";
 import { updateImage, updateKeywords } from "../../../store/createStory";
 import { useAppDispatch } from "../../../store/hooks";
-import Loading from "./Loading";
 import { receiverState } from "../types";
+import Loading from "./Loading";
+import EditImage from "./EditImage";
 import {
   StyledButton,
   StyledP,
@@ -24,13 +21,14 @@ import {
   StyledToggleButton,
   StyledStack,
 } from "../StyledComponent";
+import "cropperjs/dist/cropper.css";
+import "./SelectImage.css";
 
 const SelectImage: React.FC<{
   setStep: React.Dispatch<React.SetStateAction<number>>;
   receiver: receiverState;
 }> = ({ setStep, receiver }) => {
   const [image, setImage] = useState("");
-  const [cropData, setCropData] = useState("");
   const [cropper, setCropper] = useState<any>();
   const [imageType, setImageType] = useState<"MINI" | "SQUARE" | "WIDE">(
     "SQUARE"
@@ -38,7 +36,8 @@ const SelectImage: React.FC<{
   const [imageExtension, setImageExtension] = useState<string>("");
   const [imageName, setImageName] = useState<string>("");
   const [imageReady, setImageReady] = useState<boolean>(false);
-  const [keywordsReady, setKeywordsReady] = useState<boolean>(false);
+  const [clickNext, setClickNext] = useState<boolean>(false);
+  const [keywordsLoading, setKeywordsLoading] = useState(false);
 
   const onChange = (e: any) => {
     e.preventDefault();
@@ -53,10 +52,6 @@ const SelectImage: React.FC<{
       files = e.target.files;
     }
 
-    if (files[0].size > 3 * 1024 * 1024) {
-      setQuality(0.1);
-    }
-
     const reader = new FileReader();
     reader.onload = () => {
       setImage(reader.result as any);
@@ -64,21 +59,51 @@ const SelectImage: React.FC<{
     reader.readAsDataURL(files[0]);
   };
 
-  const getCropData = () => {
-    if (typeof cropper !== "undefined") {
-      setCropData(
-        cropper.getCroppedCanvas().toDataURL(imageExtension, quality)
-      );
-    }
-  };
-
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
-  const [quality, setQuality] = useState(1);
-  const [alertContent, setAlertContent] =
-    useState("민감한 사진으로 확인되었습니다.");
-  const handleUpload = useCallback(() => {
-    setKeywordsReady(true);
+  const [alertContent, setAlertContent] = useState("다시 시도해주세요.");
+
+  const getQuality = () => {
+    let quality = 0.9;
+    const head = `data:${imageExtension};base64,`;
+    let fileSize =
+      ((cropper.getCroppedCanvas().toDataURL(imageExtension, quality).length -
+        head.length) *
+        3) /
+      4;
+
+    while (4 * 1024 * 1024 < fileSize) {
+      if (0.05 < quality) {
+        quality -= 0.1;
+        fileSize =
+          ((cropper.getCroppedCanvas().toDataURL(imageExtension, quality)
+            .length -
+            head.length) *
+            3) /
+          4;
+      } else {
+        return 0;
+      }
+    }
+    return quality;
+  };
+
+  useEffect(() => {
+    if (clickNext) {
+      setTimeout(() => {
+        setKeywordsLoading(true);
+        handleUpload();
+      }, 100);
+    }
+  }, [clickNext]);
+
+  const handleUpload = () => {
+    const quality = getQuality();
+    if (quality === 0) {
+      setAlertContent("최대 크기를 초과하였습니다.");
+      setOpen(true);
+      setClickNext(false);
+    }
 
     // 1. 크롭된 이미지를 blob object로 생성
     cropper.getCroppedCanvas().toBlob(
@@ -107,10 +132,11 @@ const SelectImage: React.FC<{
                 if (err.message === "Input image is too large.") {
                   setAlertContent("최대 크기를 초과하였습니다.");
                 }
-
-                setCropData("");
+                if (err.message === "민감한 사진으로 확인되었습니다.") {
+                  setAlertContent("민감한 사진으로 확인되었습니다.");
+                }
                 setOpen(true);
-                setKeywordsReady(false);
+                setClickNext(false);
               });
           })
           .catch((err) => {
@@ -120,13 +146,7 @@ const SelectImage: React.FC<{
       imageExtension,
       quality
     );
-  }, [cropper, dispatch, imageExtension, imageName, imageType, setStep]);
-
-  useEffect(() => {
-    if (cropData) {
-      handleUpload(); // getCropDate => handleUpload
-    }
-  }, [cropData, handleUpload]);
+  };
 
   const imageTypeOptions: {
     value: "MINI" | "SQUARE" | "WIDE";
@@ -156,8 +176,8 @@ const SelectImage: React.FC<{
         </Alert>
       </Snackbar>
 
-      {keywordsReady ? (
-        <Loading keywordsReady={keywordsReady} />
+      {keywordsLoading ? (
+        <Loading />
       ) : (
         <StyledStack>
           <Stack direction="column" alignItems="center">
@@ -167,7 +187,6 @@ const SelectImage: React.FC<{
               <StyledP>랜덤 사연보내기</StyledP>
             )}
 
-            {/* <input type="file" onChange={onChange} /> */}
             <label
               htmlFor="contained-button-file"
               style={{
@@ -200,58 +219,13 @@ const SelectImage: React.FC<{
               </Button>
             </label>
 
-            <Box
-              // 최소 window 크기 320px 기준 = 양 옆 마진 10px + 최소 사진 너비 300px
-              sx={{
-                margin: "0 10px",
-                minWidth: "300px",
-                height: "300px",
-                backgroundColor: imageReady ? "transparent" : "white",
-                borderRadius: imageReady ? "" : "20px",
-                boxShadow: imageReady
-                  ? ""
-                  : "0px 10px 30px rgba(0, 0, 0, 0.05)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-              }}
-            >
-              <Box
-                sx={{
-                  display: imageReady ? "none" : "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  position: "absolute",
-                }}
-              >
-                {imageName ? <CircularProgress /> : <Image />}
-              </Box>
-              <Cropper
-                style={{
-                  maxHeight: "300px",
-                  maxWidth: "300px",
-                  boxShadow: "0px 10px 30px rgb(0 0 0 / 5%)",
-                }}
-                aspectRatio={1}
-                preview=".img-preview"
-                src={image}
-                viewMode={1}
-                minCropBoxHeight={10}
-                minCropBoxWidth={10}
-                background={false}
-                responsive={true}
-                autoCropArea={1}
-                checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-                onInitialized={(instance) => {
-                  setCropper(instance);
-                }}
-                guides={true}
-                zoomOnWheel={false}
-                ready={() => setImageReady(true)}
-              />
-            </Box>
+            <EditImage
+              imageReady={imageReady}
+              imageName={imageName}
+              image={image}
+              setCropper={setCropper}
+              setImageReady={setImageReady}
+            />
 
             <StyledToggleButtonGroup size="small" value={imageType} exclusive>
               {imageTypeOptions.map((imageTypeOption) => (
@@ -269,16 +243,31 @@ const SelectImage: React.FC<{
             </StyledToggleButtonGroup>
           </Stack>
 
-          <Box sx={{ textAlign: "center" }}>
+          <Box sx={{ position: "relative", textAlign: "center" }}>
             <StyledButton
-              onClick={getCropData}
-              disabled={!imageReady}
+              onClick={() => {
+                setClickNext(true);
+              }}
+              disabled={!imageReady || clickNext}
               variant="contained"
               size="large"
               disableElevation={true}
             >
               다음
             </StyledButton>
+            {clickNext && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  color: "white",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  marginTop: "-12px",
+                  marginLeft: "-12px",
+                }}
+              />
+            )}
           </Box>
         </StyledStack>
       )}
