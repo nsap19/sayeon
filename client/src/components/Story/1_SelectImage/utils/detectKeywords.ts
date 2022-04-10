@@ -26,7 +26,7 @@ export const detectKeywords = async (imageName: string) => {
     adult.racyScore.toFixed(4) >= 0.5 ||
     adult.goreScore.toFixed(4) >= 0.5
   ) {
-    throw new Error("유해 이미지");
+    throw new Error("민감한 사진으로 확인되었습니다.");
   }
 
   // Analyze URL image
