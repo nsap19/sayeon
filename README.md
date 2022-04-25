@@ -127,14 +127,14 @@
 
 ## 주요 기능
 
-![사연작성 - 랜덤](README.assets/사연작성 - 랜덤.png)
+![image](https://user-images.githubusercontent.com/26523814/165104140-579cfd5c-8eaa-47e8-b2a7-5f0e11202ed1.png)
 
 - 랜덤으로 사진 보낼 시, 원하는 사진을 올리면 AI가 키워드 추출
 - 마음에 드는 키워드 선택 후 사연을 보내면 유사한 키워드를 선택한 사연과 매칭
 
 <br>
 
-![사연작성 - 이미 매칭](README.assets/사연작성 - 이미 매칭.png)
+![image](https://user-images.githubusercontent.com/26523814/165104215-135720fe-6ef2-43c8-819d-de18ea870baa.png)
 
 - 매칭된 사람과는 소통 지속 가능
 - 원하는 사진을 올리면 AI가 키워드를 추출하고, 키워드를 선택
@@ -143,7 +143,7 @@
 
 <br>
 
-![사연함, 사연 대화 목록](README.assets/사연함, 사연 대화 목록.png)
+![image](https://user-images.githubusercontent.com/26523814/165104336-5b79c37a-b505-4598-9559-3882a0e50b20.png)
 
 - 사연함에서 보낸 사연함과 받은 사연함 확인 가능
 - 사연 대화 목록에서는 매칭된 상대와 나눈 사연들을 확인 가능
